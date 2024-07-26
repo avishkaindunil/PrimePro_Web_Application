@@ -9,14 +9,14 @@ import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 
-const userType = "CarWashCenterAdmin";
-const isLogin = true;
+const userType = "Employee";
+// const isLogin = true;
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {!isLogin ? (
+        {!userType ? (
           <>
             <Route path="*" element={<Login />} />
             <Route path="/register" element={<RegisterNavigation />} />
