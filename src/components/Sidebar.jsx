@@ -36,16 +36,16 @@ const SideBar = ({ userType }) => {
       case 'CarWashCenterAdmin':
         return (
           <ul className="space-y-4">
-            <Link to="/dashboard">
+            <Link to="/main-dashboard">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faTachometerAlt} className="mr-4 text-lg" />
                 <span>Dashboard</span>
               </li>
             </Link>
-            <Link to="/calendar">
+            <Link to="/booking-calendar">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faCalendarAlt} className="mr-4 text-lg" />
-                <span>Calendar</span>
+                <span>Booking Calendar</span>
               </li>
             </Link>
             <Link to="/employees">
@@ -54,19 +54,19 @@ const SideBar = ({ userType }) => {
                 <span>Employees</span>
               </li>
             </Link>
-            <Link to="/task_assign">
+            <Link to="/task-assign">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faTasks} className="mr-4 text-lg" />
                 <span>Task Assign</span>
               </li>
             </Link>
-            <Link to="/workload">
+            <Link to="/workload-progress">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faChartBar} className="mr-4 text-lg" />
-                <span>Workload</span>
+                <span>Workload Progress</span>
               </li>
             </Link>
-            <Link to="/custom_support">
+            <Link to="/custom-support">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faHeadset} className="mr-4 text-lg" />
                 <span>Custom support</span>
