@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import {MainDashboard } from '../pages'
-import MainDashboard from './pages/MainDashboard';
-import BookingCalendar from './pages/BookingCalendar';
-import EmployeeManagement from './pages/EmployeeManagement';
-import WorkloadProgress from './pages/WorkloadProgress';
-import TasksAssign from './pages/TasksAssign';
-import CustomSupport from './pages/CustomSupport';
+import MainDashboard from './pages/MainDashboard/MainDashboard';
+import BookingCalendar from './pages/CarWashCenter/BookingCalendar';
+import EmployeeManagement from './pages/CarWashCenter/EmployeeManagement';
+import WorkloadProgress from './pages/CarWashCenter/WorkloadProgress';
+import TasksAssign from './pages/CarWashCenter/TasksAssign';
+import CustomSupport from './pages/CarWashCenter/CustomSupport';
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
