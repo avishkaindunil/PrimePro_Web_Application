@@ -1,11 +1,6 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
-
 export default function MainDashboard() {
     return (
         <>
-            {/* <Sidebar /> */}
-            {/* <Header /> */}
             <h2 className='text-black z-50'>Employee Main Dashboard</h2>
 
             <div className='flex flex-wrap gap-5'>
