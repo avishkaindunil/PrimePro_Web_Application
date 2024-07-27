@@ -1,8 +1,11 @@
+import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker"
 
 
 const Payroll = () => {
   return (
-    <div>Payroll</div>
+    <div>
+      <DateAndTimeTracker />
+    </div>
   )
 }
 
