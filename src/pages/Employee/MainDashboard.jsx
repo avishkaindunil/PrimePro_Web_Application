@@ -1,7 +1,7 @@
 import DashboardBoxes from "../../components/Employee/DashboardBoxes";
 import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker";
-import DashboardChart from "./DashboardChart";
-import DashboardSchedule from "./DashboardSchedule";
+import DashboardChart from './../../components/Employee/DashboardChart';
+import DashboardSchedule from './../../components/Employee/DashboardSchedule';
 
 const boxContent = [
   {
