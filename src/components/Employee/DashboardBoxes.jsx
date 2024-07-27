@@ -1,11 +1,8 @@
 import PropTypes from "prop-types";
 import {
-  faTachometerAlt,
   faCalendarAlt,
-  faUsers,
   faTasks,
   faChartBar,
-  faHeadset,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -31,7 +28,7 @@ const DashboardBoxes = ({ content }) => {
           className="flex-1 border my-12 p-4 rounded-lg shadow-md"
         >
           <div className="text-2xl text-center py-4">{item.title}</div>
-          <div className="flex justify-evenly py-4 text-2xl items-center">
+          <div className="flex justify-evenly py-2 text-2xl items-center">
             {/* <div className="text-3xl font-medium bg-white py-2 px-4 rounded-lg">{item.value}</div> */}
             <div className="text-3xl font-medium">{item.value}</div>
             <div className="">
