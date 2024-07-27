@@ -9,7 +9,7 @@ import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 
-const userType = "Employee";
+const userType = "CarWashCenterAdmin";
 // const isLogin = true;
 
 function App() {
@@ -105,7 +105,7 @@ export default App;
 
 // //   return (
 // //     <>
-// //    <h1 className="text-3xl font-bold bg-red-500 underline">
+// //    <h1 className="text-3xl font-bold underline bg-red-500">
 // //       Hello world!
 // //     </h1>
 // //     </>

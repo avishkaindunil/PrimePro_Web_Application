@@ -5,7 +5,7 @@ import MainDashboard from '../pages/CarWashCenter/MainDashboard'
 const CarWashCenterRoutes = () => {
   return (
     <Routes>
-        <Route path='/MainDashboard' element={<MainDashboard/>}/>
+        <Route path='/dashboard' element={<MainDashboard/>}/>
     </Routes>
   )
 }
