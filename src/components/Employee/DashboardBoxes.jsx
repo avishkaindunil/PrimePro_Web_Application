@@ -25,19 +25,19 @@ const DashboardBoxes = ({ content }) => {
         <div
           key={index}
           style={{ backgroundColor: item.color, borderColor: item.color }}
-          className="flex-1 border my-12 p-4 rounded-lg shadow-md"
+          className="flex flex-1 justify-evenly my-12 px-4 py-8 rounded-lg shadow-md text-2xl items-center"
         >
-          <div className="text-2xl text-center py-4">{item.title}</div>
-          <div className="flex justify-evenly py-2 text-2xl items-center">
-            {/* <div className="text-3xl font-medium bg-white py-2 px-4 rounded-lg">{item.value}</div> */}
+          <div className="flex flex-col gap-2 items-start">
+            <div className="text-2xl text-center">{item.title}</div>
             <div className="text-3xl font-medium">{item.value}</div>
-            <div className="">
-              <FontAwesomeIcon
-                icon={getIcon(item.icon)}
-                style={{ backgroundColor: item.iconColor }}
-                className="text-2xl p-4 text-white rounded-full z-30"
-              />
-            </div>
+          </div>
+
+          <div>
+            <FontAwesomeIcon
+              icon={getIcon(item.icon)}
+              style={{ backgroundColor: item.iconColor }}
+              className="text-2xl p-4 text-white rounded-full z-30"
+            />
           </div>
         </div>
       ))}
