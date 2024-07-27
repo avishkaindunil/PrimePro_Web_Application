@@ -66,7 +66,7 @@ const SideBar = ({ userType }) => {
                 <span>Workload Progress</span>
               </li>
             </Link>
-            <Link to="/custom-support">
+            <Link to="/customsupport">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon icon={faHeadset} className="mr-4 text-lg" />
                 <span>Custom support</span>
