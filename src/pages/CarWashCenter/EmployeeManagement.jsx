@@ -4,8 +4,8 @@ import Header from '../../components/Header';
 export default function EmployeeManagement() {
     return (
         <>
-            <Sidebar />
-            <Header />
+            {/* <Sidebar />
+            <Header /> */}
             <h2>Employee Management</h2>
         </>
     )
