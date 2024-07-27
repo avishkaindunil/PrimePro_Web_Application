@@ -1,7 +1,7 @@
 import DashboardBoxes from "../../components/Employee/DashboardBoxes";
 import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker";
-import DashboardChart from './../../components/Employee/DashboardChart';
-import DashboardSchedule from './../../components/Employee/DashboardSchedule';
+import DashboardChart from "./../../components/Employee/DashboardChart";
+import DashboardSchedule from "./../../components/Employee/DashboardSchedule";
 
 const boxContent = [
   {
@@ -37,7 +37,9 @@ export default function MainDashboard() {
           <DashboardChart />
         </div>
         <div className="basis-1/3">
-          <DashboardSchedule />
+          <div>
+            <DashboardSchedule />
+          </div>
         </div>
       </div>
     </>
