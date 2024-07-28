@@ -22,8 +22,6 @@ function getIcon(iconName) {
       return faUsers;
     case 'faCalendarAlt':
       return faCalendarAlt;
-    case 'faCalendarAlt':
-      return faCalendarAlt;
     case 'faTasks':
       return faTasks;
     case 'faChartBar':
@@ -55,7 +53,6 @@ const SideBar = ({ userType }) => {
       case userTypes.CAR_WASH_CENTER_ADMIN:
         return (
           <ul className="space-y-4">
-<<<<<<< HEAD
             <Link to="/main-dashboard">
               <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                 <FontAwesomeIcon
@@ -98,7 +95,6 @@ const SideBar = ({ userType }) => {
                 <span>Custom support</span>
               </li>
             </Link>
-=======
             {carwashcenterSidebarTabNames.map((item, index)=>(
               <Link key={index} to={`/${item.url.toLocaleLowerCase()}`}>
                 <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
@@ -107,7 +103,6 @@ const SideBar = ({ userType }) => {
                 </li>
               </Link>
             ))}
->>>>>>> 393a6d11ce3572be10090864a69c05bae5ba1073
           </ul>
         );
       default:

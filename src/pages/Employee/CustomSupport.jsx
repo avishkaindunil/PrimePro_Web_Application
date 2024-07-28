@@ -1,7 +1,10 @@
+import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker"
 
 const CustomSupport = () => {
   return (
-    <div>CustomSupport</div>
+    <div>
+      <DateAndTimeTracker />
+    </div>
   )
 }
 
