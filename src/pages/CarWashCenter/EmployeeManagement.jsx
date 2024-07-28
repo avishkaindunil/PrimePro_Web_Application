@@ -1,12 +1,35 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+import { useState } from 'react';
+import React from 'react'
+import EmpCategory from '../../components/CarWashCenter/EmpCategory';
 
-export default function EmployeeManagement() {
-    return (
-        <>
-            {/* <Sidebar />
-            <Header /> */}
-            <h2>Employee Management</h2>
-        </>
-    )
+const EmployeeManagement = () => {
+
+  const [activeDivision, setActiveDivision] = useState(null);
+
+
+  const EmployeeDivitions =[
+    {name:"Service Area"},
+    {name:"Casher Area"},
+    {name:"Stock Area"}
+  ];
+  
+  return (
+    <>
+      <div>
+        <h1 className="text-2xl font-bold">Employees</h1>
+        <div className="flex content-start">
+          {EmployeeDivitions.map((item, index)=>(
+            <EmpCategory 
+            key={index} 
+            item={item}
+            isActive = {activeDivision===index}
+            onClick ={()=>setActiveDivision(index)}
+            />
+          ))}
+        </div>
+      </div>
+    </>
+  )
 }
+
+export default EmployeeManagement
