@@ -1,11 +1,12 @@
+import AtendanceBoxes from "../../components/Employee/AtendanceBoxes"
 import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker"
 
 const Attendance = () => {
   return (
     <div>
       <DateAndTimeTracker />
-      <div className="bg-white my-8 p-4 rounded-lg">
-        {/* <PayrollSection /> */}
+      <div className="bg-white my-8 p-8 rounded-lg">
+        <AtendanceBoxes />
       </div>
     </div>
   )
