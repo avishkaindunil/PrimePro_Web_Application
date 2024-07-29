@@ -22,8 +22,6 @@ function getIcon(iconName) {
       return faUsers;
     case 'faCalendarAlt':
       return faCalendarAlt;
-    case 'faCalendarAlt':
-      return faCalendarAlt;
     case 'faTasks':
       return faTasks;
     case 'faChartBar':
