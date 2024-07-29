@@ -8,6 +8,9 @@ import {
   faTasks,
   faChartBar,
   faHeadset,
+  faCog,
+  faSignOutAlt,
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import UserView from "./UserView";
@@ -30,6 +33,10 @@ function getIcon(iconName) {
       return faChartBar;
     case 'faHeadset':
       return faHeadset;
+    case 'faCog' :
+      return faCog;
+    case 'faSignOutAlt':
+      return faSignOutAlt;
     default:
       return null;
   }
@@ -75,6 +82,8 @@ const SideBar = ({ userType }) => {
       <img className="flex justify-center p-3 m-2" src={Logo} alt="Logo" />
       <UserView />
       {getSideBarItems()}
+      
+      
     </div>
   );
 };

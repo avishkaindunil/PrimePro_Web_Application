@@ -6,6 +6,7 @@ import BookingCalendar from '../pages/CarWashCenter/BookingCalendar';
 import TasksAssign from '../pages/CarWashCenter/TasksAssign';
 import WorkloadProgress from '../pages/CarWashCenter/WorkloadProgress';
 import CustomSupport from '../pages/CarWashCenter/CustomSupport';
+import Settings from '../pages/CarWashCenter/Settings';
 
 const CarWashCenterRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const CarWashCenterRoutes = () => {
         <Route path='/taskAssign' element={<TasksAssign/>}/>
         <Route path='/workloadProgress' element={<WorkloadProgress/>}/>
         <Route path='/customSupport' element={<CustomSupport/>}/>
+        <Route path='/settings' element={<Settings/>}/>
     </Routes>
   )
 }
