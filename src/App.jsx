@@ -9,7 +9,7 @@ import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 
-const userType = "Employee";
+const userType = "";
 // const isLogin = true;
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         {!userType ? (
           <>
-            <Route path="*" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<RegisterNavigation />} />
           </>
         ) : (
