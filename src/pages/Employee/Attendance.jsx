@@ -1,16 +1,14 @@
 import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker"
-import PayrollSection from "../../components/Employee/PayrollSection"
 
-
-const Payroll = () => {
+const Attendance = () => {
   return (
     <div>
       <DateAndTimeTracker />
       <div className="bg-white my-8 p-4 rounded-lg">
-        <PayrollSection />
+        {/* <PayrollSection /> */}
       </div>
     </div>
   )
 }
 
-export default Payroll
+export default Attendance
