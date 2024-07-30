@@ -1,3 +1,4 @@
+
 import React from 'react';
 import TaskAssign from '../../components/CarWashCenter/TaskAssign';
 import DetailsFrame from '../../components/CarWashCenter/DetailsFrame';
@@ -35,4 +36,17 @@ const TasksAssign = () => {
 };
 
 export default TasksAssign;
+
+
+// import React from 'react'
+
+// const TasksAssign = () => {
+//   return (
+//     <div>
+//       Task Assign
+//     </div>
+//   )
+// }
+
+// export default TasksAssign
 

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Card from '../../components/CarWashCenter/Card';
 import Button from '../../components/CarWashCenter/Button';
@@ -45,5 +46,16 @@ import WorkloadProgress from '../../components/CarWashCenter/WorkloadProcess';
 //   )
 // }
 
+
+
+import React from 'react'
+
+const MainDashboard = () => {
+  return (
+        <>
+            <h2>Main Dashboard</h2>
+        </>
+    )
+}
 
 
