@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
+import MainLayout from "../Components/MainLayout";
 
-function LoginPage() {
+function LoginPage({ setRole }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,10 +30,14 @@ const handlePasswordChange = (e) => {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
         localStorage.setItem("email", userData.email);
-
+        
+        const userType = userData.role;
+        navigate(`/${userType}/Dashboard`, { replace: true });
+    
         if (userData.role === "ADMIN") {
           if(userData.email === "isindu@gmail.com"){
-            navigate("/CenterAdmin/Dashboard");
+            
+             navigate("/CenterAdmin/Dashboard");
           }else{
             navigate("/CenterAdmin/NewDashboard");
           }

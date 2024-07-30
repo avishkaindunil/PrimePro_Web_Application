@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route ,Routes} from 'react-router-dom'
-import Dashboard from '../Pages/Employee/Dashboard'
+import Dashboard from '../Pages/Employee/EmployeeDashboard'
 
 const EmployeeRoutes = () => {
   return (
