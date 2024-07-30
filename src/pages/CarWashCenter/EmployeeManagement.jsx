@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import React from 'react'
 import EmpCategory from '../../components/CarWashCenter/EmpCategory';
+
 import EmployeeRow from '../../components/CarWashCenter/EmployeeRow';
 import EmpAmount from '../../components/CarWashCenter/EmpAmount';
+
 
 const EmployeeManagement = () => {
 
   const [activeDivision, setActiveDivision] = useState(null);
+
   const [employees, setEmployees] = useState([]);
+
 
   const EmployeeDivitions =[
     {name:"Service Area"},
     {name:"Casher Area"},
     {name:"Stock Area"}
   ];
+
 
   //example employees
   const allEmployees = [
@@ -31,11 +36,24 @@ const EmployeeManagement = () => {
     const filteredEmployees = allEmployees.filter(emp => emp.division ===selectedDivision);
     setEmployees(filteredEmployees);
   };
+
   
   return (
     <>
       <div>
         <h1 className="text-2xl font-bold">Employees</h1>
+
+        <div className="flex content-start">
+          {EmployeeDivitions.map((item, index)=>(
+            <EmpCategory 
+            key={index} 
+            item={item}
+            isActive = {activeDivision===index}
+            onClick ={()=>setActiveDivision(index)}
+            />
+          ))}
+        </div>
+
         <div className="flex items-center justify-center">
           {EmployeeDivitions.map((item, index)=>(
             <EmpCategory 
@@ -58,6 +76,7 @@ const EmployeeManagement = () => {
             ) : (console.log("No selected division"))}
           </div>
         </div>
+
       </div>
     </>
   )
