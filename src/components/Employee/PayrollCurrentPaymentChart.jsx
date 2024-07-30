@@ -4,7 +4,7 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  ArcElement,  // Import ArcElement
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -15,7 +15,7 @@ Chart.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  ArcElement,  // Register ArcElement
+  ArcElement,
   Title,
   Tooltip,
   Legend
