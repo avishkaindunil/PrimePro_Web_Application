@@ -9,7 +9,7 @@ import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 
-const userType = "Employee";
+const userType = "CarWashCenterAdmin";
 // const isLogin = true;
 
 function App() {

@@ -1,12 +1,11 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+import React from 'react'
 
-export default function TasksAssign() {
-    return (
-        <>
-            <Sidebar />
-            <Header />
-            <h2>Tasks Assign</h2>
-        </>
-    )
+const TasksAssign = () => {
+  return (
+    <div>
+      Task Assign
+    </div>
+  )
 }
+
+export default TasksAssign
