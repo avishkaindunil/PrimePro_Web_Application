@@ -7,7 +7,9 @@ import {
   faTasks,
   faChartBar,
   faHeadset,
+
   faSignOutAlt,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import UserView from "./UserView";
@@ -30,6 +32,10 @@ function getIcon(iconName) {
       return faChartBar;
     case 'faHeadset':
       return faHeadset;
+    case 'faCog' :
+      return faCog;
+    case 'faSignOutAlt':
+      return faSignOutAlt;
     default:
       return null;
   }
@@ -69,9 +75,11 @@ const SideBar = ({ userType }) => {
       case userTypes.CAR_WASH_CENTER_ADMIN:
         return (
           <ul className="space-y-4">
+
            
             {carwashcenterSidebarTabNames.map((item, index) => (
               <Link key={index} to={`/${item.url.toLowerCase()}`}>
+
                 <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
                   <FontAwesomeIcon icon={getIcon(item.icon)} className="mr-4 text-lg" />
                   <span>{item.name}</span>
@@ -94,12 +102,14 @@ const SideBar = ({ userType }) => {
       <img className="flex justify-center p-3 m-2" src={Logo} alt="Logo" />
       <UserView />
       {getSideBarItems()}
+
       <ul>
       <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200" onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} className="mr-4 text-lg" />
               <span>Logout</span>
       </li>
       </ul>
+
     </div>
   );
 };

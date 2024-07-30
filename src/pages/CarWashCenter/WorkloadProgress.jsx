@@ -1,4 +1,5 @@
 
+
 export default function WorkloadProgress() {
     return (
         <>
@@ -7,3 +8,4 @@ export default function WorkloadProgress() {
         </>
     )
 }
+

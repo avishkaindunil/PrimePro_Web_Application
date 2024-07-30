@@ -6,10 +6,12 @@ import EmployeeRoutes from "./Routes/EmployeeRoutes";
 import LoginPage from "./auth/Loginpage";
 import RegistrationPage from "./auth/Registrationpage";
 import AdminRoute from "./Routes/AdminRoute";
+
 import Dashboard from "./Pages/CenterAdmin/Dashboard";
 import EmployeeDashboard from "./Pages/Employee/EmployeeDashboard";
 import PrivateRoute from "./Routes/PrivateRoute"; // Correct import path
 import NewDashboard from "./Pages/CarWashCenter/NewDashboard.";
+
 
 function App() {
   return (
