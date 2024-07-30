@@ -48,9 +48,12 @@ const EmployeeManagement = () => {
         </div>
         <div className="flex justify-between space-x-10">
           <div className="w-3/4 px-10 py-4 space-y-2 bg-white rounded-lg shadow-inner mt-7">
-            {employees.map(emp=>(
-              <EmployeeRow key={emp.id} employee={emp}/>
-            ))}
+            {employees.length ? (employees.map(emp =>(
+              <EmployeeRow key ={emp.id} employee={emp}/>
+            ))):(allEmployees.map(emp =>(
+              <EmployeeRow key = {emp.id} employee={emp}/>
+            )))}
+            
           </div>
           <div className="w-1/4 p-4 bg-white rounded-lg shadow-inner space-y-7 mt-7">
             <EmpAmount text={"Total employees"} empAmount={allEmployees.length}/>
