@@ -1,12 +1,11 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+import React from 'react'
 
-export default function WorkloadProgress() {
-    return (
-        <>
-            <Sidebar />
-            <Header />
-            <h2>Workload Progress</h2>
-        </>
-    )
+const WorkloadProgress = () => {
+  return (
+    <div>
+      Workload Progress
+    </div>
+  )
 }
+
+export default WorkloadProgress

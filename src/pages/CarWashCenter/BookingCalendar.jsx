@@ -1,12 +1,11 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+import React from 'react'
 
-export default function BookingCalendar() {
-    return (
-        <>
-            <Sidebar />
-            <Header />
-            <h2>Booking Calendar</h2>
-        </>
-    )
+const BookingCalendar = () => {
+  return (
+    <div>
+      Booking Calendar
+    </div>
+  )
 }
+
+export default BookingCalendar
