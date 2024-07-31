@@ -21,3 +21,10 @@ export const carwashcenterSidebarTabNames =[
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
     {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"}
 ];
+
+export const bookingStatus = {
+    PENDING: "PENDING",
+    ACCEPTED: "ACCEPTED",
+    REJECTED: "REJECTED",
+    COMPLETED: "COMPLETED"
+}
