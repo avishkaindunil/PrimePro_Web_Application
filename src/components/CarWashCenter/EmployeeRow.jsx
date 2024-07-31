@@ -7,7 +7,7 @@ const EmployeeRow = ({employee}) => {
   const navigate = useNavigate();
 
   const handleViewClick =()=>{
-    navigate(`/CarWashCenterAdmin/employees/${employee.id}`);
+    navigate(`/carwashcenteradmin/employees/${employee.id}`);
   }
   return (
     <>

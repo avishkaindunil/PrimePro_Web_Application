@@ -47,7 +47,7 @@ const EmployeeManagement = () => {
           ))}
         </div>
         <div className="flex justify-between space-x-10">
-          <div className="w-3/4 px-10 py-4 space-y-2 bg-white rounded-lg shadow-inner mt-7">
+          <div className="w-3/4 px-10 py-4 space-y-5 bg-white rounded-lg shadow-inner mt-7">
             {employees.length ? (employees.map(emp =>(
               <EmployeeRow key ={emp.id} employee={emp}/>
             ))):(allEmployees.map(emp =>(
@@ -55,7 +55,7 @@ const EmployeeManagement = () => {
             )))}
             
           </div>
-          <div className="w-1/4 p-4 bg-white rounded-lg shadow-inner space-y-7 mt-7">
+          <div className="flex-row items-center justify-center w-1/4 h-full p-5 bg-white rounded-lg shadow-inner space-y-7 mt-7">
             <EmpAmount text={"Total employees"} empAmount={allEmployees.length}/>
             {employees.length ? (<EmpAmount text={`${EmployeeDivitions[activeDivision].name} Employees`} empAmount={employees.length}/>
             ) : (console.log("No selected division"))}
