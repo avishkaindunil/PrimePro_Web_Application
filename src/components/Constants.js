@@ -1,10 +1,10 @@
 export const employeeSidebarTabNames = [
-    { name: "Home", icon: "faTachometerAlt", url: "employee/dashboard"},
-    { name: "Profile", icon: "faUsers", url: "employee/profile" },
-    { name: "Calender", icon: "faUsers", url: "employee/calendar" },
-    { name: "Attendance", icon: "faUsers", url: "employee/attendance" },
-    { name: "Payroll", icon: "faCalendarAlt", url: "employee/payroll" },
-    { name: "Custom Support", icon: "faUsers", url: "employee/customSupport" }
+    { name: "Home", icon: "faHome", url: "employee/dashboard" },
+    { name: "Profile", icon: "faUser", url: "employee/profile" },
+    { name: "Task Schedule", icon: "faCalendarCheck", url: "employee/calendar" },
+    { name: "Attendance", icon: "faCheckSquare", url: "employee/attendance" },
+    { name: "Payroll", icon: "faMoneyCheckAlt", url: "employee/payroll" },
+    { name: "Custom Support", icon: "faHeadset", url: "employee/customSupport" }
 ];
 
 export const userTypes = {
