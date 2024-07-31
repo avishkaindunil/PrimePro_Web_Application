@@ -8,25 +8,25 @@ const localizer = momentLocalizer(moment);
 const CalenderShedule = () => {
   const [events, setEvents] = useState([
     {
-      title: 'Event 1',
+      title: 'Car Wash - Toyota Prius',
       start: new Date(2024, 6, 30, 8, 0), // July is month 6 (0-based index)
-      end: new Date(2024, 6, 30, 9, 0),
+      end: new Date(2024, 6, 30, 12, 0),
       resource: 'Event 1'
     },
     {
-      title: 'Event 2',
+      title: 'Vehicle Waxing - Land Cruiser',
       start: new Date(2024, 6, 31, 8, 0),
       end: new Date(2024, 6, 31, 9, 0),
       resource: 'Event 2'
     },
     {
-      title: 'Event 3',
+      title: 'Full Service -  Honda',
       start: new Date(2024, 7, 1, 10, 0),
       end: new Date(2024, 7, 1, 11, 0),
       resource: 'Event 3'
     },
     {
-      title: 'Event 4',
+      title: 'Car Wash - Toyota Prius',
       start: new Date(2024, 7, 1, 15, 0),
       end: new Date(2024, 7, 1, 16, 0),
       resource: 'Event 4'
