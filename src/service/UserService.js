@@ -112,6 +112,7 @@ static async updateUser(userId,userData, token) {
 } 
 
 static logout(){
+    console.log("logout function");
     localStorage.removeItem('token');
     localStorage.removeItem('role');
 }
@@ -131,6 +132,13 @@ static isUser(){
     return role === 'USER';
 
 }
+
+static isEmployee(){
+  const role = localStorage.getItem('role');
+  return role === 'EMPLOYEE';
+
+}
+
 
 static adminOnly(){
     return this.isAuthenticated() && this.isAdmin();

@@ -11,7 +11,7 @@ const PrivateRoute = ({ userType, children }) => {
     return children ? children : <Outlet />;
   }
 
-  if (UserService.isAuthenticated() && !UserService.isAdmin() && userType === 'EMPLOYEE') {
+  if (UserService.isAuthenticated() && UserService.isEmployee() && userType === 'EMPLOYEE') {
     return children ? children : <Outlet />;
   }
 

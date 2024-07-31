@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
-import MainLayout from "../Components/MainLayout";
+import MainLayout from "../components/MainLayout";
 
 function LoginPage({ setRole }) {
   const [email, setEmail] = useState("");
@@ -37,9 +37,9 @@ const handlePasswordChange = (e) => {
         if (userData.role === "ADMIN") {
           if(userData.email === "isindu@gmail.com"){
             
-             navigate("/CenterAdmin/Dashboard");
+             navigate("/CarWashCenter/Dashboard");
           }else{
-            navigate("/CenterAdmin/NewDashboard");
+            navigate("/CarWashCenter/NewDashboard");
           }
         } 
          else if (userData.role === "EMPLOYEE") {

@@ -1,8 +1,8 @@
 import React from 'react';
-import TaskDistribution from '../../Components/TaskDistribition';
-import Card from '../../Components/Card';
-import WorkloadProgress from '../../Components/WorkloadProgress';
-import Button from '../../Components/Button';
+import TaskDistribution from '../../components/TaskDistribition';
+import Card from '../../components/Card';
+import WorkloadProgress from '../../components/WorkloadProgress';
+import Button from '../../components/Button';
 
 
 // const Dashboard = () => {

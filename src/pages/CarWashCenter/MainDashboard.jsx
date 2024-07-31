@@ -14,7 +14,7 @@ import Button from '../../components/Button';
     
    
     
-    function Dashboard() {
+    function MainDashboard() {
       return (
         <div className="p-6 bg-gray-100 min-h-screen">
           <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
@@ -40,7 +40,7 @@ import Button from '../../components/Button';
       );
     }
     
-  export default Dashboard;
+  export default MainDashboard;
     
 //   )
 // }
