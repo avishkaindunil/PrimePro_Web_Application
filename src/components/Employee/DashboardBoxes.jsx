@@ -28,8 +28,8 @@ const DashboardBoxes = ({ content }) => {
           className="flex flex-1 justify-evenly my-12 px-4 py-8 rounded-lg shadow-md text-2xl items-center"
         >
           <div className="flex flex-col gap-2 items-start">
-            <div className="text-2xl text-center">{item.title}</div>
-            <div className="text-3xl font-medium">{item.value}</div>
+            <div className="text-xl lg:text-2xl text-center">{item.title}</div>
+            <div className="text-2xl lg:text-3xl font-medium">{item.value}</div>
           </div>
 
           <div>
