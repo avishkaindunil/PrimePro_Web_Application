@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 
 const MainLayout = ({ userType }) => {
   return (
-    <div className='flex h-screen w-screen flex-row border overflow-hidden'>
+    <div className='flex flex-row w-screen h-screen overflow-hidden border'>
       <div className="w-[230px] flex-shrink-0">
         <SideBar userType={userType} />
       </div>
-      <div className="flex-1 flex flex-col w-full">
+      <div className="flex flex-col flex-1 w-full">
         <div className="header">
           <AppHeader />
         </div>
