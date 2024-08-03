@@ -80,7 +80,15 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div
+      className="flex justify-center items-center h-screen bg-gray-100"
+      style={{
+        backgroundImage:
+          "url('https://res.cloudinary.com/dejithzc7/image/upload/v1722373450/6852137_28532_schhgg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="bg-white p-8 rounded shadow-md">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>

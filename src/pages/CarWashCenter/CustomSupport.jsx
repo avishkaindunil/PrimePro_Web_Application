@@ -1,12 +1,11 @@
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
+import React from 'react'
 
-export default function CustomSupport() {
-    return (
-        <>
-            <Sidebar />
-            <Header />
-            <h2>Custom Support Assistance</h2>
-        </>
-    )
+const CustomSupport = () => {
+  return (
+    <div>
+      Custom Support
+    </div>
+  )
 }
+
+export default CustomSupport
