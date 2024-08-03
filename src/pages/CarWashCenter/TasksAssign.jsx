@@ -52,4 +52,5 @@ const TasksAssign = () => {
   )
 }
 
-export default TasksAssign
+export default TasksAssign;
+

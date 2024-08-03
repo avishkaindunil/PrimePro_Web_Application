@@ -21,13 +21,14 @@ Chart.register(
   Legend
 );
 
-const DashboardChart = () => {
+const PayrollPreviousPaymentChart = () => {
+  // Sample data for the chart
   const data = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
       {
-        label: "Tasks",
-        data: [30, 50, 35, 30, 29, 45],
+        label: "Previous Payments",
+        data: [2000, 3000, 2500, 4000, 3500, 5000],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
@@ -36,16 +37,10 @@ const DashboardChart = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-full bg-white rounded-lg p-4">
-      <div>
-        <h2 className="text-left text-2xl font-bold pb-4">Total Tasks Completed for Past 5 Months</h2>
-      </div>
-
-      <div className="w-full max-w-2xl">
-        <Line data={data} />
-      </div>
+    <div>
+      <Line data={data} />
     </div>
   );
 };
 
-export default DashboardChart;
+export default PayrollPreviousPaymentChart;

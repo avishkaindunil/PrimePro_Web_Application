@@ -1,17 +1,16 @@
-import { iconName } from "@fortawesome/free-brands-svg-icons/fa42Group";
-
 export const employeeSidebarTabNames = [
-    { name: "Home", icon: "faTachometerAlt", url: "employee/dashboard"},
-    { name: "Profile", icon: "faUsers", url: "employee/profile" },
-    { name: "Calender", icon: "faUsers", url: "employee/calendar" },
-    { name: "Payroll", icon: "faCalendarAlt", url: "employee/payroll" },
-    { name: "Custom Support", icon: "faUsers", url: "employee/customSupport" }
+    { name: "Home", icon: "faHome", url: "employee/dashboard" },
+    { name: "Profile", icon: "faUser", url: "employee/profile" },
+    { name: "Task Schedule", icon: "faCalendarCheck", url: "employee/calendar" },
+    { name: "Attendance", icon: "faCheckSquare", url: "employee/attendance" },
+    { name: "Payroll", icon: "faMoneyCheckAlt", url: "employee/payroll" },
+    { name: "Custom Support", icon: "faHeadset", url: "employee/customSupport" }
 ];
 
 export const userTypes = {
-    EMPLOYEE: "Employee",
-    CUSTOMER: "Customer",
-    CAR_WASH_CENTER_ADMIN: "CarWashCenterAdmin"
+    EMPLOYEE: "EMPLOYEE",
+    CUSTOMER: "CUSTOMER",
+    CAR_WASH_CENTER_ADMIN: "CAR_WASH_CENTER_ADMIN"
 }
 
 export const carwashcenterSidebarTabNames =[
@@ -22,3 +21,10 @@ export const carwashcenterSidebarTabNames =[
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
     {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"}
 ];
+
+export const bookingStatus = {
+    PENDING: "PENDING",
+    ACCEPTED: "ACCEPTED",
+    REJECTED: "REJECTED",
+    COMPLETED: "COMPLETED"
+}
