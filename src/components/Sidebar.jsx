@@ -2,32 +2,51 @@
 import PropTypes from "prop-types"; // Import PropTypes
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faHome,
+  faUser,
+  faCalendarCheck,
+  faCheckSquare,
+  faMoneyCheckAlt,
+  faHeadset,
   faTachometerAlt,
-  faCalendarAlt,
   faUsers,
+  faCalendarAlt,
   faTasks,
   faChartBar,
-  faHeadset,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import UserView from "./UserView";
 import Logo from "../assets/Logo.png";
-import { employeeSidebarTabNames, userTypes, carwashcenterSidebarTabNames } from "./Constants";
+import {
+  employeeSidebarTabNames,
+  userTypes,
+  carwashcenterSidebarTabNames,
+} from "./Constants";
 
 function getIcon(iconName) {
   switch (iconName) {
-    case 'faTachometerAlt':
+    case "faTachometerAlt":
       return faTachometerAlt;
-    case 'faUsers':
+    case "faUsers":
       return faUsers;
-    case 'faCalendarAlt':
+    case "faCalendarAlt":
       return faCalendarAlt;
-    case 'faTasks':
+    case "faTasks":
       return faTasks;
-    case 'faChartBar':
+    case "faChartBar":
       return faChartBar;
-    case 'faHeadset':
+    case "faHeadset":
       return faHeadset;
+    case "faHome":
+      return faHome;
+    case "faUser":
+      return faUser;
+    case "faCalendarCheck":
+      return faCalendarCheck;
+    case "faCheckSquare":
+      return faCheckSquare;
+    case "faMoneyCheckAlt":
+      return faMoneyCheckAlt;
     default:
       return null;
   }
@@ -42,7 +61,10 @@ const SideBar = ({ userType }) => {
             {employeeSidebarTabNames.map((item, index) => (
               <Link key={index} to={`/${item.url.toLowerCase()}`}>
                 <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                  <FontAwesomeIcon icon={getIcon(item.icon)} className="mr-4 text-lg" />
+                  <FontAwesomeIcon
+                    icon={getIcon(item.icon)}
+                    className="mr-4 text-lg"
+                  />
                   <span>{item.name}</span>
                 </li>
               </Link>
@@ -53,52 +75,13 @@ const SideBar = ({ userType }) => {
       case userTypes.CAR_WASH_CENTER_ADMIN:
         return (
           <ul className="space-y-4">
-            <Link to="/main-dashboard">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon
-                  icon={faTachometerAlt}
-                  className="mr-4 text-lg"
-                />
-                <span>Dashboard</span>
-              </li>
-            </Link>
-            <Link to="/booking-calendar">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon
-                  icon={faCalendarAlt}
-                  className="mr-4 text-lg"
-                />
-                <span>Booking Calendar</span>
-              </li>
-            </Link>
-            <Link to="/employees">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon icon={faUsers} className="mr-4 text-lg" />
-                <span>Employees</span>
-              </li>
-            </Link>
-            <Link to="/task-assign">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon icon={faTasks} className="mr-4 text-lg" />
-                <span>Task Assign</span>
-              </li>
-            </Link>
-            <Link to="/workload-progress">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon icon={faChartBar} className="mr-4 text-lg" />
-                <span>Workload Progress</span>
-              </li>
-            </Link>
-            <Link to="/customsupport">
-              <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                <FontAwesomeIcon icon={faHeadset} className="mr-4 text-lg" />
-                <span>Custom support</span>
-              </li>
-            </Link>
-            {carwashcenterSidebarTabNames.map((item, index)=>(
+            {carwashcenterSidebarTabNames.map((item, index) => (
               <Link key={index} to={`/${item.url.toLocaleLowerCase()}`}>
                 <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
-                  <FontAwesomeIcon icon={getIcon(item.icon)} className="mr-4 text-lg"/>
+                  <FontAwesomeIcon
+                    icon={getIcon(item.icon)}
+                    className="mr-4 text-lg"
+                  />
                   <span>{item.name}</span>
                 </li>
               </Link>

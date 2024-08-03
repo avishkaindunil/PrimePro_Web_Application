@@ -8,7 +8,8 @@ const scheduleData = [
         vehicle: "Toyota Camry",
         startTime: "09:00 AM",
         endTime: "10:00 AM",
-        location: "Maryville"
+        location: "Maryville",
+        status: "PENDING"
     },
     {
         id: 2,
@@ -17,7 +18,8 @@ const scheduleData = [
         vehicle: "Ford Mustang",
         startTime: "10:00 AM",
         endTime: "11:00 AM",
-        location: "Jacksonville"
+        location: "Jacksonville",
+        status: "ACCEPTED"
     },
     {
         id: 3,
@@ -26,7 +28,8 @@ const scheduleData = [
         vehicle: "BMW 3 Series",
         startTime: "11:00 AM",
         endTime: "12:00 PM",
-        location: "Austin"
+        location: "Austin",
+        status: "REJECTED"
     },
     {
         id: 4,
@@ -35,7 +38,8 @@ const scheduleData = [
         vehicle: "Chevrolet Malibu",
         startTime: "12:00 PM",
         endTime: "01:00 PM",
-        location: "New York"
+        location: "New York",
+        status: "COMPLETED"
     }
 ]
 

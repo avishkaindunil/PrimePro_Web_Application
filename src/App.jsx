@@ -8,11 +8,12 @@ import EmployeeRoutes from "./routes/EmployeeRoutes";
 import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
-
-const userType = "Employee";
-// const isLogin = true;
+import { userTypes } from "./components/Constants";
 
 function App() {
+  const storedUserData = localStorage.getItem("userData");
+
+  const userType = storedUserData ? JSON.parse(storedUserData).role : null;
   return (
     <BrowserRouter>
       <Routes>
@@ -23,13 +24,13 @@ function App() {
           </>
         ) : (
           <Route path="/*" element={<MainLayout userType={userType} />}>
-            {userType === "CarWashCenterAdmin" && (
+            {userType === userTypes.CAR_WASH_CENTER_ADMIN && (
               <Route
                 path="CarWashCenterAdmin/*"
                 element={<CarWashCenterAdminRoutes />}
               />
             )}
-            {userType === "Employee" && (
+            {userType === userTypes.EMPLOYEE && (
               <Route path="employee/*" element={<EmployeeRoutes />} />
             )}
             <Route path="*" element={<div>404 Not Found</div>} />
