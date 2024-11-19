@@ -10,7 +10,7 @@ export const employeeSidebarTabNames = [
 export const userTypes = {
     EMPLOYEE: "EMPLOYEE",
     CUSTOMER: "CUSTOMER",
-    CAR_WASH_CENTER_ADMIN: "CAR_WASH_CENTER_ADMIN"
+    CAR_WASH_CENTER_ADMIN: "ADMIN"
 }
 
 export const carwashcenterSidebarTabNames =[
