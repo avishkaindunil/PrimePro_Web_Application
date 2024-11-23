@@ -25,3 +25,5 @@ const CarWashCenterRoutes = () => {
 }
 
 export default CarWashCenterRoutes;
+
+

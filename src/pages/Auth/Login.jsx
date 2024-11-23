@@ -56,6 +56,8 @@ const Login = () => {
           navigate("/customer/dashboard");
         } else if (userData.role === userTypes.CAR_WASH_CENTER_ADMIN) {
           navigate("/CarWashCenterAdmin/dashboard");
+        }else if (userData.role === userTypes.SYSTEM_ADMIN) {
+          navigate("/systemAdmin/dashboard");
         } else {
           Swal.fire({
             title: "Error!",
