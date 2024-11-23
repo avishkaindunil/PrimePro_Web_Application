@@ -2,13 +2,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 // import Header from './components/Header';
-// import Sidebar from './components/Sidebar';
+//  import Sidebar from './components/Sidebar';
 import CarWashCenterAdminRoutes from "./routes/CarWashCenterRoutes";
 import EmployeeRoutes from "./routes/EmployeeRoutes";
 import MainLayout from "./components/MainLayout";
 import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 import { userTypes } from "./components/Constants";
+import SystemAdminRoutes from "./routes/SystemAdminRoutes";
 
 function App() {
   const storedUserData = localStorage.getItem("userData");
@@ -33,7 +34,10 @@ function App() {
             {userType === userTypes.EMPLOYEE && (
               <Route path="employee/*" element={<EmployeeRoutes />} />
             )}
-            <Route path="*" element={<div>404 Not Found</div>} />
+             {userType === userTypes.SYSTEM_ADMIN && (
+              <Route path="systemAdmin/*" element={< SystemAdminRoutes/>} />
+            )}
+             <Route path="*" element={<div>404 Not Found</div>}/>
           </Route>
         )}
       </Routes>
