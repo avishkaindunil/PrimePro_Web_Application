@@ -9,29 +9,29 @@ const events = [
   {
     id: 1,
     title: "John Doe - Toyota Camry",
-    start: new Date(2024, 6, 26, 9, 0), // Year, Month (0-based), Date, Hours, Minutes
-    end: new Date(2024, 6, 26, 10, 0),
+    start: new Date(2024, 11, 26, 9, 0), // Year, Month (0-based), Date, Hours, Minutes
+    end: new Date(2024, 11, 26, 10, 0),
     location: "Maryville",
   },
   {
     id: 2,
     title: "Jane Smith - Ford Mustang",
-    start: new Date(2024, 6, 26, 10, 0),
-    end: new Date(2024, 6, 26, 11, 0),
+    start: new Date(2024, 11, 26, 10, 0),
+    end: new Date(2024, 11, 26, 11, 0),
     location: "Jacksonville",
   },
   {
     id: 3,
     title: "David Johnson - BMW 3 Series",
-    start: new Date(2024, 6, 26, 11, 0),
-    end: new Date(2024, 6, 26, 12, 0),
+    start: new Date(2024, 11, 26, 11, 0),
+    end: new Date(2024, 11, 26, 12, 0),
     location: "Austin",
   },
   {
     id: 4,
     title: "Mary Brown - Chevrolet Malibu",
-    start: new Date(2024, 6, 26, 12, 0),
-    end: new Date(2024, 6, 26, 13, 0),
+    start: new Date(2024, 11, 26, 12, 0),
+    end: new Date(2024, 11, 26, 13, 0),
     location: "New York",
   },
 ];

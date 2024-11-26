@@ -4,19 +4,19 @@ import PayrollChartSection from "./PayrollChartSection";
 const payrollContent = [
     {
         icon: "faCalendarAlt",
-        title: "LKR 65000",
+        title: "LKR 25000",
         description: "Total payroll",
         url: "/employee/payroll"
     },
     {
         icon: "faUsers",
-        title: "25th June 2024",
+        title: "25th Nov 2024",
         description: "Start Date",
         url: "/employee/payroll"
     },
     {
         icon: "faTasks",
-        title: "24th July 2024",
+        title: "24th Oct 2024",
         description: "Pay Day",
         url: "/employee/payroll"
     }

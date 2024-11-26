@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const storedUserData = localStorage.getItem("userData");
+  // const storedUserData = localStorage.getItem("userData");
 
   const navigate = useNavigate();
 

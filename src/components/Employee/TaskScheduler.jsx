@@ -30,7 +30,7 @@ const scheduleData = [
     startTime: "11:00 AM",
     endTime: "12:00 PM",
     location: "Austin",
-    status: "REJECTED",
+    status: "PENDING",
   },
   {
     id: 4,
