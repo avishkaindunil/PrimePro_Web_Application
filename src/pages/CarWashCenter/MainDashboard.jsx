@@ -26,7 +26,7 @@ import { Link } from 'react-router-dom';
             <Card title="Inventory" value="Normal" icon={<i className="fas fa-box"></i>} />
           </div>
           <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Link to={''} className='text-center'><Button >Add Employee</Button></Link>
+            <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
             <Link to={''}  className='text-center'><Button>Schedule Service</Button></Link>
             <Link to={`/carwashcenteradmin/taskassign`}  className='text-center'><Button>Task Assign </Button></Link>
             <Link to={''}  className='text-center'><Button>Update Stock</Button></Link>
