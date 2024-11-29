@@ -56,7 +56,7 @@ import Card from '../../components/CarWashCenter/Card';
 import Button from '../../components/CarWashCenter/Button';
 import ComplaintHandling from '../../components/SystemAdmin/ComplaintHandling'; // Placeholder component
 import SystemSecurity from '../../components/SystemAdmin/SystemSecurity'; // Placeholder component
-import DataAnalytics from '../../components/SystemAdmin/DataAnalytics'; // Placeholder component
+import DataAnalytics from '../../components/systemAdmin/DataAnalytics'; // Placeholder component
 
 function SystemAdminDashboard() {
   return (
@@ -77,9 +77,6 @@ function SystemAdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
         <Button>Handle Complaints</Button>
         <Button>Monitor System Security</Button>
-        <Button>Generate Data Report</Button>
-        <Button>System Maintenance</Button>
-        <Button>Technical Support</Button>
         <Button>Policy Development</Button>
       </div>
 
