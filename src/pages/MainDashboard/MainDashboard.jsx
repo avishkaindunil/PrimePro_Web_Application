@@ -4,8 +4,8 @@ import Header from '../../components/Header';
 export default function MainDashboard() {
     return (
         <>
-            <Sidebar />
-            <Header />
+            {/* <Sidebar />
+            <Header /> */}
             <h2>Main Dashboard</h2>
         </>
     )
