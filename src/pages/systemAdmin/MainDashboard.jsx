@@ -55,7 +55,7 @@ import Card from '../../components/CarWashCenter/Card'
 import Button from '../../components/CarWashCenter/Button'
 import ComplaintHandling from '../../components/SystemAdmin/ComplaintHandling'// Placeholder component
 import SystemSecurity from '../../components/SystemAdmin/SystemSecurity'; // Placeholder component
-import DataAnalytics from '../../components/SystemAdmin/DataAnalytics' // Placeholder component
+import DataAnalytics from '../../components/SystemAdmin/DataAnalytics'; // Placeholder component
 
 export default function SystemAdminDashboard() {
   return (
@@ -96,4 +96,4 @@ export default function SystemAdminDashboard() {
 
 }
 
-export default SystemAdminDashboard;
+
