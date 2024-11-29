@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import UserView from '../../components/UserView';
+import ProfilePic from '../../assets/profilepic.png'
 
 const EmployeeDetail = () => {
 
@@ -11,11 +12,14 @@ const EmployeeDetail = () => {
         {/* {id} */}
         <div className="flex justify-between px-16 py-8 space-x-8 bg-white rounded-lg shadow-lg">
             {/* user view and current alocated slot */}
-            <div className="flex-col justify-center h-full p-7">
-                <UserView/>
-                <div class="mt-8 bg-blue-100 rounded-lg py-4 items-center text-center">
-                    <p class="text-gray-600">Allocated to slot</p>
-                    <p class="text-3xl font-bold text-blue-500">5</p>
+            <div className="flex flex-col items-center justify-center h-full">
+                {/* <UserView/> */}
+                <div className="m-3 rounded-full">
+                    <img src={ProfilePic} className="h-[40vh]"/>
+                </div>
+                <div class="mt-8 bg-white rounded-lg py-4 text-center shadow-lg w-[80%] mx-auto">
+                    <p class="text-gray-600 m-1">Currently Allocated to slot</p>
+                    <p class="text-3xl font-bold text-white bg-blue-500 rounded-full mx-20 my-3 py-3">5</p>
                 </div>
             </div>
             {/* employee detail section */}
