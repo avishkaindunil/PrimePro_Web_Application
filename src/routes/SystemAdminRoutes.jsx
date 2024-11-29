@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import MainDashboard from "../pages/systemAdmin/Maindashboard"
+import MainDashboard from "../pages/systemAdmin/MainDashboard"
 
 const SystemAdminRoutes = () => {
     return (
