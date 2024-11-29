@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
-import MainDashboard from "../pages/SystemAdmin/Maindashboard"
-import TechnicalSupport from "../pages/SystemAdmin/TechnicalSupport";
-import DataAnalytics from "../pages/SystemAdmin/DataAnalytics";
+import MainDashboard from "../pages/systemAdmin/MainDashboard"
+import TechnicalSupport from "../pages/systemAdmin/TechnicalSupport";
+import DataAnalytics from "../pages/systemAdmin/DataAnalytics";
 
 const SystemAdminRoutes = () => {
     return (
