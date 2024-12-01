@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 const ProfileInformation = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
+
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -21,6 +23,7 @@ const ProfileInformation = () => {
             <input
               type="text"
               id="fullName"
+              value={storedUserData.name}
               {...register("fullName", { required: "Full Name is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -37,6 +40,8 @@ const ProfileInformation = () => {
             <input
               type="text"
               id="employeeID"
+              value={storedUserData.employeeNumber}
+              disabled
               {...register("employeeID", { required: "Employee ID is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -44,20 +49,23 @@ const ProfileInformation = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="dob"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              id="dob"
-              {...register("dob", { required: "Date of Birth is required" })}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+            
+          <label
+            htmlFor="dob"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            id="dob"
+            value={storedUserData.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : ""}
+            {...register("dob", { required: "Date of Birth is required" })}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
             {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob.message}</p>}
           </div>
+
 
           <div className="mb-4">
             <label
@@ -69,6 +77,7 @@ const ProfileInformation = () => {
             <input
               type="text"
               id="branch"
+              value={storedUserData.branchName}
               {...register("branch", { required: "Branch is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -85,6 +94,7 @@ const ProfileInformation = () => {
             <input
               type="tel"
               id="phoneNumber"
+              value={storedUserData.phoneNumber}
               {...register("phoneNumber", { 
                 required: "Phone Number is required",
                 pattern: {
@@ -107,6 +117,8 @@ const ProfileInformation = () => {
             <input
               type="text"
               id="designation"
+              disabled
+              value={storedUserData.designation}
               {...register("designation", { required: "Designation is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />

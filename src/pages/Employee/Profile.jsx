@@ -3,6 +3,8 @@ import ProfileImage from "../../components/Employee/ProfileImage";
 import ProfileInformation from "../../components/Employee/ProfileInformation";
 
 const Profile = () => {
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
+  
   return (
     <div>
       <DateAndTimeTracker />
