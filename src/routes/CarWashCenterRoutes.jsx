@@ -13,6 +13,7 @@ import AddEmployee from '../pages/CarWashCenter/AddEmployee';
 const CarWashCenterRoutes = () => {
   return (
     <Routes>
+        <Route index element={<MainDashboard/>}/>
         <Route path='/dashboard' element={<MainDashboard/>}/>
         <Route path='/bookingCalender' element={<BookingCalendar/>}/>
         <Route path='/employees' element={<EmployeeManagement/>}/>

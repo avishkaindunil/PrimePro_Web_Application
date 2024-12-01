@@ -9,8 +9,8 @@ const CalenderShedule = () => {
   const [events, setEvents] = useState([
     {
       title: 'Car Wash - Toyota Prius',
-      start: new Date(2024, 6, 30, 8, 0), // July is month 6 (0-based index)
-      end: new Date(2024, 6, 30, 12, 0),
+      start: new Date(2024, 10, 30, 8, 0), // July is month 6 (0-based index)
+      end: new Date(2024, 10, 30, 12, 0),
       resource: 'Event 1'
     },
     {
