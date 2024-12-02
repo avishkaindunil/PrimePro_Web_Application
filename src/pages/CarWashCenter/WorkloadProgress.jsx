@@ -41,7 +41,7 @@ const WorkloadProgress = () => {
   return (
     <div>
       <h1 className="text-xl font-bold">Workload Progress</h1>
-      <div className="p-6 mt-5 ml-6 bg-gray-200 rounded-2xl">
+      <div className="p-6 mt-5 ml-6 mr-6 bg-gray-200 rounded-2xl">
         <input className="p-2 ml-5 rounded-md w-[55%] mb-5" type='text' placeholder='search for a booking...' onChange={onSerach}/>
         
         {paginatedItems.map((item)=>(
