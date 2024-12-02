@@ -41,39 +41,47 @@ const WorkloadProgress = () => {
   return (
     <div>
       <h1 className="text-xl font-bold">Workload Progress</h1>
-      <input className="p-2 m-3 rounded-md w-[55%]" type='text' placeholder='search for a booking...' onChange={onSerach}/>
-      {paginatedItems.map((item)=>(
-        <WorkProgress item={item}/>
-      ))}
-      
-      <div>
-      {/* {Array.from({ length: totalPages }, (_, index) => (
-        <button 
-          key={index} 
-          onClick={() => handlePagesChange(index+1)} // Adjust to page number (1-based)
-        >
-          {index + 1}
-        </button>
-      ))} */}
-      <div className="mr-[400px] text-end">
-        <button 
-          disabled={currentPage === 1} 
-          onClick={() => handlePageChange(currentPage - 1)} 
-          className="p-2 m-2 bg-gray-300 rounded-md"
-        >
-          Previous
-        </button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button 
-          disabled={currentPage === totalPages} 
-          onClick={() => handlePageChange(currentPage + 1)} 
-          className="p-2 m-2 bg-gray-300 rounded-md"
-        >
-          Next
-        </button>
-      </div>
+      <div className="p-6 mt-5 ml-6 bg-gray-200 rounded-2xl">
+        <input className="p-2 ml-5 rounded-md w-[55%] mb-5" type='text' placeholder='search for a booking...' onChange={onSerach}/>
         
+        {paginatedItems.map((item)=>(
+          <WorkProgress item={item}/>
+        ))}
+        
+        <div>
+        {/* {Array.from({ length: totalPages }, (_, index) => (
+          <button 
+            key={index} 
+            onClick={() => handlePagesChange(index+1)} // Adjust to page number (1-based)
+          >
+            {index + 1}
+          </button>
+        ))} */}
+                    {Items.length > 0 ? (
+                      <div className="mr-[400px] text-end">
+                        <button 
+                          disabled={currentPage === 1} 
+                          onClick={() => handlePageChange(currentPage - 1)} 
+                          className="p-2 m-2 bg-[#536bd4] rounded-md text-[white]"
+                        >
+                          Previous
+                        </button>
+                        <span>Page {currentPage} of {totalPages}</span>
+                        <button 
+                          disabled={currentPage === totalPages} 
+                          onClick={() => handlePageChange(currentPage + 1)} 
+                          className="p-2 m-2 bg-[#536bd4] rounded-md text-[white]"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="pl-32 text-xl italic opacity-50">No booking available</div>  // Add an alternative UI here if necessary
+                    )}
+                  
+        </div>
       </div>
+      
     </div>
   )
 }
