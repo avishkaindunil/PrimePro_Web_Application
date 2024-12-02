@@ -1,9 +1,11 @@
 import React from 'react'
+import ReportCharts from '../../components/CarWashCenter/ReportCharts'
 
 const CustomSupport = () => {
   return (
     <div>
-      Custom Support
+      <h1 className="text-2xl font-bold">Generate Reports</h1>
+      <ReportCharts/>
     </div>
   )
 }

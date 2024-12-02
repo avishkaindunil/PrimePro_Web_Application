@@ -9,7 +9,13 @@ const AddEmployee = () => {
         nic:'',
         email:'',
         phone:'',
-        address:''
+        designation:'',
+        date_of_birth:'',
+        salary:'',
+        annual_leaves:'',
+        cashual_laves:'',
+        medical_leaves:'',
+        id_probation:true
     });
 
     //set the changes of data
@@ -24,7 +30,7 @@ const AddEmployee = () => {
 
 //call api for add employee
     const handleOnClick =async(e)=>{
-        console.log("clicked");
+        console.log(formData);
         e.preventDefault();
 
             try {
@@ -36,7 +42,13 @@ const AddEmployee = () => {
                     nic:'',
                     email:'',
                     phone:'',
-                    address:''
+                    designation:'',
+                    date_of_birth:'',
+                    salary:'',
+                    annual_leaves:'',
+                    cashual_laves:'',
+                    medical_leaves:'',
+                    id_probation:true
                 });  
                 return res.data;
                 
@@ -58,7 +70,13 @@ const AddEmployee = () => {
             nic:'',
             email:'',
             phone:'',
-            address:''
+            designation:'',
+            date_of_birth:'',
+            salary:'',
+            annual_leaves:'',
+            cashual_laves:'',
+            medical_leaves:'',
+            id_probation:true
         });        
     };
 
@@ -122,27 +140,103 @@ const AddEmployee = () => {
                 />
             </div>
         </div>
-        <div className='p-1 m-3'>
-            <label>Email:</label><br/>
-            <input 
-            className='w-[90%] h-10 rounded-lg px-5' 
-            id='email' 
-            name='email' 
-            type='text' 
-            placeholder='Enter email'
-            value={formData.email}
-            onChange={handleChange}/>
+        <div className='flex flex-wrap justify-start p-1 m-3'>
+            <div className='flex-[50%]'>
+                <label>Email:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='email' 
+                name='email' 
+                type='text' 
+                placeholder='Enter email'
+                value={formData.email}
+                onChange={handleChange}/>
+            </div>
+            <div className='flex-[50%]'>
+                <label>Date of Birth:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='date_of_birth' 
+                name='date_of_birth' 
+                type='date' 
+                placeholder='Enter date_of_birth'
+                value={formData.date_of_birth}
+                onChange={handleChange}/>
+            </div>
+            
         </div>
         <div className='p-1 m-3'>
-            <label>Address:</label><br/>
+            <label>Designation:</label><br/>
             <input 
             className='w-[90%] h-10 rounded-lg px-5' 
-            id='address' 
-            name='address' 
+            id='designation' 
+            name='designation' 
             type='text' 
-            placeholder='Enter address'
-            value={formData.address}
+            placeholder='Enter designation'
+            value={formData.designation}
             onChange={handleChange}
+            />
+        </div>
+        <div className='flex flex-wrap justify-start p-1 m-3'>
+            <div className='flex-[50%]'>
+                <label>Base salary:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='salary' 
+                name='salary' 
+                type='text' 
+                placeholder='Enter salary'
+                value={formData.salary}
+                onChange={handleChange}/>
+            </div>
+            <div className='flex-[50%]'>
+                <label>No of Annual leaves:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='annual_leaves' 
+                name='annual_leaves' 
+                type='number' 
+                placeholder='Enter annual leaves'
+                value={formData.annual_leaves}
+                onChange={handleChange}/>
+            </div>
+            
+        </div>
+        <div className='flex flex-wrap justify-start p-1 m-3'>
+            <div className='flex-[50%]'>
+                <label>No of Cashual leaves:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='cashual_laves' 
+                name='cashual_laves' 
+                type='number' 
+                placeholder='Enter cashual laves'
+                value={formData.cashual_laves}
+                onChange={handleChange}/>
+            </div>
+            <div className='flex-[50%]'>
+                <label>No of Medical leaves:</label><br/>
+                <input 
+                className='w-[90%] h-10 rounded-lg px-5' 
+                id='medical_leaves' 
+                name='medical_leaves' 
+                type='number' 
+                placeholder='Enter medical leaves'
+                value={formData.medical_leaves}
+                onChange={handleChange}/>
+            </div>
+            
+        </div>
+        <div className='p-1 m-3'>
+            <input 
+            className='w-[90%] h-10 rounded-lg px-5' 
+            id='is_probation' 
+            name='is_probation' 
+            type='text' 
+            placeholder='Enter is_probation'
+            value={formData.is_probation}
+            onChange={handleChange}
+            hidden={true}
             />
         </div>
         <div className='flex flex-wrap content-center justify-center p-3 m-3 space-x-28'>
