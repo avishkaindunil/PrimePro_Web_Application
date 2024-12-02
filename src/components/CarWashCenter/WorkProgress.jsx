@@ -4,7 +4,7 @@ const WorkProgress = ({item}) => {
     // console.log(item);
     
   return (
-    <div className={`w-[55%] ${item.status =="accepted" ? "bg-red-600":item.status=="pending" ? "bg-yellow-600":"bg-green-600"} m-4 p-2 rounded-2xl`}>
+    <div className={`w-[55%] ${item.status =="accepted" ? "bg-red-600":item.status=="pending" ? "bg-yellow-600":"bg-green-600"} m-4 p-2 rounded-2xl opacity-85`}>
       <div className="flex flex-wrap items-center content-center justify-between px-20 m-2">
         <div>
         <h1 className="text-base">{item.name}</h1>
