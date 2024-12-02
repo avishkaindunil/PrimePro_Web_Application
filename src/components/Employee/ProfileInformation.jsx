@@ -18,11 +18,16 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
   const [phoneNumber, setPhoneNumber] = useState(storedUserData.phoneNumber);
 
   const handleSubmitData = (e) => {
+
+    const formElements = e.target.elements;
+    console.log(e.target);
+    console.log(formElements);
+
     e.preventDefault();
     const finalUserObject = {
-      name: fullName,
-      dateOfBirth: dob,
-      phoneNumber: phoneNumber
+      name: formElements.fullName.value,
+      dateOfBirth: formElements.dob.value,
+      phoneNumber: formElements.phoneNumber.value
     };
 
     console.log(finalUserObject);

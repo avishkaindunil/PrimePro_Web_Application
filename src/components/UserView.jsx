@@ -10,7 +10,7 @@ const UserView = () => {
   return (
     <>
         <div className="bg-[#F9F9F9] rounded-[10px] m-7 ml-[40px] mr-[40px] shadow-lg p-4 text-center">
-            <div className="box-border flex justify-center rounded-full"><img src={Profilepic}/></div>
+            <div className="box-border flex justify-center rounded-full"><img src={user?.profilePictureUrl ? user?.profilePictureUrl : Profilepic}/></div>
             <div className='flex justify-center font-semibold py-2 text-xl'>{user?.name ? user?.name : "Binali"}</div>
             <div className='flex justify-center text-sm'>{user?.role == userTypes.EMPLOYEE ? "Auto Miraj Employee" : "Auto Miraj Branch Manager"}</div>            
         </div>
