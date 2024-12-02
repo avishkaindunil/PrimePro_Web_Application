@@ -1,43 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import { updateTaskStatus } from "./../../api/taskApiCalls";
 
 const TaskScheduler = ({ tasksData }) => {
-  // Map tasksData to match the scheduleData structure
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const isInitialRender = useRef(true); // Tracks the first render
 
+  // Initialize tasks on the first render
   useEffect(() => {
-    const formattedTasks = tasksData.map((task) => ({
-      id: task.id,
-      name: `Customer ${task.customerId}`, // Placeholder, adjust as needed
-      description: task.taskDescription.split(" - ")[0], // Extract description
-      vehicle: task.taskDescription.split(" - ")[1] || "Unknown Vehicle", // Extract vehicle
-      startTime: new Date(`${task.taskDate.split("T")[0]}T${task.startTime}`)
-        .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      endTime: new Date(`${task.taskDate.split("T")[0]}T${task.endTime}`)
-        .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      location: "Branch Location", // Placeholder for location
-      status: task.taskStatus,
-    }));
-    setTasks(formattedTasks);
-  }, [tasksData]);
+    if (isInitialRender.current) {
+      const formattedTasks = tasksData.map((task) => ({
+        id: task.id,
+        name: `Customer ${task.customerId}`,
+        description: task.taskDescription.split(" - ")[0],
+        vehicle: task.taskDescription.split(" - ")[1] || "Unknown Vehicle",
+        startTime: new Date(
+          `${task.taskDate.split("T")[0]}T${task.startTime}`
+        ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        endTime: new Date(
+          `${task.taskDate.split("T")[0]}T${task.endTime}`
+        ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        location: "Branch Location",
+        status: task.taskStatus,
+      }));
+      setTasks(formattedTasks);
+      isInitialRender.current = false;
+    }
+  }, []);
 
   const handleChangeStatus = (id, currentStatus) => {
-    if (currentStatus === "COMPLETED" || currentStatus === "REJECTED") {
+    if (currentStatus === "COMPLETED") {
       Swal.fire({
         icon: "info",
         title: "Status Change",
         text: `This task is already ${currentStatus.toLowerCase()} and cannot be changed.`,
       });
     } else {
-      const newStatusOptions =
-        currentStatus === "ACCEPTED"
+      const newStatusOptions = currentStatus === "ACCEPTED"
           ? { PENDING: "Pending" }
           : currentStatus === "PENDING"
           ? { COMPLETED: "Completed" }
           : {
               PENDING: "Pending",
               ACCEPTED: "Accepted",
-              REJECTED: "Rejected",
               COMPLETED: "Completed",
             };
 
@@ -56,13 +62,40 @@ const TaskScheduler = ({ tasksData }) => {
             }
           });
         },
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           const updatedTasks = tasks.map((task) =>
             task.id === id ? { ...task, status: result.value } : task
           );
           setTasks(updatedTasks);
+
+          const tasksDataDetails = {
+            taskId: id,
+            status: result.value,
+          };
+
+          await updateTaskStatusDetails(tasksDataDetails);
         }
+      });
+    }
+  };
+
+  const updateTaskStatusDetails = async (tasksDataDetails) => {
+    try {
+      setLoading(true);
+      const { data: taskDataDetails } = await updateTaskStatus(tasksDataDetails);
+      setLoading(false);
+      Swal.fire({
+        icon: "success",
+        title: "Task Status Update Success.",
+      });
+    } catch (error) {
+      console.error("Error fetching task status:", error);
+      setLoading(false);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while updating task status.",
       });
     }
   };
