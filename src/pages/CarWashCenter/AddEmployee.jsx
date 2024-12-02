@@ -4,11 +4,11 @@ import { publicAuthRequest } from "../../constants/requestMethods";
 const AddEmployee = () => {
 
     const [formData, setFormData] = useState({
-        fname:'',
-        lname:'',
+        name:'',
         nic:'',
         email:'',
         phone:'',
+        city:'',
         designation:'',
         date_of_birth:'',
         salary:'',
@@ -32,16 +32,20 @@ const AddEmployee = () => {
     const handleOnClick =async(e)=>{
         console.log(formData);
         e.preventDefault();
+        
+        // const user= [
+        //     email=formData.email,
+        // ]
 
             try {
                 const res =  await publicAuthRequest.post(`/employee/add`,formData);
                 console.log(res.data);
                 setFormData({
-                    fname:'',
-                    lname:'',
+                    name:'',
                     nic:'',
                     email:'',
                     phone:'',
+                    city:'',
                     designation:'',
                     date_of_birth:'',
                     salary:'',
@@ -51,6 +55,7 @@ const AddEmployee = () => {
                     id_probation:true
                 });  
                 return res.data;
+                console.log(res.data);
                 
             }catch(err) {
                 console.error(err);
@@ -65,11 +70,11 @@ const AddEmployee = () => {
     const handleCancel = (e)=>{
         e.preventDefault();
         setFormData({
-            fname:'',
-            lname:'',
+            name:'',
             nic:'',
             email:'',
             phone:'',
+            city:'',
             designation:'',
             date_of_birth:'',
             salary:'',
@@ -87,29 +92,16 @@ const AddEmployee = () => {
       <h1 className="text-xl font-bold">Add New Employee</h1>
       <div className='border border-black rounded-[15px] m-7 p-9 items-center content-center'>
       <form>
-        <div className='flex flex-wrap justify-start p-1 m-3'>
+        <div className='p-1 m-3'>
             <div className='flex-[50%]'>
-                <label for='fname'>First Name</label><br/>
+                <label for='fname'>Full Name</label><br/>
                 <input 
                 className='w-[90%] h-10 rounded-lg px-5' 
-                id='fname' 
-                name='fname' 
+                id='name' 
+                name='name' 
                 type='text' 
-                placeholder='Enter first name'
-                value={formData.fname}
-                onChange={handleChange}
-                />
-            </div>
-            
-            <div className='flex-[50%]'>
-                <label>Last Name</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='lname' 
-                name='lname' 
-                type='text' 
-                placeholder='Enter last name'
-                value={formData.lname}
+                placeholder='Enter name'
+                value={formData.name}
                 onChange={handleChange}
                 />
             </div>
@@ -165,7 +157,8 @@ const AddEmployee = () => {
             </div>
             
         </div>
-        <div className='p-1 m-3'>
+        <div className='flex flex-wrap justify-start p-1 m-3'>
+        <div className='flex-[50%]'>
             <label>Designation:</label><br/>
             <input 
             className='w-[90%] h-10 rounded-lg px-5' 
@@ -177,6 +170,20 @@ const AddEmployee = () => {
             onChange={handleChange}
             />
         </div>
+        <div className='flex-[50%]'>
+            <label>City:</label><br/>
+            <input 
+            className='w-[90%] h-10 rounded-lg px-5' 
+            id='city' 
+            name='city' 
+            type='text' 
+            placeholder='Enter city'
+            value={formData.city}
+            onChange={handleChange}
+            />
+        </div>
+        </div>
+        
         <div className='flex flex-wrap justify-start p-1 m-3'>
             <div className='flex-[50%]'>
                 <label>Base salary:</label><br/>

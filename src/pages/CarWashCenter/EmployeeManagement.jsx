@@ -36,7 +36,7 @@ const EmployeeManagement = () => {
     <>
       <div>
         <h1 className="text-2xl font-bold">Employees</h1>
-        <div className="flex items-center justify-center">
+        <div className="flex">
           {EmployeeDivitions.map((item, index)=>(
             <EmpCategory 
             key={index}
@@ -55,7 +55,7 @@ const EmployeeManagement = () => {
             )))}
             
           </div>
-          <div className="flex-row items-center justify-center w-1/4 h-full p-5 bg-white rounded-lg shadow-inner space-y-7 mt-7">
+          <div className="flex-col items-center justify-center w-1/4 h-full p-5 bg-white rounded-lg shadow-inner space-y-7 mt-7">
             <EmpAmount text={"Total employees"} empAmount={allEmployees.length}/>
             {employees.length ? (<EmpAmount text={`${EmployeeDivitions[activeDivision].name} Employees`} empAmount={employees.length}/>
             ) : (console.log("No selected division"))}
