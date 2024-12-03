@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ReportCharts from '../../components/CarWashCenter/ReportCharts'
 import { set } from 'react-hook-form';
+import LineChartReport from '../../components/CarWashCenter/LineChartReport';
 
 const CustomSupport = () => {
 
@@ -33,14 +34,14 @@ const CustomSupport = () => {
     }
   };
   
-  const renderReportComponent =()=>{
+  const renderReportComponent =(reportType)=>{
     switch (reportType.type){
       case "All bookings":
-        return 1;
+        return <LineChartReport reportType={reportType}/>;
       case "service types":
-        return <ReportCharts/>;        
+        return <ReportCharts reportType={reportType}/>;        
       case "Attendence of employees":
-        return 3;
+        return null;
       default:
         return null;
     }
@@ -65,7 +66,7 @@ const CustomSupport = () => {
         <button className="p-2 ml-5 rounded-md w-[20%] mb-5 bg-[#203aac] text-white" onClick={handleOnclick}>Generate</button>
         <p className="italic text-center text-red-700">{error}</p>
       </div>
-      <div>{error || !click ? null:(renderReportComponent())}</div>
+      <div>{error || !click ? <p className='text-xl italic text-center opacity-45'>Generate your report</p>:(renderReportComponent(reportType))}</div>
     </div>
   )
 }

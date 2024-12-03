@@ -1,9 +1,12 @@
 import React from 'react'
 
-const ReportCharts = () => {
+
+const ReportCharts = (props) => {
+  const report = props.reportType;
+
   return (
     <div>
-      Report
+      service type{report.type}
     </div>
   )
 }
