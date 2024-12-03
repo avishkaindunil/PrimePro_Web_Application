@@ -22,9 +22,9 @@ const CarWashCenterRoutes = () => {
         <Route path='/addemployee' element={<AddEmployee/>}/>
         <Route path='/taskAssign' element={<TasksAssign/>}/>
         <Route path='/workloadProgress' element={<WorkloadProgress/>}/>
-        <Route path='/customSupport' element={<CustomSupport/>}/>
+        <Route path='/reports' element={<CustomSupport/>}/>
         <Route path='/settings' element={<Settings/>}/>
-        <Route path='/report' element={<ReportCharts/>}/>
+        {/* <Route path='/report' element={<ReportCharts/>}/> */}
     </Routes>
   )
 }
