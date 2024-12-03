@@ -69,13 +69,13 @@ import EmployeePerformanceChart from '../../components/CarWashCenter/EmployeePer
           
           <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
-            <Link to={''}  className='text-center'><Button>Schedule Service</Button></Link>
+            <Link to={'/carwashcenteradmin/scheduleservice'}  className='text-center'><Button>Schedule Service</Button></Link>
             <Link to={`/carwashcenteradmin/taskassign`}  className='text-center'><Button>Task Assign </Button></Link>
             <Link to={'/carwashcenteradmin/leaverequest'}  className='text-center'><Button>Leave Request</Button></Link>
           </div>
           <div className="grid justify-center grid-cols-1 gap-6 mt-10 md:grid-cols-2 snap-center size-full ">
-            <WorkloadProgress />
-            {/* <TaskDistribution /> */}
+            {/* <WorkloadProgress /> */}
+            <TaskDistribution />
             <EmployeePerformanceChart/>
           </div>
           </div>
