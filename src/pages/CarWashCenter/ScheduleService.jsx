@@ -26,7 +26,7 @@ const ScheduleService = () => {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif", backgroundColor: "#f8f9fa" }}>
-      <h2 style={{ color: "#007bff" }}>Schedule Service</h2>
+      <h2 className="mb-1 text-2xl font-bold">Schedule Service</h2>
 
       {/* Add New Service Form */}
       <div
@@ -39,7 +39,7 @@ const ScheduleService = () => {
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <h3 style={{ color: "#28a745" }}>Add New Service</h3>
+        <h3 >Add New Service</h3>
         <input
           type="text"
           placeholder="Customer Name"
@@ -96,7 +96,7 @@ const ScheduleService = () => {
 
       {/* Upcoming Services Table */}
       <div>
-        <h3 style={{ color: "#17a2b8" }}>Upcoming Services</h3>
+        <h3 >Upcoming Services</h3>
         <table
           style={{
             width: "100%",
