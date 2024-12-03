@@ -2,13 +2,16 @@ import { useState } from "react";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ProfileImage = () => {
-  const [profileImage, setProfileImage] = useState("");
+const ProfileImage = ({ storedUserData, onUpdate }) => {
+  // const storedUserData = JSON.parse(localStorage.getItem("userData"));
+  
+  const [profileImage, setProfileImage] = useState(storedUserData.profilePictureUrl);
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
     const imageURL = URL.createObjectURL(imageFile);
     setProfileImage(imageURL);
+    onUpdate(imageURL);
   };
 
   const triggerFileInput = () => {
