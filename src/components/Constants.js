@@ -26,11 +26,11 @@ export const carwashcenterSidebarTabNames =[
 
 export const systemAdminSidebarTabNames =[
     {name:"Dashboard", icon:"faTachometerAlt" , url:"systemAdmin/dashboard"},
-    {name:"Manage Car Centers", icon:"faHome", url:"systemAdmin/manageCarWashCenters"},
-    {name:"Technical Support", icon:"faHeadset", url:"systemAdmin/technicalSupport"},
-    {name:"Data Analytics", icon:"faTasks", url:"systemAdmin/dataAnalytics"},
-    {name:"System Security", icon:"faUsers", url:"systemAdmin/systemSecurity"},
-    {name:"Policy Development", icon:"faHeadset", url:"systemAdmin/customSupport"}
+    {name:"Car Centers", icon:"faHome", url:"systemAdmin/CarCenters"},
+    // {name:"Technical Support", icon:"faHeadset", url:"systemAdmin/technicalSupport"},
+    {name:"Data Analytics", icon:"faTasks", url:"systemAdmin/dataAnalytics"}
+    // {name:"System Security", icon:"faUsers", url:"systemAdmin/monitorSystemSecurity"},
+    // {name:"Policy Development", icon:"faHeadset", url:"systemAdmin/policyDevelopment"}
 
    
 ];
