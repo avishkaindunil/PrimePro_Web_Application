@@ -90,23 +90,24 @@ const TasksAssign = () => {
         ))}
       </div>
       {isTaskAssignVisible &&(
-        <div className="w-2/5 p-4 m-5 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
+        <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
         <div className="text-lg">Details</div>
         <div className="pl-3">{bookings[isActiveTask].title}</div>
         <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div>
         <form id='form'>
-            {[...Array(assigneeCount)].map((_, i) => (
-              <input
-                key={i}
+             <input
                 type="text"
-                id={i}
+                id="assignee1"
                 className="w-full p-2 mt-1 border border-gray-300 rounded"
-                placeholder={`Assignee ${i + 1}`}
+                placeholder="Enter assignee.."
               />
-             ))}
-          
-          <button type="submit" class=" mt-1 p-2 text-start" onClick={addInputFeild}>+add more</button>
-          <button className="items-center justify-center w-full p-1 text-white bg-blue-700 rounded-full">Save</button>
+              <input
+                type="text"
+                id="assignee2"
+                className="w-full p-2 mt-1 border border-gray-300 rounded"
+                placeholder="Enter assignee.."
+              />
+              <button className="items-center justify-center w-full p-1 my-5 text-white bg-blue-700 rounded-full">Save</button>
         </form>
 
         

@@ -15,10 +15,10 @@ const BookingCalendar = () => {
           </div>
         </div>
         <div className="w-2/6 p-5">
-          <CalenderwithCurrDate/>
+          {/* <CalenderwithCurrDate/> */}
           <div className="mt-5 ">
-            <h1 className="text-2xl font-semibold">Shedules for Today</h1>
-            <div className="h-[270px] space-y-2 overflow-y-scroll">
+            <h1 className="pb-3 text-2xl font-semibold">Shedules for Today</h1>
+            <div className="h-full space-y-2 overflow-y-scroll will-change-scroll">
               <SheduleDetails/>
             </div>
           </div>
