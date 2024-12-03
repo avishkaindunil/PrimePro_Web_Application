@@ -24,11 +24,11 @@ Chart.register(
 const PayrollPreviousPaymentChart = () => {
   // Sample data for the chart
   const data = {
-    labels: ["June", "July", "August", "September", "October", "November"],
+    labels: ["August", "September", "October", "November", "December"],
     datasets: [
       {
         label: "Previous Payments",
-        data: [30000, 42000, 35000, 40000, 35500, 38000],
+        data: [62000, 65000, 60000, 65500, 62000],
         fill: false,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
