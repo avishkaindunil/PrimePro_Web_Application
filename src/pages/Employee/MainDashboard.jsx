@@ -9,8 +9,8 @@ export default function MainDashboard() {
   const storedUserData = JSON.parse(localStorage.getItem("userData"));
 
   const [taskCount, setTaskCount] = useState(0);
-  const [totalSalary, setTotalSalary] = useState(0); // Fetch or calculate this value if necessary
-  const [totalDaysWork, setTotalDaysWork] = useState(0); // Fetch or calculate this value if necessary
+  const [totalSalary, setTotalSalary] = useState(storedUserData.baseSalary); // Fetch or calculate this value if necessary
+  const [totalDaysWork, setTotalDaysWork] = useState(storedUserData.noOfAnnualLeaves); // Fetch or calculate this value if necessary
   const [boxContent, setBoxContent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
@@ -58,14 +58,14 @@ export default function MainDashboard() {
         iconColor: "#2948AB",
       },
       {
-        title: "Total Salary",
+        title: "Base Salary",
         value: "LKR " + totalSalary,
         icon: "faChartBar",
         color: "#4ADEDE",
         iconColor: "#02A8B0",
       },
       {
-        title: "Days Worked",
+        title: "Remaining Annual Leaves",
         value: totalDaysWork,
         icon: "faCalendarAlt",
         color: "rgba(191, 121, 246, 0.40)",
