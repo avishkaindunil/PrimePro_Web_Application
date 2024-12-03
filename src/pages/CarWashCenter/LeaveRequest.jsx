@@ -1,15 +1,17 @@
-
-
 import React, { useState } from 'react';
 
 const LeaveRequest = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [popupMessage, setPopupMessage] = useState("");
 
   // Sample leave requests
   const leaveRequests = [
     { id: 1, name: "John Doe", reason: "Medical emergency", date: "2024-12-01" },
     { id: 2, name: "Jane Smith", reason: "Vacation", date: "2024-12-05" },
     { id: 3, name: "Alex Brown", reason: "Family commitment", date: "2024-12-10" },
+    { id: 1, name: "John ", reason: "Medical emergency", date: "2024-12-01" },
+    { id: 2, name: "Smith", reason: "Vacation", date: "2024-12-05" },
+    { id: 3, name: "Brown", reason: "Family commitment", date: "2024-12-10" },
   ];
 
   const handleViewDetails = (request) => {
@@ -17,13 +19,17 @@ const LeaveRequest = () => {
   };
 
   const handleAccept = () => {
-    alert(`Leave request accepted for ${selectedRequest.name}`);
+    setPopupMessage(`Leave request accepted for ${selectedRequest.name}`);
     setSelectedRequest(null);
   };
 
   const handleReject = () => {
-    alert(`Leave request rejected for ${selectedRequest.name}`);
+    setPopupMessage(`Leave request rejected for ${selectedRequest.name}`);
     setSelectedRequest(null);
+  };
+
+  const closePopup = () => {
+    setPopupMessage("");
   };
 
   return (
@@ -91,11 +97,21 @@ const LeaveRequest = () => {
           </div>
         </div>
       )}
+
+      {/* Popup Message */}
+      {popupMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg flex items-center">
+          <span>{popupMessage}</span>
+          <button
+            className="ml-4 bg-white text-green-500 px-2 py-1 rounded-md hover:bg-gray-100"
+            onClick={closePopup}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-
-
-
-export default LeaveRequest
+export default LeaveRequest;
