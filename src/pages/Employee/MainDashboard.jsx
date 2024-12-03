@@ -3,7 +3,7 @@ import DateAndTimeTracker from "../../components/Employee/DateAndTimeTracker";
 import DashboardChart from "./../../components/Employee/DashboardChart";
 import DashboardSchedule from "./../../components/Employee/DashboardSchedule";
 import { useState, useEffect } from "react";
-import { getTaskCountByEmployeeId } from "./../../api/taskApiCalls";
+import { getAllTaskByEmployeeId, getTaskCountByEmployeeId } from "./../../api/taskApiCalls";
 
 export default function MainDashboard() {
   const storedUserData = JSON.parse(localStorage.getItem("userData"));
@@ -13,6 +13,7 @@ export default function MainDashboard() {
   const [totalDaysWork, setTotalDaysWork] = useState(0); // Fetch or calculate this value if necessary
   const [boxContent, setBoxContent] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchTaskCount = async () => {
@@ -28,6 +29,22 @@ export default function MainDashboard() {
     };
 
     fetchTaskCount();
+  }, [storedUserData.employeeId]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        setLoading(true);
+        const { data: taskData } = await getAllTaskByEmployeeId(storedUserData.employeeId);
+        setTasks(taskData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching task count:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
   }, [storedUserData.employeeId]);
 
   useEffect(() => {
@@ -67,7 +84,7 @@ export default function MainDashboard() {
         </div>
         <div className="basis-1/3">
           <div>
-            <DashboardSchedule />
+            <DashboardSchedule tasks={tasks} />
           </div>
         </div>
       </div>
