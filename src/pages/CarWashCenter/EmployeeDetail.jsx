@@ -9,7 +9,7 @@ const EmployeeDetail = () => {
   return (
     <>
         {/* {id} */}
-        <div className="flex justify-between h-full px-16 py-8 space-x-8 bg-white rounded-lg shadow-lg">
+        <div className="flex justify-between px-16 py-8 space-x-8 bg-white rounded-lg shadow-lg">
             {/* user view and current alocated slot */}
             <div className="flex-col justify-center h-full p-7">
                 <UserView/>

@@ -5,6 +5,7 @@ import Profile from '../pages/Employee/Profile'
 import Calendar from '../pages/Employee/Calendar'
 import Payroll from '../pages/Employee/Payroll'
 import Attendance from '../pages/Employee/Attendance'
+import LeaveForm from './../pages/Employee/ApplyLeave';
 
 const EmployeeRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const EmployeeRoutes = () => {
         <Route path='/payroll' element={<Payroll />}/>
         <Route path='/customSupport' element={<CustomSupport />}/>
         <Route path='/attendance' element={<Attendance />}/>
+        <Route path='/leave' element={<LeaveForm />}/>
     </Routes>
   )
 }
