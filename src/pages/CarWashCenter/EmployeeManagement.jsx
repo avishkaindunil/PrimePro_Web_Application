@@ -35,7 +35,7 @@ const EmployeeManagement = () => {
   const [activeDivision, setActiveDivision] = useState(null);
   const [divisionAmount,SetDivisionAmount] = useState(0);
   const [currentPage,setCurrentPage] =useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
 
 
   const paginatedEmployees = employees.slice(
