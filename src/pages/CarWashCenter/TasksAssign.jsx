@@ -90,7 +90,7 @@ const TasksAssign = () => {
         ))}
       </div>
       {isTaskAssignVisible &&(
-        <div className="w-2/5 p-4 m-5 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
+        <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
         <div className="text-lg">Details</div>
         <div className="pl-3">{bookings[isActiveTask].title}</div>
         <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div>

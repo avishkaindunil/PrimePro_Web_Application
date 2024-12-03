@@ -46,9 +46,9 @@ const WorkloadProgress = () => {
   
   return (
     <div>
-      <h1 className="text-xl font-bold">Workload Progress</h1>
-      <div className="p-6 mt-5 ml-6 mr-6 bg-gray-200 rounded-2xl">
-        <input className="p-2 ml-5 rounded-md w-[55%] mb-5" type='text' placeholder='search for a booking...' onChange={onSerach}/>
+      <h1 className="text-2xl font-bold">Workload Progress</h1>
+      <div className="p-6 mt-5 ml-6 mr-6 bg-white rounded-2xl">
+        <input className="p-2 ml-5 rounded-md w-[55%] mb-5 bg-slate-200" type='text' placeholder='search for a booking...' onChange={onSerach}/>
         <div className="flex ">
           <div className='w-[60%]'>
             {paginatedItems.map((item,index)=>(
@@ -56,7 +56,7 @@ const WorkloadProgress = () => {
             ))}
           </div>
           <div className='w-[35%%] ml-10  align-middle justify-center items-center text-center'>
-          <h1 className="text-2xl font-bold">Today Summery</h1>
+          <h1 className="text-2xl font-bold">Today's Summery</h1>
           <div className="space-y-4">
           <div className="flex items-center justify-center py-5 m-3 space-x-8 align-middle rounded-lg bg-slate-300 px-9" >
               {/* <div className="w-6 h-6 bg-red-700 rounded-full"></div> */}

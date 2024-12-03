@@ -89,7 +89,7 @@ const AddEmployee = () => {
     
   return (
     <div>
-      <h1 className="text-xl font-bold">Add New Employee</h1>
+      <h1 className="text-2xl font-bold">Add New Employee</h1>
       <div className='border border-black rounded-[15px] m-7 p-9 items-center content-center'>
       <form>
         <div className='p-1 m-3'>
