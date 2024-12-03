@@ -21,7 +21,7 @@ export const carwashcenterSidebarTabNames =[
     {name:"Task Assign", icon:"faTasks", url:"CarWashCenterAdmin/taskAssign"},
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
     {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"},
-    {name:"Leave Request", icon:"faHeadset", url:"CarWashCenterAdmin/leaverequest"}
+    // {name:"Leave Request", icon:"faHeadset", url:"CarWashCenterAdmin/leaverequest"}
 ];
 
 

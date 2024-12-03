@@ -29,7 +29,7 @@ import { Link } from 'react-router-dom';
             <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
             <Link to={''}  className='text-center'><Button>Schedule Service</Button></Link>
             <Link to={`/carwashcenteradmin/taskassign`}  className='text-center'><Button>Task Assign </Button></Link>
-            <Link to={''}  className='text-center'><Button>Update Stock</Button></Link>
+            <Link to={'/carwashcenteradmin/leaverequest'}  className='text-center'><Button>Leave Request</Button></Link>
           </div>
           <div className="grid justify-center grid-cols-1 gap-6 mt-10 md:grid-cols-2 snap-center size-full ">
             <WorkloadProgress />
