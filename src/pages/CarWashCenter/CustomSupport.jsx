@@ -6,6 +6,7 @@ const CustomSupport = () => {
 
 
   const [error,setError] = useState('');
+  const [click,setClick] = useState(false);
   
   const [reportType,setReportType] = useState({
 
@@ -28,24 +29,26 @@ const CustomSupport = () => {
     if(reportType.from>reportType.to){
       setError("Check the time duration again!!");
     }else{
-      switch (reportType.type){
-        case "All bookings":
-          return 1;
-        case "service types":
-          return 2;
-        case "Attendence of employees":
-          return 3;
-        default:
-          return null;
-      }
+      setClick(true);
     }
-    
-    // const newWindow = window.open('http://localhost/report','_blank');
-    // newWindow.onload =()=>{
-    //   ReactDOM.render(<ReportCharts/>,newWindow.document.getElementsByTagName('body'));
-    // }
-    
   };
+  
+  const renderReportComponent =()=>{
+    switch (reportType.type){
+      case "All bookings":
+        return 1;
+      case "service types":
+        return <ReportCharts/>;        
+      case "Attendence of employees":
+        return 3;
+      default:
+        return null;
+    }
+  
+  };
+
+    
+  
   
   return (
     <div>
@@ -62,6 +65,7 @@ const CustomSupport = () => {
         <button className="p-2 ml-5 rounded-md w-[20%] mb-5 bg-[#203aac] text-white" onClick={handleOnclick}>Generate</button>
         <p className="italic text-center text-red-700">{error}</p>
       </div>
+      <div>{error || !click ? null:(renderReportComponent())}</div>
     </div>
   )
 }
