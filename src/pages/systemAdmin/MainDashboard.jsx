@@ -93,7 +93,7 @@ export default function MainDashboard() {
        <div onClick={goToReportsPage} className="cursor-pointer">
           <Card
             title="Data Reports"
-            value="9"
+            value="5"
             icon={<i className="fas fa-chart-bar"></i>}
           />
         </div>
