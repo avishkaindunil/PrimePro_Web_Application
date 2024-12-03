@@ -20,7 +20,8 @@ export const carwashcenterSidebarTabNames =[
     {name:"Employees", icon:"faUsers", url:"CarWashCenterAdmin/employees"},
     {name:"Task Assign", icon:"faTasks", url:"CarWashCenterAdmin/taskAssign"},
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
-    {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"}
+    {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"},
+    {name:"Leave Request", icon:"faHeadset", url:"CarWashCenterAdmin/leaverequest"}
 ];
 
 
