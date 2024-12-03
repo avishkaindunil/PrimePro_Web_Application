@@ -1,57 +1,143 @@
-import React, { useState } from "react";
+
+
+import React, { useState, useEffect } from "react";
 import { Bar, Pie } from "react-chartjs-2";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "chart.js/auto";
+import Swal from "sweetalert2";
+import { format, addMonths, startOfMonth } from "date-fns";
 
 const DataAnalytics = () => {
-  // Data for the charts
-  const repairStatsData = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "Repairs Completed",
-        data: [30, 45, 50, 60, 80],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-      },
+  // States
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [branch, setBranch] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [chartData, setChartData] = useState({
+    repairStatsData: { labels: [], datasets: [], title: "" },
+    serviceStatsData: { labels: [], datasets: [], title: "" },
+  });
+
+  // Dummy data for demonstration
+  const dummyData = {
+    repairStats: [
+      { month: "2024-01", repairs: 10, branch: "Branch Matara", service: "Repair" },
+      { month: "2024-02", repairs: 15, branch: "Branch Colombo", service: "Repair" },
+      { month: "2024-03", repairs: 8, branch: "Branch Kandy", service: "Maintenance" },
+      { month: "2024-04", repairs: 12, branch: "Branch Galle", service: "Carwash" },
+      { month: "2024-05", repairs: 18, branch: "Branch Matara", service: "Maintenance" },
+      { month: "2024-06", repairs: 14, branch: "Branch Colombo", service: "Repair" },
+      { month: "2024-07", repairs: 20, branch: "Branch Colombo", service: "Carwash" },
+      { month: "2024-08", repairs: 10, branch: "Branch Kandy", service: "Maintenance" },
+      { month: "2024-09", repairs: 13, branch: "Branch Galle", service: "Repair" },
+      { month: "2024-10", repairs: 16, branch: "Branch Matara", service: "Repair" },
+      { month: "2024-11", repairs: 22, branch: "Branch Colombo", service: "Carwash" },
+      { month: "2024-12", repairs: 19, branch: "Branch Kandy", service: "Maintenance" },
+      { month: "2025-01", repairs: 25, branch: "Branch Galle", service: "Repair" },
+      { month: "2025-02", repairs: 30, branch: "Branch Matara", service: "Carwash" },
     ],
   };
 
-  const branchPerformanceData = {
-    labels: ["Branch Matara", "Branch Colombo", "Branch Kandy", "Branch Galle"],
-    datasets: [
-      {
-        label: "Revenue Distribution",
-        data: [3000, 4500, 3500, 5000],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
+  // Helper: Generate month labels between start and end date
+  const getMonthsBetweenDates = (start, end) => {
+    const result = [];
+    let current = startOfMonth(start);
+    while (current <= end) {
+      result.push(format(current, "MMM yyyy"));
+      current = addMonths(current, 1);
+    }
+    return result;
+  };
+
+  // Update chart data when filters change
+  useEffect(() => {
+    fetchChartData();
+  }, [startDate, endDate, branch, serviceType]);
+
+  const fetchChartData = () => {
+    // Get dynamic month labels
+    const monthLabels =
+      startDate && endDate ? getMonthsBetweenDates(startDate, endDate) : [];
+
+    // Filter data based on date range and other filters
+    const filteredRepairStats = dummyData.repairStats.filter((data) => {
+      const dataDate = new Date(`${data.month}-01`);
+      const inDateRange =
+        (!startDate || dataDate >= startDate) &&
+        (!endDate || dataDate <= endDate);
+      const matchesBranch = !branch || data.branch === branch;
+      const matchesService = !serviceType || data.service === serviceType;
+      return inDateRange && matchesBranch && matchesService;
+    });
+
+    // Aggregate repairs by month
+    const repairStatsValues = monthLabels.map((label) => {
+      const month = format(new Date(label), "yyyy-MM");
+      const repairsInMonth = filteredRepairStats
+        .filter((data) => data.month === month)
+        .reduce((sum, data) => sum + data.repairs, 0);
+      return repairsInMonth;
+    });
+
+    // Aggregate service stats for Pie Chart
+    const serviceStats = filteredRepairStats.reduce((acc, data) => {
+      acc[data.service] = (acc[data.service] || 0) + data.repairs;
+      return acc;
+    }, {});
+
+    const serviceStatsLabels = Object.keys(serviceStats);
+    const serviceStatsValues = Object.values(serviceStats);
+
+    const repairStatsTitle =
+      serviceType === "Repair"
+        ? "Repair Statistics"
+        : serviceType === "Maintenance"
+        ? "Maintenance Statistics"
+        : "Overall Repair & Maintenance Statistics";
+
+    const serviceStatsTitle = "Service Distribution";
+
+    setChartData({
+      repairStatsData: {
+        labels: monthLabels,
+        datasets: [
+          {
+            label: "Servcies Completed",
+            data: repairStatsValues,
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
+          },
         ],
+        title: repairStatsTitle,
       },
-    ],
-  };
-
-  const feedbackTrendsData = {
-    labels: ["Positive", "Neutral", "Negative"],
-    datasets: [
-      {
-        label: "Customer Feedback Trends",
-        data: [70, 20, 10],
-        backgroundColor: [
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(255, 99, 132, 0.6)",
+      serviceStatsData: {
+        labels: serviceStatsLabels,
+        datasets: [
+          {
+            label: "Services",
+            data: serviceStatsValues,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.6)",
+              "rgba(54, 162, 235, 0.6)",
+              "rgba(255, 206, 86, 0.6)",
+              "rgba(75, 192, 192, 0.6)",
+            ],
+          },
         ],
+        title: serviceStatsTitle,
       },
-    ],
+    });
   };
 
-  // Data storage table state
-  const [dataStorage, setDataStorage] = useState([
-    { name: "Repair Data", size: "2 MB", lastUpdated: "2024-11-01" },
-    { name: "Customer Feedback", size: "1 MB", lastUpdated: "2024-11-05" },
-    { name: "Revenue Stats", size: "3 MB", lastUpdated: "2024-11-10" },
-  ]);
+  const generateReport = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Report Generated Successfully",
+      text: "Your report has been generated. Visit the Reports Page to view it!",
+      confirmButtonText: "OK",
+      timer: 3000,
+    });
+  };
 
   return (
     <div className="p-6">
@@ -63,11 +149,34 @@ const DataAnalytics = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block font-medium mb-2">Date Range</label>
-            <input type="date" className="w-full p-2 border rounded" />
+            <div className="flex space-x-2">
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                selectsStart
+                startDate={startDate}
+                endDate={endDate}
+                className="p-2 border rounded"
+                placeholderText="Start Date"
+              />
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                className="p-2 border rounded"
+                placeholderText="End Date"
+              />
+            </div>
           </div>
           <div>
             <label className="block font-medium mb-2">Branch Location</label>
-            <select className="w-full p-2 border rounded">
+            <select
+              className="w-full p-2 border rounded"
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+            >
               <option value="">All Branches</option>
               <option value="Branch Matara">Branch Matara</option>
               <option value="Branch Colombo">Branch Colombo</option>
@@ -77,10 +186,15 @@ const DataAnalytics = () => {
           </div>
           <div>
             <label className="block font-medium mb-2">Service Type</label>
-            <select className="w-full p-2 border rounded">
+            <select
+              className="w-full p-2 border rounded"
+              value={serviceType}
+              onChange={(e) => setServiceType(e.target.value)}
+            >
               <option value="">All Services</option>
               <option value="Repair">Repair</option>
               <option value="Maintenance">Maintenance</option>
+              <option value="Carwash">CarWash</option>
             </select>
           </div>
         </div>
@@ -89,69 +203,35 @@ const DataAnalytics = () => {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="bg-white p-4 shadow rounded">
-          <h3 className="text-lg font-semibold mb-4">Repair Statistics</h3>
-          <Bar data={repairStatsData} />
+          <h3 className="text-lg font-semibold mb-4">
+            {chartData.repairStatsData.title}
+          </h3>
+          <Bar data={chartData.repairStatsData} />
         </div>
         <div className="bg-white p-4 shadow rounded">
-          <h3 className="text-lg font-semibold mb-4">Branch Performance</h3>
-          <Pie data={branchPerformanceData} />
+          <h3 className="text-lg font-semibold mb-4">
+            {chartData.serviceStatsData.title}
+          </h3>
+          <Pie data={chartData.serviceStatsData} />
         </div>
       </div>
-     
 
-      {/* Data Storage Management Section */}
-      <div className="bg-white p-4 shadow rounded mb-6">
-        <h3 className="text-lg font-semibold mb-4">Data Storage Management</h3>
-        <table className="w-full text-left border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Name</th>
-              <th className="border border-gray-300 p-2">Size</th>
-              <th className="border border-gray-300 p-2">Last Updated</th>
-              <th className="border border-gray-300 p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dataStorage.map((item, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 p-2">{item.name}</td>
-                <td className="border border-gray-300 p-2">{item.size}</td>
-                <td className="border border-gray-300 p-2">{item.lastUpdated}</td>
-                <td className="border border-gray-300 p-2">
-                  <button className="mr-2 px-3 py-1 bg-blue-500 text-white rounded">
-                    Export
-                  </button>
-                  <button className="px-3 py-1 bg-red-500 text-white rounded">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Reports Section */}
+      {/* Generate Report */}
       <div className="bg-white p-4 shadow rounded">
         <h3 className="text-lg font-semibold mb-4">Generate Reports</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-2">Report Type</label>
-            <select className="w-full p-2 border rounded">
-              <option value="Performance">Performance</option>
-              <option value="Customer Trends">Customer Trends</option>
-              <option value="Revenue">Revenue</option>
-            </select>
-          </div>
-          <div className="flex items-end">
-            <button className="w-full px-4 py-2 bg-green-600 text-white rounded">
-              Generate Report
-            </button>
-          </div>
-        </div>
+        <button
+          className="px-4 py-2 bg-green-600 text-white rounded"
+          onClick={generateReport}
+        >
+          Generate Report
+        </button>
       </div>
     </div>
   );
 };
 
 export default DataAnalytics;
+
+
+
+
