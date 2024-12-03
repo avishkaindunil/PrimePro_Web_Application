@@ -35,7 +35,7 @@ const AppHeader = () => {
         {user?.role == userTypes.EMPLOYEE && <EmployeeQRCode employeeId={1} />}
         <FontAwesomeIcon className="text-xl" icon={faBell} />
         <FontAwesomeIcon
-          className="text-xl px-4"
+          className="px-4 text-xl"
           onClick={handleIconClick}
           icon={faSignOutAlt}
         />

@@ -24,6 +24,18 @@ const bookings =[
         start: new Date(2024, 7, 1, 15, 0),
         end: new Date(2024, 7, 1, 16, 0),
         resource: 'Event 4'
+      },
+      {
+        title: 'Car Wash - Toyota Prius',
+        start: new Date(2024, 7, 1, 15, 0),
+        end: new Date(2024, 7, 1, 16, 0),
+        resource: 'Event 4'
+      },
+      {
+        title: 'Car Wash - Toyota Prius',
+        start: new Date(2024, 7, 1, 15, 0),
+        end: new Date(2024, 7, 1, 16, 0),
+        resource: 'Event 4'
       }
 ];
 

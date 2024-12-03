@@ -56,6 +56,8 @@ const Login = () => {
           navigate("/customer/dashboard");
         } else if (userData.role === userTypes.CAR_WASH_CENTER_ADMIN) {
           navigate("/CarWashCenterAdmin/dashboard");
+        }else if (userData.role === userTypes.SYSTEM_ADMIN) {
+          navigate("/systemAdmin/dashboard");
         } else {
           Swal.fire({
             title: "Error!",
@@ -81,7 +83,7 @@ const Login = () => {
 
   return (
     <div
-      className="flex justify-center items-center h-screen bg-gray-100"
+      className="flex items-center justify-center h-screen bg-gray-100"
       style={{
         backgroundImage:
           "url('https://res.cloudinary.com/dejithzc7/image/upload/v1722373450/6852137_28532_schhgg.jpg')",
@@ -89,13 +91,13 @@ const Login = () => {
         backgroundPosition: "center",
       }}
     >
-      <div className="bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <div className="p-8 bg-white rounded shadow-md">
+        <h2 className="mb-4 text-2xl font-bold">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-2">Email:</label>
             <input
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
               type="email"
               value={email}
               onChange={handleEmailChange}
@@ -104,14 +106,14 @@ const Login = () => {
           <div className="mb-4">
             <label className="block mb-2">Password:</label>
             <input
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full px-3 py-2 border border-gray-300 rounded"
               type="password"
               value={password}
               onChange={handlePasswordChange}
             />
           </div>
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
             type="submit"
           >
             Login

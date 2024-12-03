@@ -11,7 +11,8 @@ export const employeeSidebarTabNames = [
 export const userTypes = {
     EMPLOYEE: "EMPLOYEE",
     CUSTOMER: "CUSTOMER",
-    CAR_WASH_CENTER_ADMIN: "CAR_WASH_CENTER_ADMIN"
+    CAR_WASH_CENTER_ADMIN: "ADMIN",
+    SYSTEM_ADMIN: "SYSTEMADMIN"
 }
 
 export const carwashcenterSidebarTabNames =[
@@ -20,7 +21,19 @@ export const carwashcenterSidebarTabNames =[
     {name:"Employees", icon:"faUsers", url:"CarWashCenterAdmin/employees"},
     {name:"Task Assign", icon:"faTasks", url:"CarWashCenterAdmin/taskAssign"},
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
-    {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"}
+    {name:"Reports", icon:"faHeadset", url:"CarWashCenterAdmin/reports"}
+];
+
+
+export const systemAdminSidebarTabNames =[
+    {name:"Dashboard", icon:"faTachometerAlt" , url:"systemAdmin/dashboard"},
+    {name:"Car Centers", icon:"faHome", url:"systemAdmin/CarCenters"},
+    // {name:"Technical Support", icon:"faHeadset", url:"systemAdmin/technicalSupport"},
+    {name:"Data Analytics", icon:"faTasks", url:"systemAdmin/dataAnalytics"}
+    // {name:"System Security", icon:"faUsers", url:"systemAdmin/monitorSystemSecurity"},
+    // {name:"Policy Development", icon:"faHeadset", url:"systemAdmin/policyDevelopment"}
+
+   
 ];
 
 export const bookingStatus = {
