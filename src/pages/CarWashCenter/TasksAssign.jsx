@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SheduleDetails from '../../components/CarWashCenter/SheduleDetails'
 import OneTask from '../../components/CarWashCenter/OneTask';
 
@@ -7,7 +7,8 @@ import OneTask from '../../components/CarWashCenter/OneTask';
 const TasksAssign = () => {
 
   const [isTaskAssignVisible, setIsTaskAssignVisible] = useState(false);
-  const [isActiveTask, setIsActiveTask] = useState('');
+  const [isActiveTask, setIsActiveTask] = useState();
+  const [assigneeCount,setAssineeCount] =useState(1);
   
   const handleOnclick =(index)=>{
 
@@ -17,9 +18,8 @@ const TasksAssign = () => {
       setIsTaskAssignVisible(!isTaskAssignVisible);
     } else {
       setIsActiveTask(isActiveTask);
-      // setIsTaskAssignVisible(isTaskAssignVisible);
-     console.error("error");
-      
+      setIsTaskAssignVisible(true);
+      // setIsTaskAssignVisible(isTaskAssignVisible);      
     };
     
     setIsActiveTask(index);
@@ -27,6 +27,19 @@ const TasksAssign = () => {
     // setIsActiveTask(index);
     
   };
+
+  
+  
+  const addInputFeild =()=>{
+    
+
+      // setAssineeCount(assigneeCount+1);
+      // setIsTaskAssignVisible(true);
+      // ()=>handleOnclick(index);
+      // setIsActiveTask(index);
+      
+ 
+  }
 
   const bookings =[
     {
@@ -66,7 +79,7 @@ const TasksAssign = () => {
 }
   return (
     <>
-    <h1 className="text-xl font-bold">Task Assign</h1>
+    <h1 className="text-2xl font-bold">Task Assign</h1>
     <div className="flex flex-cols">
       <div className="w-3/5 h-full m-5 space-y-4">
         {bookings.map((booking, index)=>(
@@ -76,14 +89,26 @@ const TasksAssign = () => {
           </div>
         ))}
       </div>
-      {isTaskAssignVisible && (
-        <div className="w-2/5 p-4 m-5 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
+      {isTaskAssignVisible &&(
+        <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
         <div className="text-lg">Details</div>
         <div className="pl-3">{bookings[isActiveTask].title}</div>
         <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div>
-        <input type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" placeholder='Assignee 1'/>
-        <input type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" placeholder='+add more'/>
-        <button className="items-center justify-center w-full text-white bg-blue-700 rounded-full">Save</button>
+        <form id='form'>
+             <input
+                type="text"
+                id="assignee1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded"
+                placeholder="Enter assignee.."
+              />
+              <input
+                type="text"
+                id="assignee2"
+                className="w-full p-2 mt-1 border border-gray-300 rounded"
+                placeholder="Enter assignee.."
+              />
+              <button className="items-center justify-center w-full p-1 my-5 text-white bg-blue-700 rounded-full">Save</button>
+        </form>
 
         
       </div>
