@@ -20,10 +20,10 @@ import { Link } from 'react-router-dom';
         <div className="min-h-screen p-6 bg-gray-100">
           <h1 className="mb-6 text-2xl font-bold">Admin Dashboard</h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
-            <Card title="Total Bookings" value="100" icon={<i className="fas fa-calendar-alt"></i>} />
-            <Card title="Completed Service" value="90" icon={<i className="fas fa-check"></i>} />
-            <Card title="Active Employee" value="10" icon={<i className="fas fa-users"></i>} />
-            <Card title="Inventory" value="Normal" icon={<i className="fas fa-box"></i>} />
+            <Card title="Today's Bookings" value="100" icon={<i className="fas fa-calendar-alt"></i>} />
+            <Card title="Services Completed Today" value="90" icon={<i className="fas fa-check"></i>} />
+            <Card title="Employees on Duty" value="10" icon={<i className="fas fa-users"></i>} />
+            <Card title=" Inventory Status" value="Normal" icon={<i className="fas fa-box"></i>} />
           </div>
           <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
