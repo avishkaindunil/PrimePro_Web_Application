@@ -35,7 +35,7 @@ const EmployeeManagement = () => {
   const [activeDivision, setActiveDivision] = useState(null);
   const [divisionAmount,SetDivisionAmount] = useState(0);
   const [currentPage,setCurrentPage] =useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
 
 
   const paginatedEmployees = employees.slice(
@@ -56,6 +56,9 @@ const EmployeeManagement = () => {
     SetDivisionAmount(filteredEmployees.length)
   };
   
+  const onSearch=(e)=>{
+    setEmployees(allEmployees.filter(employee=>employee.name.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())));
+  }
 
   const totalPages = Math.ceil(employees.length/itemsPerPage);
   
@@ -74,10 +77,11 @@ const EmployeeManagement = () => {
           ))}
         </div>
         <div className="flex justify-between space-x-10">
-          <div className="items-center justify-center w-[70%] px-8 space-y-5 text-center bg-white rounded-lg shadow-inner py-7 mt-7 pt-10">
+          <div className=" w-[70%] px-8 space-y-5  bg-white rounded-lg shadow-inner py-7 mt-7 pt-10">
+          <input className="p-2 ml-10 rounded-md mb-5 bg-slate-200 w-[80%]" type='text' placeholder='search for a booking...' onChange={onSearch}/>
             {paginatedEmployees.length ? (paginatedEmployees.map(emp =>(
               <EmployeeRow key ={emp.id} employee={emp}/>
-            ))):(<h2>No employees</h2>)}
+            ))):null}
 
             {employees.length > 0 ? (
                       <div className="ml-[450px] text-end">
@@ -98,7 +102,7 @@ const EmployeeManagement = () => {
                         </button>
                       </div>
                     ) : (
-                      <div className="pl-32 text-xl italic opacity-50">No booking available</div>  // Add an alternative UI here if necessary
+                      <div className="pl-32 text-xl italic opacity-50">No Employee available</div>  // Add an alternative UI here if necessary
                     )}
             
           </div>
