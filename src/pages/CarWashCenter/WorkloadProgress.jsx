@@ -1,7 +1,24 @@
-import React, { useState } from 'react'
-import WorkProgress from '../../components/CarWashCenter/WorkProgress'
+import React, { useState, useEffect } from 'react'
+import WorkProgress from '../../components/CarWashCenter/WorkProgress';
+import axios from 'axios';
 
 const WorkloadProgress = () => {
+  const [bookings, setBookings] = useState([]);
+  const fetchBookingDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/centerAdmin/get-today-all-bookings`);
+      console.log(response.data);
+      if (response.data) {
+        setBookings(response.data);
+      }
+    } catch (error) {
+      console.log("Error fetching data: ", error)
+    }
+  }
+  
+  useEffect(() => {
+    fetchBookingDetails();
+  }, []);
 
   const items=[
     {name:"car",status:"pending",employees:["employee1","employee2"],starttime:8,endtime:10},

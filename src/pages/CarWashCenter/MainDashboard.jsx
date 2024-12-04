@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect}from 'react';
 import Card from '../../components/CarWashCenter/Card';
 import Button from '../../components/CarWashCenter/Button';
 import TaskDistribution from '../../components/CarWashCenter/TaskDistribution';
 import WorkloadProgress from '../../components/CarWashCenter/WorkloadProcess';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 // const Dashboard = () => {
@@ -16,6 +18,20 @@ import { Link } from 'react-router-dom';
    
     
     function MainDashboard() {
+      const userId = localStorage.getItem("user_id");
+      const fetchCenterName = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/centerAdmin/get-center/${userId}`);
+          localStorage.setItem("CENTER", response.data);
+
+        } catch (error) {
+          console.log("Error fetching data: ", error)
+        }
+      }
+    
+      useEffect(() => {
+        fetchCenterName();
+      }, []);
       return (
         <div className="min-h-screen p-6 bg-gray-100">
           <h1 className="mb-6 text-2xl font-bold">Admin Dashboard</h1>
