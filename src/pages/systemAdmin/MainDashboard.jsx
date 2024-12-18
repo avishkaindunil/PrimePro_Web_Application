@@ -82,12 +82,12 @@ export default function MainDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card
           title="Car Centers"
-          value={carCenterCount}
+          value="4"
           icon={<i className="fas fa-server"></i>}
         />
         <Card
           title="Active Users"
-          value={activeUserCount}
+          value="100"	
           icon={<i className="fas fa-users"></i>}
         />
        <div onClick={goToReportsPage} className="cursor-pointer">
