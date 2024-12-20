@@ -6,7 +6,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 function WorkloadProgress() {
   const data = {
-    labels: ['Matara', 'Colombo', 'Kandy', 'Hambantota', 'Kalutara', 'Gampaha', 'Kurunegala'],
+    labels: ['Matara', 'Colombo', 'Kandy', 'Galle'],
     datasets: [
       {
         label: 'Services',

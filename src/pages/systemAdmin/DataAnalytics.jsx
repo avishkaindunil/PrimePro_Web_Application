@@ -22,6 +22,8 @@ const DataAnalytics = () => {
   // Dummy data for demonstration
   const dummyData = {
     repairStats: [
+      { month: "2023-12", repairs: 25, branch: "Branch Galle", service: "Repair" },
+      { month: "2023-11", repairs: 30, branch: "Branch Matara", service: "Carwash" },
       { month: "2024-01", repairs: 10, branch: "Branch Matara", service: "Repair" },
       { month: "2024-02", repairs: 15, branch: "Branch Colombo", service: "Repair" },
       { month: "2024-03", repairs: 8, branch: "Branch Kandy", service: "Maintenance" },
@@ -34,8 +36,7 @@ const DataAnalytics = () => {
       { month: "2024-10", repairs: 16, branch: "Branch Matara", service: "Repair" },
       { month: "2024-11", repairs: 22, branch: "Branch Colombo", service: "Carwash" },
       { month: "2024-12", repairs: 19, branch: "Branch Kandy", service: "Maintenance" },
-      { month: "2025-01", repairs: 25, branch: "Branch Galle", service: "Repair" },
-      { month: "2025-02", repairs: 30, branch: "Branch Matara", service: "Carwash" },
+      
     ],
   };
 
