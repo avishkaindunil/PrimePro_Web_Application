@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
     function MainDashboard() {
       return (
         <div className="min-h-screen p-6 bg-gray-100">
-          <h1 className="mb-6 text-2xl font-bold">Admin Dashboard</h1>
+          <h1 className="mb-6 text-2xl font-bold">Car Wash Center Manager Dashboard</h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
             <Card title="Total Bookings" value="100" icon={<i className="fas fa-calendar-alt"></i>} />
             <Card title="Completed Service" value="90" icon={<i className="fas fa-check"></i>} />
