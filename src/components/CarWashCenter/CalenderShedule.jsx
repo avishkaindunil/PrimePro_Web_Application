@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import axios from 'axios';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const localizer = momentLocalizer(moment);
 
@@ -13,7 +13,7 @@ const CalenderShedule = () => {
 
   const fetchBookingDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/centerAdmin/get-all-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/get-all-bookings`);
       console.log(response);
       if (response.data) {
         // setBookings(response.data);

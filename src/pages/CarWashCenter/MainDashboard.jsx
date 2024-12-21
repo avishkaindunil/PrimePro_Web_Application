@@ -1,11 +1,11 @@
-import React, {useEffect}from 'react';
+import {useEffect}from 'react';
 import Card from '../../components/CarWashCenter/Card';
 import Button from '../../components/CarWashCenter/Button';
 import TaskDistribution from '../../components/CarWashCenter/TaskDistribution';
 import WorkloadProgress from '../../components/CarWashCenter/WorkloadProcess';
 import { Link } from 'react-router-dom';
 import EmployeePerformanceChart from '../../components/CarWashCenter/EmployeePerformance';
-import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 
 
@@ -56,7 +56,7 @@ import axios from 'axios';
       const userId = localStorage.getItem("user_id");
       const fetchCenterName = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/centerAdmin/get-center/${userId}`);
+          const response = await publicAuthRequest.get(`/centerAdmin/get-center/${userId}`);
           localStorage.setItem("CENTER", response.data);
 
         } catch (error) {

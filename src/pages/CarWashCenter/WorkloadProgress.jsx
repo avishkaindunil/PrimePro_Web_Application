@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import WorkProgress from '../../components/CarWashCenter/WorkProgress';
-import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const WorkloadProgress = () => {
   const [bookings, setBookings] = useState([]);
   const fetchBookingDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/centerAdmin/get-today-all-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/get-today-all-bookings`);
       console.log(response.data);
       if (response.data) {
         setBookings(response.data);
