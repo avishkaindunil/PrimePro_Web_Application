@@ -1,259 +1,309 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from "react";
 import { publicAuthRequest } from "../../constants/requestMethods";
+import md5 from "md5";
 
 const AddEmployee = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    nic: "",
+    email: "",
+    phone: "",
+    city: "",
+    designation: "",
+    dateOfBirth: "",
+    baseSalary: "",
+    noOfAnnualLeaves: "",
+    noOfCasualLeaves: "",
+    noOfMedicalLeaves: "",
+    isProbation: true,
+  });
 
-    const [formData, setFormData] = useState({
-        name:'',
-        nic:'',
-        email:'',
-        phone:'',
-        city:'',
-        designation:'',
-        date_of_birth:'',
-        salary:'',
-        annual_leaves:'',
-        cashual_laves:'',
-        medical_leaves:'',
-        id_probation:true
-    });
+  const [showLeaveFields, setShowLeaveFields] = useState(false);
 
-    //set the changes of data
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value
-        });
-      };
-    
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-//call api for add employee
-    const handleOnClick =async(e)=>{
-        console.log(formData);
-        e.preventDefault();
-        
-        // const user= [
-        //     email=formData.email,
-        // ]
-
-            try {
-                const res =  await publicAuthRequest.post(`/employee/add`,formData);
-                console.log(res.data);
-                setFormData({
-                    name:'',
-                    nic:'',
-                    email:'',
-                    phone:'',
-                    city:'',
-                    designation:'',
-                    date_of_birth:'',
-                    salary:'',
-                    annual_leaves:'',
-                    cashual_laves:'',
-                    medical_leaves:'',
-                    id_probation:true
-                });  
-                return res.data;
-                console.log(res.data);
-                
-            }catch(err) {
-                console.error(err);
-                return null;
-            }
-
-             
+    if (name === "isProbation") {
+      const isProbation = value === "true";
+      setShowLeaveFields(!isProbation);
+      setFormData({
+        ...formData,
+        [name]: isProbation,
+        noOfAnnualLeaves: isProbation ? "" : 12,
+        noOfCasualLeaves: isProbation ? "" : 8,
+        noOfMedicalLeaves: isProbation ? "" : 6,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
-    
+  };
 
-//handle cancel    
-    const handleCancel = (e)=>{
-        e.preventDefault();
-        setFormData({
-            name:'',
-            nic:'',
-            email:'',
-            phone:'',
-            city:'',
-            designation:'',
-            date_of_birth:'',
-            salary:'',
-            annual_leaves:'',
-            cashual_laves:'',
-            medical_leaves:'',
-            id_probation:true
-        });        
+  // Validate minimum age (18 years)
+  const isValidAge = () => {
+    const today = new Date();
+    const dob = new Date(formData.dateOfBirth);
+    const age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    return age > 18 || (age === 18 && m >= 0);
+  };
+
+  // Handle form submission
+  const handleOnClick = async (e) => {
+    e.preventDefault();
+
+    if (!isValidAge()) {
+      alert("Employee must be at least 18 years old.");
+      return;
+    }
+
+    const dataToSend = {
+      user: {
+        email: formData.email,
+        name: formData.name,
+        password: md5("DefaultPassword123"), // Set default hashed password
+        city: formData.city,
+        role: "EMPLOYEE",
+        profilePictureUrl: "https://example.com/profiles/default.jpg",
+      },
+      branchName: "New York Branch", // Adjust as needed
+      dateOfBirth: formData.dateOfBirth,
+      phoneNumber: formData.phone,
+      designation: formData.designation,
+      nic: formData.nic,
+      noOfAnnualLeaves: formData.noOfAnnualLeaves || 0,
+      noOfCasualLeaves: formData.noOfCasualLeaves || 0,
+      noOfMedicalLeaves: formData.noOfMedicalLeaves || 0,
+      baseSalary: formData.baseSalary,
+      isProbation: formData.isProbation,
     };
 
-    
-    
+    try {
+      const res = await publicAuthRequest.post(`/employee/add`, dataToSend);
+      console.log(res.data);
+      alert("Employee added successfully!");
+      setFormData({
+        name: "",
+        nic: "",
+        email: "",
+        phone: "",
+        city: "",
+        designation: "",
+        dateOfBirth: "",
+        baseSalary: "",
+        noOfAnnualLeaves: "",
+        noOfCasualLeaves: "",
+        noOfMedicalLeaves: "",
+        isProbation: true,
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to add employee.");
+    }
+  };
+
+  // Handle cancel
+  const handleCancel = (e) => {
+    e.preventDefault();
+    setFormData({
+      name: "",
+      nic: "",
+      email: "",
+      phone: "",
+      city: "",
+      designation: "",
+      dateOfBirth: "",
+      baseSalary: "",
+      noOfAnnualLeaves: "",
+      noOfCasualLeaves: "",
+      noOfMedicalLeaves: "",
+      isProbation: true,
+    });
+    setShowLeaveFields(false);
+  };
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Add New Employee</h1>
-      <div className='border border-black rounded-[15px] m-7 p-9 items-center content-center'>
-      <form>
-        <div className='p-1 m-3'>
-            <div className='flex-[50%]'>
-                <label for='fname'>Full Name</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='name' 
-                name='name' 
-                type='text' 
-                placeholder='Enter name'
-                value={formData.name}
-                onChange={handleChange}
-                />
-            </div>
-        </div>
-        <div className='flex flex-wrap justify-start p-1 m-3'>
-            <div className='flex-[50%]'>
-                <label>NIC:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='nic' 
-                name='nic' 
-                type='text' 
-                placeholder='Enter NIC'
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <form>
+          {/* Name */}
+          <div className="mb-4">
+            <label className="block text-lg font-medium text-gray-600">Full Name</label>
+            <input
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              name="name"
+              type="text"
+              placeholder="Enter full name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* NIC and Phone */}
+          <div className="grid grid-cols-2 gap-6 mb-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-600">NIC</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="nic"
+                type="text"
+                placeholder="Enter NIC"
                 value={formData.nic}
                 onChange={handleChange}
-                />
+              />
             </div>
-            <div className='flex-[50%]'>
-                <label>Phone No:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='phone' 
-                name='phone' 
-                type='pnone' 
-                placeholder='Enter phone number'
+            <div>
+              <label className="block text-lg font-medium text-gray-600">Phone No</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="phone"
+                type="text"
+                placeholder="Enter phone number"
                 value={formData.phone}
                 onChange={handleChange}
-                />
+              />
             </div>
-        </div>
-        <div className='flex flex-wrap justify-start p-1 m-3'>
-            <div className='flex-[50%]'>
-                <label>Email:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='email' 
-                name='email' 
-                type='text' 
-                placeholder='Enter email'
+          </div>
+
+          {/* Email and DOB */}
+          <div className="grid grid-cols-2 gap-6 mb-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-600">Email</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="email"
+                type="email"
+                placeholder="Enter email"
                 value={formData.email}
-                onChange={handleChange}/>
+                onChange={handleChange}
+              />
             </div>
-            <div className='flex-[50%]'>
-                <label>Date of Birth:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='date_of_birth' 
-                name='date_of_birth' 
-                type='date' 
-                placeholder='Enter date_of_birth'
-                value={formData.date_of_birth}
-                onChange={handleChange}/>
+            <div>
+              <label className="block text-lg font-medium text-gray-600">Date of Birth</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="dateOfBirth"
+                type="date"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
+              />
             </div>
-            
-        </div>
-        <div className='flex flex-wrap justify-start p-1 m-3'>
-        <div className='flex-[50%]'>
-            <label>Designation:</label><br/>
-            <input 
-            className='w-[90%] h-10 rounded-lg px-5' 
-            id='designation' 
-            name='designation' 
-            type='text' 
-            placeholder='Enter designation'
-            value={formData.designation}
-            onChange={handleChange}
+          </div>
+
+          {/* City and Designation */}
+          <div className="grid grid-cols-2 gap-6 mb-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-600">City</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="city"
+                type="text"
+                placeholder="Enter city"
+                value={formData.city}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-600">Designation</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="designation"
+                type="text"
+                placeholder="Enter designation"
+                value={formData.designation}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          {/* Probation Status */}
+          <div className="mb-4">
+            <label className="block text-lg font-medium text-gray-600">Is Probation</label>
+            <select
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              name="isProbation"
+              value={formData.isProbation}
+              onChange={handleChange}
+            >
+              <option value={true}>Yes</option>
+              <option value={false}>No</option>
+            </select>
+          </div>
+
+          {/* Conditional Leave Fields */}
+          {showLeaveFields && (
+            <>
+              <div className="grid grid-cols-3 gap-6 mb-4">
+                <div>
+                  <label className="block text-lg font-medium text-gray-600">Annual Leaves</label>
+                  <input
+                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    name="noOfAnnualLeaves"
+                    type="number"
+                    value={formData.noOfAnnualLeaves}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label className="block text-lg font-medium text-gray-600">Casual Leaves</label>
+                  <input
+                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    name="noOfCasualLeaves"
+                    type="number"
+                    value={formData.noOfCasualLeaves}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div>
+                  <label className="block text-lg font-medium text-gray-600">Medical Leaves</label>
+                  <input
+                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    name="noOfMedicalLeaves"
+                    type="number"
+                    value={formData.noOfMedicalLeaves}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Base Salary */}
+          <div className="mb-4">
+            <label className="block text-lg font-medium text-gray-600">Base Salary</label>
+            <input
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              name="baseSalary"
+              type="number"
+              placeholder="Enter base salary"
+              value={formData.baseSalary}
+              onChange={handleChange}
             />
-        </div>
-        <div className='flex-[50%]'>
-            <label>City:</label><br/>
-            <input 
-            className='w-[90%] h-10 rounded-lg px-5' 
-            id='city' 
-            name='city' 
-            type='text' 
-            placeholder='Enter city'
-            value={formData.city}
-            onChange={handleChange}
-            />
-        </div>
-        </div>
-        
-        <div className='flex flex-wrap justify-start p-1 m-3'>
-            <div className='flex-[50%]'>
-                <label>Base salary:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='salary' 
-                name='salary' 
-                type='text' 
-                placeholder='Enter salary'
-                value={formData.salary}
-                onChange={handleChange}/>
-            </div>
-            <div className='flex-[50%]'>
-                <label>No of Annual leaves:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='annual_leaves' 
-                name='annual_leaves' 
-                type='number' 
-                placeholder='Enter annual leaves'
-                value={formData.annual_leaves}
-                onChange={handleChange}/>
-            </div>
-            
-        </div>
-        <div className='flex flex-wrap justify-start p-1 m-3'>
-            <div className='flex-[50%]'>
-                <label>No of Cashual leaves:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='cashual_laves' 
-                name='cashual_laves' 
-                type='number' 
-                placeholder='Enter cashual laves'
-                value={formData.cashual_laves}
-                onChange={handleChange}/>
-            </div>
-            <div className='flex-[50%]'>
-                <label>No of Medical leaves:</label><br/>
-                <input 
-                className='w-[90%] h-10 rounded-lg px-5' 
-                id='medical_leaves' 
-                name='medical_leaves' 
-                type='number' 
-                placeholder='Enter medical leaves'
-                value={formData.medical_leaves}
-                onChange={handleChange}/>
-            </div>
-            
-        </div>
-        <div className='p-1 m-3'>
-            <input 
-            className='w-[90%] h-10 rounded-lg px-5' 
-            id='is_probation' 
-            name='is_probation' 
-            type='text' 
-            placeholder='Enter is_probation'
-            value={formData.is_probation}
-            onChange={handleChange}
-            hidden={true}
-            />
-        </div>
-        <div className='flex flex-wrap content-center justify-center p-3 m-3 space-x-28'>
-            <button className='px-5 py-2 text-white bg-blue-600 rounded-lg w-[100px]' onClick={handleOnClick}>save</button>
-            <button className='px-5 py-2 rounded-lg bg-slate-100 w-[100px]' onClick={handleCancel}>cancel</button>
-        </div>
-      </form>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-between">
+            <button
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg w-1/3 hover:bg-blue-700 transition"
+              onClick={handleOnClick}
+            >
+              Save
+            </button>
+            <button
+              className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg w-1/3 hover:bg-gray-300 transition"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddEmployee
+export default AddEmployee;
