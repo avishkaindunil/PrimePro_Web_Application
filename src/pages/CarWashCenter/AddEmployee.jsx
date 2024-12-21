@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { publicAuthRequest } from "../../constants/requestMethods";
-import md5 from "md5";
 import Profilepic from '../../assets/profilepic.png';
 
 const AddEmployee = () => {
@@ -70,12 +69,12 @@ const AddEmployee = () => {
       user: {
         email: formData.email,
         name: formData.name,
-        password: md5("password123"), // Set default hashed password
+        password: "password123",
         city: formData.city,
         role: "EMPLOYEE",
         profilePictureUrl: Profilepic,
       },
-      branchName: "New York Branch",
+      branchName: "Auto Miraj - Colombo 07",
       dateOfBirth: formData.dateOfBirth,
       phoneNumber: formData.phone,
       designation: formData.designation,
