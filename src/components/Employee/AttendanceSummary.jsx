@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { saveAttendanceByEmployeeId } from './../../api/attendanceApiCalls';
+import Swal from "sweetalert2";
 
 const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
@@ -59,15 +60,27 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
             console.log(updatedAttendance);
 
             if (error) {
-                alert("Failed to save attendance.");
+                Swal.fire({
+                    icon: "info",
+                    text: "Failed to save attendance."
+                });
             } else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "Save attendance successfully!",
+                });
                 setAttendanceData((prev) => [...prev, updatedAttendance]);
                 setNewAttendance(null);
             }
 
         } catch (error) {
             console.error("Error saving attendance:", error);
-            alert("An error occurred while saving attendance.");
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "An error occurred while saving attendance.",
+            });
         }
     };
 
