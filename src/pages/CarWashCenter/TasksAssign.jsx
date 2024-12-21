@@ -63,13 +63,13 @@ const TasksAssign = () => {
 
   // Handle form submission
   const handleSave = async () => {
-    const { employeeId, startTime, endTime, description } = formData;
+    const { employeeId, startTime, endTime } = formData;
     const selectedBooking = bookings[isActiveTask];
     const payload = {
       employeeId,
       startTime: `${startTime}:00`,
       endTime: `${endTime}:00`,
-      description: `${selectedBooking.carName} - ${selectedBooking.service}`,
+      taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
       taskDate: new Date().toISOString().split('T')[0],
       bookingId: selectedBooking.bookingId,
@@ -218,21 +218,6 @@ const TasksAssign = () => {
                   className="w-full p-2 mt-1 border border-gray-300 rounded"
                   onChange={handleInputChange}
                   value={formData.endTime}
-                />
-              </div>
-
-              {/* Description */}
-              <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                  Task Description
-                </label>
-                <input
-                  type="text"
-                  id="description"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  placeholder="Enter task description..."
-                  onChange={handleInputChange}
-                  value={formData.description}
                 />
               </div>
 
