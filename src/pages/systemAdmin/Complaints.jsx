@@ -72,9 +72,10 @@
 
 
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { publicAuthRequest } from "../../constants/requestMethods";
 
 const ViewComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -90,7 +91,7 @@ const ViewComplaints = () => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const response = await fetch("http://localhost:8080/complaints/get-all"); // Updated API endpoint
+        const response = await publicAuthRequest.get(`/complaints/get-all`);
         if (!response.ok) {
           throw new Error("Failed to fetch complaints");
         }

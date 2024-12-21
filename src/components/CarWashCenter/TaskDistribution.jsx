@@ -11,7 +11,7 @@ function TaskDistribution() {
       {
         label: 'Completed Tasks',
         data: [12, 19, 3, 5, 2, 3, 7],
-        backgroundColor: 'rgba(20, 110, 227, 0.5)',
+        backgroundColor: "#2196F3",
         borderColor: 'rgba(20, 110, 227, 1)',
         borderWidth: 1,
         fill: true, // This enables the area under the line to be filled

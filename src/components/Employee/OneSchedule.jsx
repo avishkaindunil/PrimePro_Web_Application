@@ -6,7 +6,8 @@ const OneSchedule = ({ schedule }) => {
       {schedule.map((schedule) => (
         <div key={schedule.id} className="flex flex-col items-center text-lg bg-white px-2 py-4 rounded-lg my-2 font-normal">
           <h3 className="text-lg text-black">
-            {schedule.description} - {schedule.vehicle}
+            {/* {schedule.description} - {schedule.vehicle} */}
+            {schedule.description}
           </h3>
           <p style={{ color: "rgba(0, 0, 0, 0.49)" }}>
             {schedule.startTime} - {schedule.endTime}
