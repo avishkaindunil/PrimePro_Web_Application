@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { saveLeaveDetails } from "../../api/leavesApiCalls";
+import Swal from "sweetalert2";
 
 const LeaveForm = () => {
   const storedUserData = JSON.parse(localStorage.getItem("userData"));
+
   const [formData, setFormData] = useState({
     employeeName: "",
     leaveType: "",
@@ -10,15 +13,104 @@ const LeaveForm = () => {
     reason: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Clear errors for the field if the value becomes valid
+    if (name === "startDate" && value) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const startDate = new Date(value);
+
+      if (startDate >= today) {
+        setErrors((prevErrors) => ({ ...prevErrors, startDate: null }));
+      }
+    }
+
+    if (name === "endDate" && value) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const startDate = new Date(formData.startDate);
+      const endDate = new Date(value);
+
+      if (endDate >= today && endDate >= startDate) {
+        setErrors((prevErrors) => ({ ...prevErrors, endDate: null }));
+      }
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateDates = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to midnight for comparison
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
+    const newErrors = {};
+
+    if (!formData.startDate) {
+      newErrors.startDate = "Start date is required.";
+    } else if (startDate < today) {
+      newErrors.startDate = "Start date cannot be in the past.";
+    }
+
+    if (!formData.endDate) {
+      newErrors.endDate = "End date is required.";
+    } else if (endDate < today) {
+      newErrors.endDate = "End date cannot be in the past.";
+    } else if (endDate < startDate) {
+      newErrors.endDate = "End date cannot be before the start date.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateDates()) {
+      return;
+    }
+
     console.log("Leave Form Submitted:", formData);
-    alert("Leave application submitted successfully!");
+
+    const leaveDetails = {
+      userId: storedUserData.userId,
+      leaveType: formData.leaveType,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      reason: formData.reason
+    }
+
+    try {
+      const { data: updatedAttendance, loading, error } = await saveLeaveDetails(leaveDetails);
+
+      console.log(updatedAttendance);
+
+      if (error) {
+        Swal.fire({
+          icon: "info",
+          text: error
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Leave application submitted successfully!",
+        });
+      }
+      
+    }catch(e){
+      console.error("An error occurred while saving leave request:", e);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while saving leave request.",
+      });
+    }
+
     setFormData({
       employeeName: "",
       leaveType: "",
@@ -26,6 +118,7 @@ const LeaveForm = () => {
       endDate: "",
       reason: "",
     });
+    setErrors({});
   };
 
   return (
@@ -40,7 +133,6 @@ const LeaveForm = () => {
             type="text"
             name="employeeName"
             value={storedUserData.employeeNumber}
-            onChange={handleChange}
             placeholder="Enter your name"
             className="w-full px-4 py-2 border rounded"
             disabled
@@ -51,11 +143,10 @@ const LeaveForm = () => {
           <input
             type="text"
             name="employeeName"
-            value={formData.employeeName}
-            onChange={handleChange}
+            value={storedUserData.name}
             placeholder="Enter your name"
             className="w-full px-4 py-2 border rounded"
-            required
+            disabled
           />
         </div>
         <div className="mb-4">
@@ -83,9 +174,14 @@ const LeaveForm = () => {
             name="startDate"
             value={formData.startDate}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
+            className={`w-full px-4 py-2 border rounded ${
+              errors.startDate ? "border-red-500" : ""
+            }`}
             required
           />
+          {errors.startDate && (
+            <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block mb-2 font-medium">End Date</label>
@@ -94,9 +190,14 @@ const LeaveForm = () => {
             name="endDate"
             value={formData.endDate}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded"
+            className={`w-full px-4 py-2 border rounded ${
+              errors.endDate ? "border-red-500" : ""
+            }`}
             required
           />
+          {errors.endDate && (
+            <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block mb-2 font-medium">Reason</label>

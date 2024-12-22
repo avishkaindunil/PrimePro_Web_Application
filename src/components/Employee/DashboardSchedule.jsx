@@ -49,7 +49,7 @@ const DashboardSchedule = ({ tasks }) => {
     id: task.id,
     name: `Customer ${task.customerId}`,
     description: task.taskDescription,
-    vehicle: task.taskDescription.split(" - ")[0], 
+    // vehicle: task.taskDescription.split(" - ")[0], 
     startTime: formatTime(task.startTime),
     endTime: formatTime(task.endTime),
     location: "Colombo",

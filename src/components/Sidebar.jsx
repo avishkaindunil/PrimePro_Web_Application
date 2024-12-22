@@ -21,6 +21,7 @@ import {
   employeeSidebarTabNames,
   userTypes,
   carwashcenterSidebarTabNames,
+  systemAdminSidebarTabNames,
 } from "./Constants";
 
 function getIcon(iconName) {
@@ -88,6 +89,24 @@ const SideBar = ({ userType }) => {
             ))}
           </ul>
         );
+
+        case userTypes.SYSTEM_ADMIN:
+        return (
+          <ul className="space-y-4">
+            {systemAdminSidebarTabNames.map((item, index) => (
+              <Link key={index} to={`/${item.url.toLocaleLowerCase()}`}>
+                <li className="flex items-center p-2 m-4 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200">
+                  <FontAwesomeIcon
+                    icon={getIcon(item.icon)}
+                    className="mr-4 text-lg"
+                  />
+                  <span>{item.name}</span>
+                </li>
+              </Link>
+            ))}
+          </ul>
+        );
+
       default:
         return null;
     }
