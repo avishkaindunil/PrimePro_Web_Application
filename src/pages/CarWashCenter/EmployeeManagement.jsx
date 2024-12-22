@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import React from 'react'
 import EmpCategory from '../../components/CarWashCenter/EmpCategory';
 import EmployeeRow from '../../components/CarWashCenter/EmployeeRow';
 import EmpAmount from '../../components/CarWashCenter/EmpAmount';
+import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const EmployeeManagement = () => {
 
@@ -14,23 +16,24 @@ const EmployeeManagement = () => {
   ];
 
   //example employees
-  const allEmployees = [
-    { id: 1, name: "John Doe", division: "Service Area" },
-    { id: 2, name: "Jane Smith", division: "Casher Area" },
-    { id: 3, name: "Jim Brown", division: "Stock Area" },
-    { id: 4, name: "Jake White", division: "Service Area" },
-    { id: 5, name: "Jill Black", division: "Stock Area" },
-    { id: 6, name: "John Doe", division: "Service Area" },
-    { id: 7, name: "Jane Smith", division: "Casher Area" },
-    { id: 8, name: "Jim Brown", division: "Stock Area" },
-    { id: 9, name: "Jake White", division: "Service Area" },
-    { id: 10, name: "Jill Black", division: "Stock Area" },
-    { id: 11, name: "John Doe", division: "Service Area" },
-    { id: 12, name: "Jane Smith", division: "Casher Area" },
-    { id: 13, name: "Jim Brown", division: "Stock Area" },
-    { id: 14, name: "Jake White", division: "Service Area" },
-    { id: 15, name: "Jill Black", division: "Stock Area" }
-  ];
+  // const allEmployees = [
+  //   { id: 1, name: "John Doe", division: "Service Area" },
+  //   { id: 2, name: "Jane Smith", division: "Casher Area" },
+  //   { id: 3, name: "Jim Brown", division: "Stock Area" },
+  //   { id: 4, name: "Jake White", division: "Service Area" },
+  //   { id: 5, name: "Jill Black", division: "Stock Area" },
+  //   { id: 6, name: "John Doe", division: "Service Area" },
+  //   { id: 7, name: "Jane Smith", division: "Casher Area" },
+  //   { id: 8, name: "Jim Brown", division: "Stock Area" },
+  //   { id: 9, name: "Jake White", division: "Service Area" },
+  //   { id: 10, name: "Jill Black", division: "Stock Area" },
+  //   { id: 11, name: "John Doe", division: "Service Area" },
+  //   { id: 12, name: "Jane Smith", division: "Casher Area" },
+  //   { id: 13, name: "Jim Brown", division: "Stock Area" },
+  //   { id: 14, name: "Jake White", division: "Service Area" },
+  //   { id: 15, name: "Jill Black", division: "Stock Area" }
+  // ];
+  const [allEmployees, setAllEmplyees] = useState([]);
   const [employees, setEmployees] = useState(allEmployees);
   const [activeDivision, setActiveDivision] = useState(null);
   const [divisionAmount,SetDivisionAmount] = useState(0);
@@ -38,7 +41,24 @@ const EmployeeManagement = () => {
   const itemsPerPage = 3;
 
 
-  const paginatedEmployees = employees.slice(
+  const fetchEmployeeDetails = async () => {
+    try {
+      const response = await publicAuthRequest.get(`/centerAdmin/get-All-employees`);
+      console.log(response);
+      if (response.data) {
+        setAllEmplyees(response.data);
+      }
+    } catch (error) {
+      console.log("Error fetching data: ", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchEmployeeDetails();
+  }, []);
+
+
+  const paginatedEmployees = allEmployees.slice(
     (currentPage -1)*itemsPerPage,
     currentPage*itemsPerPage
   );
@@ -60,7 +80,7 @@ const EmployeeManagement = () => {
     setEmployees(allEmployees.filter(employee=>employee.name.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())));
   }
 
-  const totalPages = Math.ceil(employees.length/itemsPerPage);
+  const totalPages = Math.ceil(allEmployees.length/itemsPerPage);
   
   return (
     <>
@@ -83,7 +103,7 @@ const EmployeeManagement = () => {
               <EmployeeRow key ={emp.id} employee={emp}/>
             ))):null}
 
-            {employees.length > 0 ? (
+            {allEmployees.length > 0 ? (
                       <div className="ml-[450px] text-end">
                         <button 
                           disabled={currentPage === 1} 

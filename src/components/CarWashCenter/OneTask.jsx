@@ -15,8 +15,9 @@ const OneTask = ({booking}) => {
   return (
     <div>
       <div className="p-2 bg-white rounded-lg shadow-md">
-                <h1 className="text-base">{booking.title}</h1>
-                <p className="text-[#5F6165]">{Scheduletime(booking.start, booking.end)}</p>
+                <h1 className="text-base">{booking.carName} - {booking.service}</h1>
+                <p className="text-[#5F6165]">Customer ID - {booking.userID}</p>
+
                 {/* <p>{today}</p> */}
             </div>
     </div>
