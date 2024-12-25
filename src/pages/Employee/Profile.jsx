@@ -70,7 +70,11 @@ const Profile = () => {
       Swal.fire({
         icon: "success",
         title: "Employee Update Success."
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        window.location.reload();
       });
+      
     } catch (error) {
       console.error("Error fetching task count:", error);
       setLoading(false);
