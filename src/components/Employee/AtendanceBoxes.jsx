@@ -1,33 +1,11 @@
-import { useEffect, useState } from 'react';
-import { getTotalWorkHoursAndOverTimeByEmployeeIdAndMonth } from './../../api/attendanceApiCalls';
-
-const AtendanceBoxes = () => {
+const AtendanceBoxes = ({attendance}) => {
 
   const storedUserData = JSON.parse(localStorage.getItem("userData"));
-
-  const [attendance, setAttendance] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const boxClass =
     "flex flex-col py-8 px-16 rounded-md bg-[#061651] text-white items-center justify-center w-64";
 
-  const takenLeaves = (21 + 7) - (storedUserData.noOfAnnualLeaves + storedUserData.noOfCasualLeaves);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const { data: attendanceData } = await getTotalWorkHoursAndOverTimeByEmployeeIdAndMonth(storedUserData.employeeId);
-        setAttendance(attendanceData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching task count:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchTasks();
-  }, [storedUserData.employeeId]);
+  const takenLeaves = (12 + 8 + 6) - (storedUserData.noOfAnnualLeaves + storedUserData.noOfCasualLeaves + storedUserData.noOfMedicalLeaves);
 
   return (
     <div className="flex flex-col justify-center items-center gap-4">
