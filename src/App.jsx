@@ -10,38 +10,41 @@ import Login from "./pages/Auth/Login";
 import RegisterNavigation from "./pages/Auth/RegisterNavigation";
 import { userTypes } from "./components/Constants";
 import SystemAdminRoutes from "./routes/SystemAdminRoutes";
+import { UserProvider } from "./UserProvider";
 
 function App() {
   const storedUserData = localStorage.getItem("userData");
 
   const userType = storedUserData ? JSON.parse(storedUserData).role : null;
   return (
-    <BrowserRouter>
-      <Routes>
-        {!userType ? (
-          <>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<RegisterNavigation />} />
-          </>
-        ) : (
-          <Route path="/*" element={<MainLayout userType={userType} />}>
-            {userType === userTypes.CAR_WASH_CENTER_ADMIN && (
-              <Route
-                path="CarWashCenterAdmin/*"
-                element={<CarWashCenterAdminRoutes />}
-              />
-            )}
-            {userType === userTypes.EMPLOYEE && (
-              <Route path="employee/*" element={<EmployeeRoutes />} />
-            )}
-             {userType === userTypes.SYSTEM_ADMIN && (
-              <Route path="systemAdmin/*" element={< SystemAdminRoutes/>} />
-            )}
-             <Route path="*" element={<div>404 Not Found</div>}/>
-          </Route>
-        )}
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          {!userType ? (
+            <>
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<RegisterNavigation />} />
+            </>
+          ) : (
+            <Route path="/*" element={<MainLayout userType={userType} />}>
+              {userType === userTypes.CAR_WASH_CENTER_ADMIN && (
+                <Route
+                  path="CarWashCenterAdmin/*"
+                  element={<CarWashCenterAdminRoutes />}
+                />
+              )}
+              {userType === userTypes.EMPLOYEE && (
+                <Route path="employee/*" element={<EmployeeRoutes />} />
+              )}
+              {userType === userTypes.SYSTEM_ADMIN && (
+                <Route path="systemAdmin/*" element={<SystemAdminRoutes />} />
+              )}
+              <Route path="*" element={<div>404 Not Found</div>} />
+            </Route>
+          )}
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
