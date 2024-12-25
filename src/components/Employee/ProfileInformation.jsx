@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 // Function to calculate the age from the date of birth
@@ -22,18 +21,11 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
     }
   });
 
-  const [fullName, setFullName] = useState(storedUserData.name);
-  const [dob, setDob] = useState(storedUserData.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : "");
-  const [phoneNumber, setPhoneNumber] = useState(storedUserData.phoneNumber);
-
-  const handleSubmitData = (e) => {
-    const formElements = e.target.elements;
-    e.preventDefault();
-
+  const handleSubmitData = (data) => {
     const finalUserObject = {
-      name: formElements.fullName.value,
-      dateOfBirth: formElements.dob.value,
-      phoneNumber: formElements.phoneNumber.value
+      name: data.fullName,
+      dateOfBirth: data.dob,
+      phoneNumber: data.phoneNumber,
     };
 
     onUpdate(finalUserObject);
@@ -51,9 +43,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="text"
               id="fullName"
-              name="fullName"
-              default={fullName}
-              onChange={(e) => setFullName(e.target.value)}
               {...register("fullName", { required: "Full Name is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -70,7 +59,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
               id="employeeID"
               value={storedUserData.employeeNumber}
               disabled
-              {...register("employeeID")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -83,9 +71,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="date"
               id="dob"
-              name="dob"
-              default={dob}
-              onChange={(e) => setDob(e.target.value)}
               {...register("dob", { 
                 required: "Date of Birth is required",
                 validate: {
@@ -108,10 +93,8 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="text"
               id="branch"
-              name="branch"
               value={storedUserData.branchName}
               disabled
-              {...register("branch")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -124,9 +107,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="tel"
               id="phoneNumber"
-              name="phoneNumber"
-              default={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
               {...register("phoneNumber", { 
                 required: "Phone Number is required",
                 pattern: {
@@ -149,7 +129,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
               id="designation"
               value={storedUserData.designation}
               disabled
-              {...register("designation")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
