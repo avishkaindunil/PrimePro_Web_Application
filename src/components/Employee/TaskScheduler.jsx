@@ -7,27 +7,41 @@ const TaskScheduler = ({ tasksData }) => {
   const [loading, setLoading] = useState(true);
   const isInitialRender = useRef(true); // Tracks the first render
 
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const todayDate = getTodayDate();
+
   // Initialize tasks on the first render
   useEffect(() => {
-    if (isInitialRender.current) {
-      const formattedTasks = tasksData.map((task) => ({
-        id: task.id,
-        name: `Customer ${task.customerId}`,
-        description: task.taskDescription.split(" - ")[0],
-        vehicle: task.taskDescription.split(" - ")[1] || "Unknown Vehicle",
-        startTime: new Date(
-          `${task.taskDate.split("T")[0]}T${task.startTime}`
-        ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        endTime: new Date(
-          `${task.taskDate.split("T")[0]}T${task.endTime}`
-        ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        location: "Branch Location",
-        status: task.taskStatus,
-      }));
-      setTasks(formattedTasks);
-      isInitialRender.current = false;
-    }
-  }, []);
+    console.log("Task data change");
+    console.log(tasksData);
+    setLoading(true);
+    const formattedTasks = tasksData.map((task) => ({
+      id: task.id,
+      name: `Customer ${task.customerId}`,
+      description: task.taskDescription.split(" - ")[0],
+      vehicle: task.taskDescription.split(" - ")[1] || "Unknown Vehicle",
+      startTime: new Date(
+        `${task.taskDate.split("T")[0]}T${task.startTime}`
+      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      endTime: new Date(
+        `${task.taskDate.split("T")[0]}T${task.endTime}`
+      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      location: "Branch Location",
+      status: task.taskStatus,
+      taskDate: task.taskDate.split("T")[0], // Extract date in YYYY-MM-DD format
+    }));
+    setTasks(formattedTasks);
+    isInitialRender.current = false;
+    setLoading(false);
+  }, [tasksData]);
 
   const handleChangeStatus = (id, currentStatus) => {
     if (currentStatus === "COMPLETED") {
@@ -37,7 +51,8 @@ const TaskScheduler = ({ tasksData }) => {
         text: `This task is already ${currentStatus.toLowerCase()} and cannot be changed.`,
       });
     } else {
-      const newStatusOptions = currentStatus === "ACCEPTED"
+      const newStatusOptions =
+        currentStatus === "ACCEPTED"
           ? { PENDING: "Pending" }
           : currentStatus === "PENDING"
           ? { COMPLETED: "Completed" }
@@ -100,7 +115,7 @@ const TaskScheduler = ({ tasksData }) => {
     }
   };
 
-  return (
+  return !loading ? (
     <div className="container mx-auto">
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
@@ -134,7 +149,9 @@ const TaskScheduler = ({ tasksData }) => {
               <td className="py-2 px-4 border-b">
                 <button
                   className={`py-1 px-3 rounded ${
-                    data.status === "PENDING"
+                    data.taskDate !== todayDate
+                      ? "bg-gray-300 text-gray-700 cursor-not-allowed opacity-60"
+                      : data.status === "PENDING"
                       ? "bg-yellow-500 text-white"
                       : data.status === "ACCEPTED"
                       ? "bg-blue-500 text-white"
@@ -143,6 +160,12 @@ const TaskScheduler = ({ tasksData }) => {
                       : "bg-red-500 text-white"
                   }`}
                   onClick={() => handleChangeStatus(data.id, data.status)}
+                  disabled={data.taskDate !== todayDate}
+                  title={
+                    data.taskDate !== todayDate
+                      ? "You can only change today's tasks"
+                      : "Change Task Status"
+                  }
                 >
                   Change Status
                 </button>
@@ -152,6 +175,8 @@ const TaskScheduler = ({ tasksData }) => {
         </tbody>
       </table>
     </div>
+  ) : (
+    <p>Loading...</p>
   );
 };
 

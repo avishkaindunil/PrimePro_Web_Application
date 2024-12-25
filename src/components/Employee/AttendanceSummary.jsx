@@ -2,11 +2,12 @@ import { useState } from "react";
 import { saveAttendanceByEmployeeId } from './../../api/attendanceApiCalls';
 import Swal from "sweetalert2";
 
-const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
+const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpdate }) => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
 
     const [attendanceData, setAttendanceData] = useState(attendance);
     const [newAttendance, setNewAttendance] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const getCurrentDate = () => {
         const today = new Date();
@@ -43,8 +44,6 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
         }
 
         try {
-            // Call the endpoint to calculate overtime and save the data
-
             const attendanceDetailData = {
                 employeeId: storedUserData.employeeId,
                 attendanceDate: newAttendance.attendanceDate,
@@ -54,6 +53,7 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
             }
 
             console.log(attendanceDetailData);
+            setLoading(true);
 
             const { data: updatedAttendance, loading, error } = await saveAttendanceByEmployeeId(attendanceDetailData);
 
@@ -69,10 +69,16 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
                     icon: "success",
                     title: "Success",
                     text: "Save attendance successfully!",
+                }).then((result) => {
+                    setAttendanceData((prev) => {
+                        const newAttendanceData = [updatedAttendance, ...prev];
+                        console.log("Updated attendance data:", newAttendanceData);
+                        return newAttendanceData;
+                    });
+                    setNewAttendance(null);
                 });
-                setAttendanceData((prev) => [...prev, updatedAttendance]);
-                setNewAttendance(null);
             }
+            setLoading(false);
 
         } catch (error) {
             console.error("Error saving attendance:", error);
@@ -82,10 +88,10 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
                 text: "An error occurred while saving attendance.",
             });
         }
+        await onUpdate();
     };
 
-    return (
-        <div className="container mx-auto">
+    return !loading ? (<div className="container mx-auto">
             <button
                 className="mb-4 bg-blue-500 text-white py-2 px-4 rounded"
                 onClick={addNewRow}
@@ -153,6 +159,8 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId }) => {
                 </tbody>
             </table>
         </div>
+    ) : (
+        <p>Loading...</p>
     );
 };
 

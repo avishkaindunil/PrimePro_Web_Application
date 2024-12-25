@@ -1,5 +1,16 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+
+// Function to calculate the age from the date of birth
+const calculateAge = (dob) => {
+  const birthDate = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const month = today.getMonth();
+  if (month < birthDate.getMonth() || (month === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
 
 const ProfileInformation = ({ storedUserData, onUpdate }) => {
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -7,37 +18,23 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
       fullName: storedUserData?.name || "",
       dob: storedUserData?.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : "",
       phoneNumber: storedUserData?.phoneNumber || "",
-    }},
-  );
+    }
+  });
 
-  // const storedUserData = JSON.parse(localStorage.getItem("userData"));
-
-  const [fullName, setFullName] = useState(storedUserData.name);
-  // const [branch, setBranch] = useState(storedUserData.branchName);
-  const [dob, setDob] = useState(storedUserData.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : "");
-  const [phoneNumber, setPhoneNumber] = useState(storedUserData.phoneNumber);
-
-  const handleSubmitData = (e) => {
-
-    const formElements = e.target.elements;
-    console.log(e.target);
-    console.log(formElements);
-
-    e.preventDefault();
+  const handleSubmitData = (data) => {
     const finalUserObject = {
-      name: formElements.fullName.value,
-      dateOfBirth: formElements.dob.value,
-      phoneNumber: formElements.phoneNumber.value
+      name: data.fullName,
+      dateOfBirth: data.dob,
+      phoneNumber: data.phoneNumber,
     };
 
-    console.log(finalUserObject);
     onUpdate(finalUserObject);
   };
 
   return (
     <div>
       <div className="w-2/3 p-4">
-        <form onSubmit={handleSubmitData}>
+        <form onSubmit={handleSubmit(handleSubmitData)}>
           {/* Full Name */}
           <div className="mb-4">
             <label htmlFor="fullName" className="block text-gray-700 text-sm font-bold mb-2">
@@ -46,9 +43,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="text"
               id="fullName"
-              name="fullName"
-              default={fullName}
-              onChange={(e) => setFullName(e.target.value)}
               {...register("fullName", { required: "Full Name is required" })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -65,7 +59,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
               id="employeeID"
               value={storedUserData.employeeNumber}
               disabled
-              {...register("employeeID")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -78,10 +71,15 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="date"
               id="dob"
-              name="dob"
-              default={dob}
-              onChange={(e) => setDob(e.target.value)}
-              {...register("dob", { required: "Date of Birth is required" })}
+              {...register("dob", { 
+                required: "Date of Birth is required",
+                validate: {
+                  minAge: (value) => {
+                    const age = calculateAge(value);
+                    return age >= 18 || "You must be at least 18 years old";
+                  }
+                }
+              })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
             {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob.message}</p>}
@@ -95,10 +93,8 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="text"
               id="branch"
-              name="branch"
               value={storedUserData.branchName}
               disabled
-              {...register("branch")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -111,9 +107,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
             <input
               type="tel"
               id="phoneNumber"
-              name="phoneNumber"
-              default={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
               {...register("phoneNumber", { 
                 required: "Phone Number is required",
                 pattern: {
@@ -136,7 +129,6 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
               id="designation"
               value={storedUserData.designation}
               disabled
-              {...register("designation")}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>

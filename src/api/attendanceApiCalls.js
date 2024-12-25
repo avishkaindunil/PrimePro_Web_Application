@@ -27,6 +27,7 @@ export const saveAttendanceByEmployeeId = async (attendanceDetails) => {
   console.log(attendanceDetails);
   try {
     if (!attendanceDetails) {
+      error = true;
       console.log("Attedance Data is missing");
       return { data, loading, error };
     }
@@ -36,6 +37,7 @@ export const saveAttendanceByEmployeeId = async (attendanceDetails) => {
     );
     loading = false;
     data = res.data;
+    error = false;
     return { data, loading, error };
   } catch (err) {
     console.error(err);
