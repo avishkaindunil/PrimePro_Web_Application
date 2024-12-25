@@ -10,6 +10,7 @@ const PayrollSection = ({ attendance }) => {
 
   const today = new Date();
   const formattedDate = today.toISOString().split("T")[0];
+  const currentMonth = new Date().toLocaleString('en-US', { month: 'short' });
 
   const payrollContent = [
     {
@@ -26,7 +27,7 @@ const PayrollSection = ({ attendance }) => {
     },
     {
       icon: "faUsers",
-      title: "24th Dec 2024",
+      title: "24th "+currentMonth+" 2024",
       description: "Pay Day",
       url: "/employee/payroll",
     },
