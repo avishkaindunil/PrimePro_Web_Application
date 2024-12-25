@@ -24,7 +24,7 @@ Chart.register(
 const PayrollCurrentPaymentChart = ({monthlySalary,overtimeSalary}) => {
   // Data for the chart
   const data = {
-    labels: ["Salary", "Overtime"],
+    labels: ["Salary (LKR)", "Overtime (LKR)"],
     datasets: [
       {
         data: [monthlySalary, overtimeSalary],

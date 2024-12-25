@@ -35,7 +35,7 @@ const PayrollSection = ({ attendance }) => {
   return (
     <div>
       <PayrollBoxes content={payrollContent} />
-      <PayrollChartSection monthlySalary={storedUserData.baseSalary} overtimeSalary={monthlyRate} />
+      <PayrollChartSection monthlySalary={storedUserData.baseSalary} overtimeSalary={monthlyRate * attendance.totalOvertimeHours} />
     </div>
   );
 };
