@@ -1,43 +1,48 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+// Function to calculate the age from the date of birth
+const calculateAge = (dob) => {
+  const birthDate = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const month = today.getMonth();
+  if (month < birthDate.getMonth() || (month === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
+
 const ProfileInformation = ({ storedUserData, onUpdate }) => {
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       fullName: storedUserData?.name || "",
       dob: storedUserData?.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : "",
       phoneNumber: storedUserData?.phoneNumber || "",
-    }},
-  );
-
-  // const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    }
+  });
 
   const [fullName, setFullName] = useState(storedUserData.name);
-  // const [branch, setBranch] = useState(storedUserData.branchName);
   const [dob, setDob] = useState(storedUserData.dateOfBirth ? storedUserData.dateOfBirth.split("T")[0] : "");
   const [phoneNumber, setPhoneNumber] = useState(storedUserData.phoneNumber);
 
   const handleSubmitData = (e) => {
-
     const formElements = e.target.elements;
-    console.log(e.target);
-    console.log(formElements);
-
     e.preventDefault();
+
     const finalUserObject = {
       name: formElements.fullName.value,
       dateOfBirth: formElements.dob.value,
       phoneNumber: formElements.phoneNumber.value
     };
 
-    console.log(finalUserObject);
     onUpdate(finalUserObject);
   };
 
   return (
     <div>
       <div className="w-2/3 p-4">
-        <form onSubmit={handleSubmitData}>
+        <form onSubmit={handleSubmit(handleSubmitData)}>
           {/* Full Name */}
           <div className="mb-4">
             <label htmlFor="fullName" className="block text-gray-700 text-sm font-bold mb-2">
@@ -81,7 +86,15 @@ const ProfileInformation = ({ storedUserData, onUpdate }) => {
               name="dob"
               default={dob}
               onChange={(e) => setDob(e.target.value)}
-              {...register("dob", { required: "Date of Birth is required" })}
+              {...register("dob", { 
+                required: "Date of Birth is required",
+                validate: {
+                  minAge: (value) => {
+                    const age = calculateAge(value);
+                    return age >= 18 || "You must be at least 18 years old";
+                  }
+                }
+              })}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
             {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob.message}</p>}
