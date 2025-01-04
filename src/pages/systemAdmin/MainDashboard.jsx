@@ -65,8 +65,8 @@ export default function MainDashboard() {
 
     // Fetch active user count
     axios
-      .get("/api/users/activated-count")
-      .then((response) => setActiveUserCount(response.data.count))
+      .get("http://localhost:8080/admin/active-count")
+      .then((response) => setActiveUserCount(response.data))
       .catch((error) => console.error("Error fetching active user count:", error));
   }, []);
 
@@ -87,16 +87,16 @@ export default function MainDashboard() {
         />
         <Card
           title="Active Users"
-          value="100"	
+          value={activeUserCount}
           icon={<i className="fas fa-users"></i>}
         />
-       <div onClick={goToReportsPage} className="cursor-pointer">
+       {/* <div onClick={goToReportsPage} className="cursor-pointer">
           <Card
             title="Data Reports"
             value="5"
             icon={<i className="fas fa-chart-bar"></i>}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Detailed Sections */}
@@ -104,8 +104,8 @@ export default function MainDashboard() {
         {/* Complaint Handling Section */}
         <ComplaintHandling />
 
-        {/* Data Analytics Section */}
-        <DataAnalytics />
+        {/* Data Analytics Section
+        <DataAnalytics /> */}
       </div>
 
       <div className="w-full mt-10">
