@@ -90,7 +90,7 @@ export default function MainDashboard() {
           value={activeUserCount}
           icon={<i className="fas fa-users"></i>}
         />
-       <div onClick={goToReportsPage} className="cursor-pointer">
+        <div onClick={goToReportsPage} className="cursor-pointer">
           <Card
             title="Data Reports"
             value="9"

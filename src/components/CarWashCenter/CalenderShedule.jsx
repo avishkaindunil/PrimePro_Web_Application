@@ -6,95 +6,108 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const CalenderShedule = () => {
+const CalenderSchedule = () => {
   const [events, setEvents] = useState([]);
+  const [selectedDayEvents, setSelectedDayEvents] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const centerName = localStorage.getItem("CENTER");
-  console.log(centerName);
 
   const fetchBookingDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/centerAdmin/get-all-bookings`);
-      console.log(response);
       if (response.data) {
-        // setBookings(response.data);
-        const filteredBookings = response.data.filter(booking => booking.centerName === centerName);
+        const filteredBookings = response.data.filter((booking) => booking.centerName === centerName);
         setEvents(mapBookingsToEvents(filteredBookings));
       }
     } catch (error) {
-      console.log("Error fetching data: ", error)
+      console.error("Error fetching data: ", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchBookingDetails();
   }, []);
 
-  // Function to map booking data to event format
   const mapBookingsToEvents = (bookings) => {
     return bookings.map((booking) => {
-      // Parse the date and time values
       const startDateTime = new Date(booking.date);
       const [startHours, startMinutes] = booking.startTime.split(":");
-      startDateTime.setHours(startHours, startMinutes);  // Set the start time
+      startDateTime.setHours(startHours, startMinutes);
 
       const endDateTime = new Date(booking.date);
       const [endHours, endMinutes] = booking.endTime.split(":");
-      endDateTime.setHours(endHours, endMinutes);  // Set the end time
+      endDateTime.setHours(endHours, endMinutes);
 
       return {
         title: `${booking.service} - ${booking.carName}`,
         start: startDateTime,
         end: endDateTime,
-        resource: `Event ${booking.bookingId}`,
       };
     });
   };
 
-  // const [events, setEvents] = useState([
-  //   {
-  //     title: 'Car Wash - Toyota Prius',
-  //     start: new Date(2024, 11, 2, 8, 0), // July is month 6 (0-based index)
-  //     end: new Date(2024, 11, 2, 12, 0),
-  //     resource: 'Event 1'
-  //   },
-  //   {
-  //     title: 'Vehicle Waxing - Land Cruiser',
-  //     start: new Date(2024,11, 2, 8, 0),
-  //     end: new Date(2024, 11, 2, 12, 0),
-  //     resource: 'Event 2'
-  //   },
-  //   {
-  //     title: 'Full Service -  Honda',
-  //     start: new Date(2024, 7, 1, 10, 0),
-  //     end: new Date(2024, 7, 1, 11, 0),
-  //     resource: 'Event 3'
-  //   },
-  //   {
-  //     title: 'Car Wash - Toyota Prius',
-  //     start: new Date(2024, 7, 1, 15, 0),
-  //     end: new Date(2024, 7, 1, 16, 0),
-  //     resource: 'Event 4'
-  //   }
-  // ]);
+  const handleDayClick = (date) => {
+    const dayEvents = events.filter((event) => moment(event.start).isSame(date, 'day'));
+    setSelectedDayEvents(dayEvents);
+  };
+
+  const handleNavigate = (action) => {
+    const newDate = new Date(currentDate);
+    if (action === 'NEXT') {
+      newDate.setMonth(newDate.getMonth() + 1);
+    } else if (action === 'PREV') {
+      newDate.setMonth(newDate.getMonth() - 1);
+    }
+    setCurrentDate(newDate);
+  };
 
   return (
     <div className="w-full max-w-4xl p-4 bg-white rounded-lg shadow-lg">
+      <div className="flex justify-between items-center mt-4">
+        <button
+          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          onClick={() => handleNavigate('PREV')}
+        >
+          Previous
+        </button>
+        <h3 className="font-semibold">{moment(currentDate).format('MMMM YYYY')}</h3>
+        <button
+          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+          onClick={() => handleNavigate('NEXT')}
+        >
+          Next
+        </button>
+      </div>
+      <br />
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
-        defaultView="day"
-        views={['day', 'week', 'month']}
-        step={60}
-        showMultiDayTimes
-        eventPropGetter={(event) => ({
-          className: "bg-blue-500 text-white rounded-lg p-2 shadow-md",
-        })}
-        />
+        defaultDate={currentDate}
+        defaultView="month"
+        views={['month']}
+        toolbar={false}
+        onNavigate={(date) => setCurrentDate(date)}
+        onSelectSlot={({ start }) => handleDayClick(start)}
+        selectable
+      />
+
+      {selectedDayEvents.length > 0 && (
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold mb-2">Events for Selected Day:</h3>
+          <ul className="list-disc list-inside">
+            {selectedDayEvents.map((event, index) => (
+              <li key={index}>
+                {event.title} ({moment(event.start).format('hh:mm A')} - {moment(event.end).format('hh:mm A')})
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
 
-export default CalenderShedule;
+export default CalenderSchedule;

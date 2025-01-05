@@ -159,11 +159,13 @@ const TasksAssign = () => {
       <h1 className="text-2xl font-bold">Task Assign</h1>
       <div className="flex flex-cols">
         <div className="w-3/5 h-full m-5 space-y-4">
-          {bookings.map((booking, index) => (
+          {bookings.length > 0 ? (bookings.map((booking, index) => (
             <div className="cursor-pointer" onClick={() => handleOnclick(index)}>
               <OneTask booking={booking} />
             </div>
-          ))}
+          ))) : (
+            <div>There is no more bookings today to assign tasks.</div>
+          )}
         </div>
         {isTaskAssignVisible && (
           <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
