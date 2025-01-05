@@ -4,6 +4,7 @@ import EmpCategory from '../../components/CarWashCenter/EmpCategory';
 import EmployeeRow from '../../components/CarWashCenter/EmployeeRow';
 import EmpAmount from '../../components/CarWashCenter/EmpAmount';
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const EmployeeManagement = () => {
 
@@ -42,7 +43,7 @@ const EmployeeManagement = () => {
 
   const fetchEmployeeDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/centerAdmin/get-All-employees`);
+      const response = await publicAuthRequest.get(`/centerAdmin/get-All-employees`);
       console.log(response);
       if (response.data) {
         setAllEmplyees(response.data);

@@ -4,6 +4,7 @@ export const employeeSidebarTabNames = [
     { name: "Task Schedule", icon: "faCalendarCheck", url: "employee/calendar" },
     { name: "Attendance", icon: "faCheckSquare", url: "employee/attendance" },
     { name: "Payroll", icon: "faMoneyCheckAlt", url: "employee/payroll" },
+    { name: "Apply Leave", icon: "faCalendarCheck", url: "employee/leave" },
     { name: "Custom Support", icon: "faHeadset", url: "employee/customSupport" }
 ];
 
@@ -20,7 +21,9 @@ export const carwashcenterSidebarTabNames =[
     {name:"Employees", icon:"faUsers", url:"CarWashCenterAdmin/employees"},
     {name:"Task Assign", icon:"faTasks", url:"CarWashCenterAdmin/taskAssign"},
     {name:"Workload Progress", icon:"faChartBar", url:"CarWashCenterAdmin/workloadProgress"},
-    {name:"Reports", icon:"faHeadset", url:"CarWashCenterAdmin/reports"}
+    {name:"Custom Support", icon:"faHeadset", url:"CarWashCenterAdmin/customSupport"},
+    {name:"Reports", icon:"faHeadset", url:"CarWashCenterAdmin/reports"},
+    // {name:"Leave Request", icon:"faHeadset", url:"CarWashCenterAdmin/leaverequest"}
 ];
 
 

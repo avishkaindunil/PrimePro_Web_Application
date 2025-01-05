@@ -72,26 +72,38 @@
 
 
 
-
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { publicAuthRequest } from "../../constants/requestMethods";
 
 const ViewComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Function to generate random Sri Lankan phone numbers
+  const generatePhoneNumber = () => {
+    const randomDigits = () => Math.floor(Math.random() * 10);
+    return `+9471${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}`;
+  };
+
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const response = await fetch("http://localhost:8080/complaints/get-all"); // Updated API endpoint
+        const response = await publicAuthRequest.get(`/complaints/get-all`);
         if (!response.ok) {
           throw new Error("Failed to fetch complaints");
         }
         const data = await response.json();
-        setComplaints(data);
+
+        // Add contact numbers to each complaint
+        const complaintsWithContact = data.map((complaint) => ({
+          ...complaint,
+          contactNumber: generatePhoneNumber(),
+        }));
+
+        setComplaints(complaintsWithContact);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -146,6 +158,9 @@ const ViewComplaints = () => {
               <li key={complaint.complaintId} className="py-4">
                 <h2 className="text-lg font-semibold">Inquiry #{complaint.complaintId}</h2>
                 <p className="text-sm text-gray-700 mb-2">{complaint.complaint}</p>
+                <p className="text-sm text-gray-600 mb-2">
+                  <strong>Contact Number:</strong> {complaint.contactNumber}
+                </p>
                 <span className="text-xs text-gray-500">
                   Submitted by User ID: {complaint.userID}
                 </span>
@@ -167,5 +182,6 @@ const ViewComplaints = () => {
 };
 
 export default ViewComplaints;
+
 
 

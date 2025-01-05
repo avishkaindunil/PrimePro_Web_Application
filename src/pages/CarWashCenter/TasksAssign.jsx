@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SheduleDetails from '../../components/CarWashCenter/SheduleDetails'
 import OneTask from '../../components/CarWashCenter/OneTask';
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const TasksAssign = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const TasksAssign = () => {
 
   const fetchBookingDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/centerAdmin/get-today-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
       console.log(response.data);
       if (response.data) {
         const filteredBookings = response.data.filter(booking => booking.taskAssigned === false);
@@ -38,7 +39,7 @@ const TasksAssign = () => {
 
   const fetchEmployeeList = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/centerAdmin/get-All-employees');
+      const response = await publicAuthRequest.get(`/centerAdmin/get-All-employees`);
       if (response.data) {
         setEmployeeList(response.data);
       }
@@ -62,20 +63,20 @@ const TasksAssign = () => {
 
   // Handle form submission
   const handleSave = async () => {
-    const { employeeId, startTime, endTime, description } = formData;
+    const { employeeId, startTime, endTime } = formData;
     const selectedBooking = bookings[isActiveTask];
     const payload = {
       employeeId,
       startTime: `${startTime}:00`,
       endTime: `${endTime}:00`,
-      description,
+      taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
       taskDate: new Date().toISOString().split('T')[0],
       bookingId: selectedBooking.bookingId,
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/centerAdmin/assign-tasks', payload);
+      const response = await publicAuthRequest.post(`/centerAdmin/assign-tasks`, payload);
       console.log("Task assigned successfully:", response.data);
       setIsTaskAssignVisible(false);
       navigate("/carwashcenteradmin/taskassign");
@@ -97,7 +98,7 @@ const TasksAssign = () => {
       setIsActiveTask(isActiveTask);
       setIsTaskAssignVisible(true);
       // setIsTaskAssignVisible(isTaskAssignVisible);      
-    };
+    }
 
     setIsActiveTask(index);
     // return isActiveTask;
@@ -219,21 +220,6 @@ const TasksAssign = () => {
                   className="w-full p-2 mt-1 border border-gray-300 rounded"
                   onChange={handleInputChange}
                   value={formData.endTime}
-                />
-              </div>
-
-              {/* Description */}
-              <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                  Task Description
-                </label>
-                <input
-                  type="text"
-                  id="description"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  placeholder="Enter task description..."
-                  onChange={handleInputChange}
-                  value={formData.description}
                 />
               </div>
 

@@ -1,121 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import { updateTaskStatus } from "./../../api/taskApiCalls";
 
-const scheduleData = [
-  {
-    id: 1,
-    name: "John Doe",
-    description: "Car Wash",
-    vehicle: "Toyota Camry",
-    startTime: "09:00 AM",
-    endTime: "10:00 AM",
-    location: "Maryville",
-    status: "COMPLETED",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    description: "Car Wash",
-    vehicle: "Ford Mustang",
-    startTime: "10:00 AM",
-    endTime: "11:00 AM",
-    location: "Jacksonville",
-    status: "ACCEPTED",
-  },
-  {
-    id: 3,
-    name: "David Johnson",
-    description: "Car Wash",
-    vehicle: "BMW 3 Series",
-    startTime: "11:00 AM",
-    endTime: "12:00 PM",
-    location: "Austin",
-    status: "REJECTED",
-  },
-  {
-    id: 4,
-    name: "Mary Brown",
-    description: "Car Wash",
-    vehicle: "Chevrolet Malibu",
-    startTime: "12:00 PM",
-    endTime: "01:00 PM",
-    location: "New York",
-    status: "PENDING",
-  },
-];
+const TaskScheduler = ({ tasksData }) => {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const isInitialRender = useRef(true); // Tracks the first render
 
-const TaskScheduler = () => {
-  const [tasks, setTasks] = useState(scheduleData);
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const todayDate = getTodayDate();
+
+  // Initialize tasks on the first render
+  useEffect(() => {
+    console.log("Task data change");
+    console.log(tasksData);
+    setLoading(true);
+    const formattedTasks = tasksData.map((task) => ({
+      id: task.id,
+      name: `Customer ${task.customerId}`,
+      description: task.taskDescription.split(" - ")[0],
+      vehicle: task.taskDescription.split(" - ")[1] || "Unknown Vehicle",
+      startTime: new Date(
+        `${task.taskDate.split("T")[0]}T${task.startTime}`
+      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      endTime: new Date(
+        `${task.taskDate.split("T")[0]}T${task.endTime}`
+      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      location: "Branch Location",
+      status: task.taskStatus,
+      taskDate: task.taskDate.split("T")[0], // Extract date in YYYY-MM-DD format
+    }));
+    setTasks(formattedTasks);
+    isInitialRender.current = false;
+    setLoading(false);
+  }, [tasksData]);
 
   const handleChangeStatus = (id, currentStatus) => {
-    if (currentStatus === "COMPLETED" || currentStatus === "REJECTED") {
+    if (currentStatus === "COMPLETED") {
       Swal.fire({
         icon: "info",
         title: "Status Change",
         text: `This task is already ${currentStatus.toLowerCase()} and cannot be changed.`,
       });
-    } else if (currentStatus === "ACCEPTED") {
-      Swal.fire({
-        title: "Change Task Status",
-        input: "select",
-        inputOptions: {
-          PENDING: "Pending",
-        },
-        inputPlaceholder: "Select new status",
-        showCancelButton: true,
-        inputValidator: (value) => {
-          return new Promise((resolve) => {
-            if (value) {
-              resolve();
-            } else {
-              resolve("You need to select a status");
-            }
-          });
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const updatedTasks = tasks.map((task) =>
-            task.id === id ? { ...task, status: result.value } : task
-          );
-          setTasks(updatedTasks);
-        }
-      });
-    } else if (currentStatus === "PENDING") {
-      Swal.fire({
-        title: "Change Task Status",
-        input: "select",
-        inputOptions: {
-          COMPLETED: "Completed",
-        },
-        inputPlaceholder: "Select new status",
-        showCancelButton: true,
-        inputValidator: (value) => {
-          return new Promise((resolve) => {
-            if (value) {
-              resolve();
-            } else {
-              resolve("You need to select a status");
-            }
-          });
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const updatedTasks = tasks.map((task) =>
-            task.id === id ? { ...task, status: result.value } : task
-          );
-          setTasks(updatedTasks);
-        }
-      });
     } else {
+      const newStatusOptions =
+        currentStatus === "ACCEPTED"
+          ? { PENDING: "Pending" }
+          : currentStatus === "PENDING"
+          ? { COMPLETED: "Completed" }
+          : {
+              PENDING: "Pending",
+              ACCEPTED: "Accepted",
+              COMPLETED: "Completed",
+            };
+
       Swal.fire({
         title: "Change Task Status",
         input: "select",
-        inputOptions: {
-          PENDING: "Pending",
-          ACCEPTED: "Accepted",
-          REJECTED: "Rejected",
-          COMPLETED: "Completed",
-        },
+        inputOptions: newStatusOptions,
         inputPlaceholder: "Select new status",
         showCancelButton: true,
         inputValidator: (value) => {
@@ -127,18 +77,45 @@ const TaskScheduler = () => {
             }
           });
         },
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           const updatedTasks = tasks.map((task) =>
             task.id === id ? { ...task, status: result.value } : task
           );
           setTasks(updatedTasks);
+
+          const tasksDataDetails = {
+            taskId: id,
+            status: result.value,
+          };
+
+          await updateTaskStatusDetails(tasksDataDetails);
         }
       });
     }
   };
 
-  return (
+  const updateTaskStatusDetails = async (tasksDataDetails) => {
+    try {
+      setLoading(true);
+      const { data: taskDataDetails } = await updateTaskStatus(tasksDataDetails);
+      setLoading(false);
+      Swal.fire({
+        icon: "success",
+        title: "Task Status Update Success.",
+      });
+    } catch (error) {
+      console.error("Error fetching task status:", error);
+      setLoading(false);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while updating task status.",
+      });
+    }
+  };
+
+  return !loading ? (
     <div className="container mx-auto">
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
@@ -172,7 +149,9 @@ const TaskScheduler = () => {
               <td className="py-2 px-4 border-b">
                 <button
                   className={`py-1 px-3 rounded ${
-                    data.status === "PENDING"
+                    data.taskDate !== todayDate
+                      ? "bg-gray-300 text-gray-700 cursor-not-allowed opacity-60"
+                      : data.status === "PENDING"
                       ? "bg-yellow-500 text-white"
                       : data.status === "ACCEPTED"
                       ? "bg-blue-500 text-white"
@@ -181,6 +160,12 @@ const TaskScheduler = () => {
                       : "bg-red-500 text-white"
                   }`}
                   onClick={() => handleChangeStatus(data.id, data.status)}
+                  disabled={data.taskDate !== todayDate}
+                  title={
+                    data.taskDate !== todayDate
+                      ? "You can only change today's tasks"
+                      : "Change Task Status"
+                  }
                 >
                   Change Status
                 </button>
@@ -190,6 +175,8 @@ const TaskScheduler = () => {
         </tbody>
       </table>
     </div>
+  ) : (
+    <p>Loading...</p>
   );
 };
 

@@ -21,13 +21,13 @@ Chart.register(
   Legend
 );
 
-const PayrollCurrentPaymentChart = () => {
+const PayrollCurrentPaymentChart = ({monthlySalary,overtimeSalary}) => {
   // Data for the chart
   const data = {
-    labels: ["Salary", "Overtime"],
+    labels: ["Salary (LKR)", "Overtime (LKR)"],
     datasets: [
       {
-        data: [25000, 3000],
+        data: [monthlySalary, overtimeSalary],
         // backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
         backgroundColor: ["#FF6384", "#36A2EB"],
         hoverBackgroundColor: ["#FF6384", "#36A2EB"],

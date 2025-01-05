@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const Scheduletime = (start, end) => {
   const starthour = start.getHours().toString().padStart(2, '0');
@@ -18,7 +19,7 @@ const SheduleDetails = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/centerAdmin/get-all-bookings');
+        const response = await publicAuthRequest.get(`/centerAdmin/get-all-bookings`);
         const filteredBookings = response.data.filter(booking => booking.centerName === centerName);
         const parsedBookings = filteredBookings.map((booking) => {
           const startDateTime = new Date(`${booking.date.split('T')[0]}T${booking.startTime}`);
