@@ -62,6 +62,7 @@ export default function MainDashboard() {
       .get("/centerAdmin/get-all")
       .then((response) => setCarCenterCount(response.data.count))
       .catch((error) => console.error("Error fetching car center count:", error));
+      console.log("Center Count", carCenterCount)
 
     // Fetch active user count
     axios
@@ -82,7 +83,7 @@ export default function MainDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card
           title="Car Centers"
-          value="4"
+          value={carCenterCount}
           icon={<i className="fas fa-server"></i>}
         />
         <Card

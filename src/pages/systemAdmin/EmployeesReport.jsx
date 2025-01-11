@@ -8,8 +8,12 @@ const EmployeesReport = () => {
 
   useEffect(() => {
     // Fetch employee data
-    axios.get("http://localhost:8080/reports/employee-summary").then((res) => setEmployeeSummaries(res.data));
-    axios.get("http://localhost:8080/reports/salary-summary").then((res) => setSalaryData(res.data));
+    axios
+      .get("http://localhost:8080/reports/employee-summary")
+      .then((res) => setEmployeeSummaries(res.data));
+    axios
+      .get("http://localhost:8080/reports/salary-summary")
+      .then((res) => setSalaryData(res.data));
   }, []);
 
   const salaryChart = {
@@ -22,6 +26,8 @@ const EmployeesReport = () => {
       },
     ],
   };
+
+  console.log("employeeSummeries " + employeeSummaries[0]);
 
   return (
     <div>
@@ -36,7 +42,7 @@ const EmployeesReport = () => {
           <table className="table-auto w-full border">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Id</th>
                 <th>Branch</th>
                 <th>Designation</th>
                 <th>Phone</th>
@@ -44,15 +50,20 @@ const EmployeesReport = () => {
               </tr>
             </thead>
             <tbody>
-              {employeeSummaries.map((employee) => (
-                <tr key={employee.employeeId}>
-                  <td>{employee.fullName}</td>
-                  <td>{employee.branchName}</td>
-                  <td>{employee.designation}</td>
-                  <td>{employee.phoneNumber}</td>
-                  <td>{employee.baseSalary}</td>
-                </tr>
-              ))}
+              {employeeSummaries
+                .sort((a, b) => a.employeeId - b.employeeId) // Sort in ascending order by employeeId
+                .map((employee) => {
+                  console.log("Employee ID:", employee.employeeId); // Log employee ID
+                  return (
+                    <tr key={employee.employeeId}>
+                      <td>{employee.employeeId}</td>
+                      <td>{employee.branchName}</td>
+                      <td>{employee.designation}</td>
+                      <td>{employee.phoneNumber}</td>
+                      <td>{employee.baseSalary}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

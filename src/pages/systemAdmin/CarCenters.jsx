@@ -1,44 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const CarCenters = () => {
-  const [centers, setCenters] = useState([
-    {
-      id: 1,
-      name: "Auto Miraj - Colombo",
-      location: "Colombo",
-      capacity: 50,
-      admin: "Kasun Mendis",
-      employees: 20,
-      branch: "Central",
-    },
-    {
-      id: 2,
-      name: "Clean Ride - Galle",
-      location: "Galle",
-      capacity: 30,
-      admin: "Thushan Ariyaratne",
-      employees: 15,
-      branch: "South",
-    },
-    {
-      id: 3,
-      name: "Quick Wash - Kandy",
-      location: "Kandy",
-      capacity: 40,
-      admin: "Kavidu Perera",
-      employees: 18,
-      branch: "Hill Country",
-    },
-    {
-      id: 4,
-      name: "Shiny Cars - Matara",
-      location: "Matara",
-      capacity: 35,
-      admin: "Dilshan Silva",
-      employees: 12,
-      branch: "Southern",
-    }
-  ]);
+  const [centers, setCenters] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newCenter, setNewCenter] = useState({
     name: "",
@@ -49,6 +13,21 @@ const CarCenters = () => {
     branch: "",
   });
   const [showAlert, setShowAlert] = useState(false);
+
+  // Fetch centers from the backend
+  useEffect(() => {
+    const fetchCenters = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/reports/get-all-centers");
+        setCenters(response.data);
+        console.log(response)
+      } catch (error) {
+        console.error("Error fetching centers:", error);
+      }
+    };
+
+    fetchCenters();
+  }, []);
 
   const handleAddCenter = () => {
     setCenters([...centers, { ...newCenter, id: Date.now() }]);

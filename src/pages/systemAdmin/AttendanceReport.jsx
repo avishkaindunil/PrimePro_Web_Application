@@ -11,17 +11,22 @@ const AttendanceReport = () => {
   // Fetch attendance summary from backend
   const fetchAttendanceSummary = () => {
     axios
-      .get("http://localhost:8080/reports/attendance-summary", { params: filters })
+      .get("http://localhost:8080/reports/attendance-summary", {
+        params: filters,
+      })
       .then((res) => setAttendanceSummary(res.data))
       .catch((err) => console.error("Error fetching attendance data:", err));
+       
   };
 
   // Fetch leave usage summary from backend
   const fetchLeaveUsageSummary = () => {
     axios
-      .get("http://localhost:8080/leave-usage-summary")
+      .get("http://localhost:8080/reports/leave-usage-summary")
       .then((response) => setLeaveSummary(response.data))
-      .catch((error) => console.error("Error fetching leave usage summary:", error));
+      .catch((error) =>
+        console.error("Error fetching leave usage summary:", error)
+      );
   };
 
   useEffect(() => {
@@ -29,6 +34,16 @@ const AttendanceReport = () => {
     fetchLeaveUsageSummary();
     setIsLoading(false);
   }, [filters]);
+
+console.log("attendanceSummary " + attendanceSummary);
+console.log("leaveSummary totalEmployees " + leaveSummary.totalEmployees);
+console.log("leaveSummary casualleaves " + leaveSummary.totalCasualLeaves);
+console.log("leaveSummary medicalleaves " + leaveSummary.totalMedicalLeaves);
+console.log("leaveSummary annualleaves " + leaveSummary.totalAnnualLeaves);
+console.log("leaveSummary averageAnnualLeaves " + leaveSummary.averageAnnualLeaves);
+console.log("leaveSummary averageCasualLeaves " + leaveSummary.averageCasualLeaves);
+console.log("leaveSummary averageMedicalLeaves " + leaveSummary.averageMedicalLeaves);
+
 
   // Data for leave usage chart
   const leaveChartData = {
@@ -59,7 +74,9 @@ const AttendanceReport = () => {
             className="border p-2 rounded w-full"
             placeholder="YYYY-MM-DD to YYYY-MM-DD"
             value={filters.dateRange}
-            onChange={(e) => setFilters({ ...filters, dateRange: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, dateRange: e.target.value })
+            }
           />
         </label>
         <label className="block mb-2">
@@ -69,7 +86,9 @@ const AttendanceReport = () => {
             className="border p-2 rounded w-full"
             placeholder="Employee ID"
             value={filters.employeeId}
-            onChange={(e) => setFilters({ ...filters, employeeId: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, employeeId: e.target.value })
+            }
           />
         </label>
         <button
@@ -95,11 +114,15 @@ const AttendanceReport = () => {
               <strong>Total Days:</strong> {attendanceSummary.totalDays || 0}
             </p>
             <p>
-              <strong>Present Days:</strong> {attendanceSummary.presentDays || 0}
+              <strong>Present Days:</strong>{" "}
+              {attendanceSummary.presentDays || 0}
             </p>
             <p>
               <strong>Attendance Percentage:</strong>{" "}
-              {attendanceSummary.attendancePercentage?.toFixed(2) || 0}%
+              {typeof attendanceSummary.attendancePercentage === "number"
+                ? attendanceSummary.attendancePercentage.toFixed(2)
+                : "0.00"}
+              %
             </p>
           </div>
 
@@ -124,16 +147,20 @@ const AttendanceReport = () => {
               />
             </div>
             <p>
-              <strong>Total Employees:</strong> {leaveSummary.totalEmployees || 0}
+              <strong>Total Employees:</strong>{" "}
+              {leaveSummary.totalEmployees || 0}
             </p>
             <p>
-              <strong>Total Annual Leaves:</strong> {leaveSummary.totalAnnualLeaves || 0}
+              <strong>Total Annual Leaves:</strong>{" "}
+              {leaveSummary.totalAnnualLeaves || 0}
             </p>
             <p>
-              <strong>Total Casual Leaves:</strong> {leaveSummary.totalCasualLeaves || 0}
+              <strong>Total Casual Leaves:</strong>{" "}
+              {leaveSummary.totalCasualLeaves || 0}
             </p>
             <p>
-              <strong>Total Medical Leaves:</strong> {leaveSummary.totalMedicalLeaves || 0}
+              <strong>Total Medical Leaves:</strong>{" "}
+              {leaveSummary.totalMedicalLeaves || 0}
             </p>
             <p>
               <strong>Average Annual Leaves:</strong>{" "}
@@ -155,4 +182,3 @@ const AttendanceReport = () => {
 };
 
 export default AttendanceReport;
-
