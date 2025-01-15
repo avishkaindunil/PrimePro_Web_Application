@@ -59,16 +59,20 @@ export default function MainDashboard() {
   useEffect(() => {
     // Fetch car center count
     axios
-      .get("/centerAdmin/get-all")
-      .then((response) => setCarCenterCount(response.data.count))
-      .catch((error) => console.error("Error fetching car center count:", error));
-      console.log("Center Count", carCenterCount)
+      .get("http://localhost:8080/reports/get-all-centers")
+      .then((response) => setCarCenterCount(response.data.length))
+      .catch((error) =>
+        console.error("Error fetching car center count:", error)
+      );
+    console.log("Center Count", carCenterCount);
 
     // Fetch active user count
     axios
       .get("http://localhost:8080/admin/active-count")
       .then((response) => setActiveUserCount(response.data))
-      .catch((error) => console.error("Error fetching active user count:", error));
+      .catch((error) =>
+        console.error("Error fetching active user count:", error)
+      );
   }, []);
 
   const goToReportsPage = () => {
@@ -80,7 +84,7 @@ export default function MainDashboard() {
       <h1 className="text-2xl font-bold mb-6">System Admin Dashboard</h1>
 
       {/* Overview Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
         <Card
           title="Car Centers"
           value={carCenterCount}
@@ -91,27 +95,20 @@ export default function MainDashboard() {
           value={activeUserCount}
           icon={<i className="fas fa-users"></i>}
         />
-       {/* <div onClick={goToReportsPage} className="cursor-pointer">
-          <Card
-            title="Data Reports"
-            value="5"
-            icon={<i className="fas fa-chart-bar"></i>}
-          />
-        </div> */}
+       
       </div>
 
-      {/* Detailed Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+      <div className="grid grid-cols-1 gap-6 mt-10 px-10 w-full md:w-3/5 ml-64">
         {/* Complaint Handling Section */}
         <ComplaintHandling />
-
-        {/* Data Analytics Section
-        <DataAnalytics /> */}
       </div>
 
       <div className="w-full mt-10">
         <WorkloadProgress />
       </div>
+
+      {/* Detailed Sections */}
+      
     </div>
   );
 }

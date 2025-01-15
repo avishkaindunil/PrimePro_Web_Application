@@ -10,29 +10,15 @@
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
-//   // Function to generate random Sri Lankan phone numbers
-//   const generatePhoneNumber = () => {
-//     const randomDigits = () => Math.floor(Math.random() * 10);
-//     return `+9471${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}${randomDigits()}`;
-//   };
-
 //   useEffect(() => {
 //     const fetchComplaints = async () => {
 //       try {
-//         const response = await publicAuthRequest.get(`/complaints/get-all`);
-//         console.log(response);
-//         if (!response.ok) {
+//         const response = await publicAuthRequest.get(`/complaints/get-all-unresolved`);
+//         if (response.status !== 200) {
 //           throw new Error("Failed to fetch complaints");
 //         }
-//         const data = await response.json();
-
-//         // Add contact numbers to each complaint
-//         const complaintsWithContact = data.map((complaint) => ({
-//           ...complaint,
-//           contactNumber: generatePhoneNumber(),
-//         }));
-
-//         setComplaints(complaintsWithContact);
+//         // Use the `data` directly as it already includes the `mobile` field
+//         setComplaints(response.data);
 //       } catch (err) {
 //         setError(err.message);
 //       } finally {
@@ -88,7 +74,7 @@
 //                 <h2 className="text-lg font-semibold">Inquiry #{complaint.complaintId}</h2>
 //                 <p className="text-sm text-gray-700 mb-2">{complaint.complaint}</p>
 //                 <p className="text-sm text-gray-600 mb-2">
-//                   <strong>Contact Number:</strong> {complaint.contactNumber}
+//                   <strong>Contact Number:</strong> {complaint.mobile}
 //                 </p>
 //                 <span className="text-xs text-gray-500">
 //                   Submitted by User ID: {complaint.userID}
@@ -116,8 +102,6 @@
 
 
 
-
-
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -128,39 +112,51 @@ const ViewComplaints = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      try {
-        const response = await publicAuthRequest.get(`/complaints/get-all`);
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch complaints");
-        }
-        // Use the `data` directly as it already includes the `mobile` field
-        setComplaints(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchComplaints = async () => {
+    setLoading(true);
+    try {
+      const response = await publicAuthRequest.get(`/complaints/get-all-unresolved`);
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch complaints");
       }
-    };
+      setComplaints(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchComplaints();
   }, []);
 
-  const resolveComplaint = (complaintId) => {
-    // Update the complaint status locally
-    setComplaints((prevComplaints) =>
-      prevComplaints.filter((complaint) => complaint.complaintId !== complaintId)
-    );
+  const resolveComplaint = async (complaintId) => {
+    try {
+      const response = await publicAuthRequest.put(`/complaints/resolve/${complaintId}`);
+      if (response.status !== 200) {
+        throw new Error("Failed to resolve complaint");
+      }
 
-    // Display SweetAlert success message
-    Swal.fire({
-      title: "Resolved!",
-      text: `Inquiry #${complaintId} has been resolved successfully!`,
-      icon: "success",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#4CAF50",
-    });
+      Swal.fire({
+        title: "Resolved!",
+        text: `Inquiry #${complaintId} has been resolved successfully!`,
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#4CAF50",
+      });
+
+      // Refetch the unresolved complaints after resolving
+      fetchComplaints();
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: "Failed to resolve the inquiry. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#FF0000",
+      });
+    }
   };
 
   if (loading) {
@@ -215,4 +211,3 @@ const ViewComplaints = () => {
 };
 
 export default ViewComplaints;
-

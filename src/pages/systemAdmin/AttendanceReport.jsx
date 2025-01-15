@@ -91,16 +91,16 @@ console.log("leaveSummary averageMedicalLeaves " + leaveSummary.averageMedicalLe
             }
           />
         </label>
-        <button
-          onClick={() => {
-            setIsLoading(true);
-            fetchAttendanceSummary();
-            fetchLeaveUsageSummary();
-          }}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+        <p
+          // onClick={() => {
+          //   setIsLoading(true);
+          //   fetchAttendanceSummary();
+          //   fetchLeaveUsageSummary();
+          // }}
+          className=" text-black px-4 py-2 rounded"
         >
           Apply Filters
-        </button>
+        </p>
       </div>
 
       {isLoading ? (
