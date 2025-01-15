@@ -26,11 +26,10 @@ const TasksAssign = () => {
 
   const fetchBookingDetails = async () => {
     try {
-      const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/not-task-assigned`);
       console.log(response.data);
       if (response.data) {
-        const filteredBookings = response.data.filter(booking => booking.taskAssigned === false);
-        setBookings(filteredBookings);
+        setBookings(response.data);
       }
     } catch (error) {
       console.log("Error fetching data: ", error)
@@ -52,6 +51,7 @@ const TasksAssign = () => {
     fetchBookingDetails();
     fetchEmployeeList();
   }, []);
+
   // Handle form input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -63,12 +63,10 @@ const TasksAssign = () => {
 
   // Handle form submission
   const handleSave = async () => {
-    const { employeeId, startTime, endTime } = formData;
+    const { employeeId } = formData;
     const selectedBooking = bookings[isActiveTask];
     const payload = {
       employeeId,
-      startTime: `${startTime}:00`,
-      endTime: `${endTime}:00`,
       taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
       taskDate: new Date().toISOString().split('T')[0],
@@ -80,8 +78,10 @@ const TasksAssign = () => {
       console.log("Task assigned successfully:", response.data);
       setIsTaskAssignVisible(false);
       navigate("/carwashcenteradmin/taskassign");
+      alert("Successfully assigned tasks!")
     } catch (error) {
       console.log("Error saving task:", error);
+      alert("Task assign failed!")
     }
     console.log(payload);
   };
@@ -157,9 +157,9 @@ const TasksAssign = () => {
   }
   return (
     <>
-      <h1 className="text-2xl font-bold">Task Assign</h1>
       <div className="flex flex-cols">
-        <div className="w-3/5 h-full m-5 space-y-4">
+        <div className="w-3/5 h-full m-5 mb-2 space-y-4 p-4 bg-gray-100 rounded-lg">
+          <h1 className="text-2xl font-bold">Task Assign</h1>
           {bookings.length > 0 ? (bookings.map((booking, index) => (
             <div className="cursor-pointer" onClick={() => handleOnclick(index)}>
               <OneTask booking={booking} />
@@ -194,35 +194,6 @@ const TasksAssign = () => {
                   ))}
                 </select>
               </div>
-
-              {/* Start Time */}
-              <div className="mb-4">
-                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
-                  Start Time
-                </label>
-                <input
-                  type="time"
-                  id="startTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.startTime}
-                />
-              </div>
-
-              {/* End Time */}
-              <div className="mb-4">
-                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">
-                  End Time
-                </label>
-                <input
-                  type="time"
-                  id="endTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.endTime}
-                />
-              </div>
-
               {/* Save Button */}
               <button
                 type="button"
