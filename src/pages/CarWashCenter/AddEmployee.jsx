@@ -61,8 +61,8 @@ const AddEmployee = () => {
     }
 
     if (formData.baseSalary <= 0) {
-        alert("Salary must be a positive value.");
-        return;
+      alert("Salary must be a positive value.");
+      return;
     }
 
     const dataToSend = {
@@ -132,8 +132,8 @@ const AddEmployee = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
       <div className="bg-white rounded-lg shadow-lg p-8">
+      <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
         <form>
           {/* Name */}
           <div className="mb-4">
@@ -224,19 +224,33 @@ const AddEmployee = () => {
               />
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-6 mb-4">
+            {/* Probation Status */}
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-gray-600">Is Probation</label>
+              <select
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="isProbation"
+                value={formData.isProbation}
+                onChange={handleChange}
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </select>
+            </div>
 
-          {/* Probation Status */}
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-600">Is Probation</label>
-            <select
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              name="isProbation"
-              value={formData.isProbation}
-              onChange={handleChange}
-            >
-              <option value={true}>Yes</option>
-              <option value={false}>No</option>
-            </select>
+            {/* Base Salary */}
+            <div className="mb-4">
+              <label className="block text-lg font-medium text-gray-600">Base Salary</label>
+              <input
+                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="baseSalary"
+                type="number"
+                placeholder="Enter base salary"
+                value={formData.baseSalary}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           {/* Conditional Leave Fields */}
@@ -277,18 +291,6 @@ const AddEmployee = () => {
             </>
           )}
 
-          {/* Base Salary */}
-          <div className="mb-4">
-            <label className="block text-lg font-medium text-gray-600">Base Salary</label>
-            <input
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              name="baseSalary"
-              type="number"
-              placeholder="Enter base salary"
-              value={formData.baseSalary}
-              onChange={handleChange}
-            />
-          </div>
 
           {/* Action Buttons */}
           <div className="flex justify-between">

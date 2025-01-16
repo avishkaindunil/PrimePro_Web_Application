@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { publicAuthRequest } from '../../constants/requestMethods';
 
 const LeaveRequest = () => {
@@ -78,8 +78,18 @@ const LeaveRequest = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-6">Leave Requests</h1>
-
+      <div className="flex space-between">
+        <h1 className="text-2xl font-bold mb-6">Leave Requests</h1>
+        <div className="flex justify-end px-4">
+          <Link to={`/CarWashCenterAdmin/allleaverequests`} className='text-center'>
+            <button
+              className="px-6 py-2 mb-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            >
+              View All
+            </button>
+          </Link>
+        </div>
+      </div>
       {/* Leave Request List */}
       <div className="bg-white shadow rounded-lg p-6">
         <table className="w-full text-left border-collapse">

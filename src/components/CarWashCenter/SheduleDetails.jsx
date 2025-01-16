@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { publicAuthRequest } from '../../constants/requestMethods';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const SheduleDetails = () => {
   const [bookings, setBookings] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [showCantAllocate, setCantAllocate] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [startTime, setStartTime] = useState('');
   const centerName = localStorage.getItem("CENTER");
@@ -39,8 +41,15 @@ const SheduleDetails = () => {
     setShowPopup(true);
   };
 
+  const handleCantAllocateClick = (booking) => {
+    setSelectedBooking(booking);
+    setShowPopup(false);
+    setCantAllocate(true);
+  };
+
   const handlePopupClose = () => {
     setShowPopup(false);
+    setCantAllocate(false);
     setSelectedBooking(null);
     setStartTime('');
   };
@@ -57,7 +66,23 @@ const SheduleDetails = () => {
       console.log('Booking updated:', response.data);
       setShowPopup(false);
       alert('Time allocated successfully!');
-    
+
+      setBookings((prevBookings) =>
+        prevBookings.filter((booking) => booking.id !== selectedBooking.id)
+      );
+    } catch (error) {
+      console.error('Error allocating time:', error);
+      alert('An error occurred while allocating time.');
+    }
+  };
+
+  const handleCantAllocateTime = async () => {
+    try {
+      const response = await publicAuthRequest.post(`/centerAdmin/cant-allocate-time/${selectedBooking.id}`);
+      console.log('Booking updated:', response.data);
+      setCantAllocate(false);
+      alert('Your response is recorded!');
+
       setBookings((prevBookings) =>
         prevBookings.filter((booking) => booking.id !== selectedBooking.id)
       );
@@ -77,12 +102,20 @@ const SheduleDetails = () => {
               <h1 className="text-base font-semibold">{booking.title}</h1>
               <p className="text-gray-600">{booking.bookingDate}</p>
             </div>
-            <button
-              onClick={() => handleAllocateClick(booking)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Allocate Time
-            </button>
+            <div>
+              <button
+                onClick={() => handleCantAllocateClick(booking)}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-4"
+              >
+                Can't Allocate
+              </button>
+              <button
+                onClick={() => handleAllocateClick(booking)}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Allocate Time
+              </button>
+            </div>
           </div>
         </div>
       ))}
@@ -117,6 +150,33 @@ const SheduleDetails = () => {
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Allocate
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCantAllocate && selectedBooking && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          style={{ zIndex: 1000 }}
+        >
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-lg font-semibold mb-4">
+              Are you sure can't allocate Time for:  {selectedBooking.title}
+            </h2>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handlePopupClose}
+                className="mr-2 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+              >
+                No
+              </button>
+              <button
+                onClick={handleCantAllocateTime}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Yes
               </button>
             </div>
           </div>
