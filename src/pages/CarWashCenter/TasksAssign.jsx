@@ -52,7 +52,6 @@ const TasksAssign = () => {
     fetchEmployeeList();
   }, []);
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
@@ -61,7 +60,6 @@ const TasksAssign = () => {
     }));
   };
 
-  // Handle form submission
   const handleSave = async () => {
     const { employeeId } = formData;
     const selectedBooking = bookings[isActiveTask];
@@ -86,38 +84,16 @@ const TasksAssign = () => {
     console.log(payload);
   };
 
-
-
   const handleOnclick = (index) => {
-
-    // setIsActiveTask(index);
-
     if (isActiveTask == index) {
       setIsTaskAssignVisible(!isTaskAssignVisible);
     } else {
       setIsActiveTask(isActiveTask);
       setIsTaskAssignVisible(true);
-      // setIsTaskAssignVisible(isTaskAssignVisible);      
     }
-
     setIsActiveTask(index);
-    // return isActiveTask;
-    // setIsActiveTask(index);
-
   };
 
-
-
-  const addInputFeild = () => {
-
-
-    // setAssineeCount(assigneeCount+1);
-    // setIsTaskAssignVisible(true);
-    // ()=>handleOnclick(index);
-    // setIsActiveTask(index);
-
-
-  }
 
   // const bookings =[
   //   {
@@ -173,9 +149,7 @@ const TasksAssign = () => {
             <div className="text-lg">Details</div>
             <div className="pl-3">{bookings[isActiveTask].carName} - {bookings[isActiveTask].service}</div>
             <p className="text-[#5F6165]">Customer ID - {bookings[isActiveTask].userID}</p>
-            {/* <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div> */}
             <form id="form" onSubmit={(e) => e.preventDefault()}>
-              {/* Employee Dropdown */}
               <div className="mb-4">
                 <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700">
                   Select Employee
@@ -194,7 +168,6 @@ const TasksAssign = () => {
                   ))}
                 </select>
               </div>
-              {/* Save Button */}
               <button
                 type="button"
                 className="items-center justify-center w-full p-1 my-5 text-white bg-blue-700 rounded-full"

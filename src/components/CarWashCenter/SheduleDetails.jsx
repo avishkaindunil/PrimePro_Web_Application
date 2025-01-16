@@ -19,7 +19,7 @@ const SheduleDetails = () => {
           return {
             id: booking.bookingId,
             title: `${booking.carName} - ${booking.service}`,
-            bookingDate: booking.date.split('T')[0],
+            bookingDate: booking.date,
             resource: `Event ${booking.bookingId}`,
             taskStatus: booking.taskStatus,
           };

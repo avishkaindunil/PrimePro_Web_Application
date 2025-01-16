@@ -8,19 +8,29 @@ const localizer = momentLocalizer(moment);
 
 const CalenderSchedule = () => {
   const [events, setEvents] = useState([]);
-  const [selectedDayEvents, setSelectedDayEvents] = useState([]);
+  const [dateBookings, setDateBookings] = useState({});
+  const [selectedDayBookings, setSelectedDayBookings] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const centerName = localStorage.getItem("CENTER");
+  const [showPopup, setShowPopup] = useState(false);
+
+  const centerName = localStorage.getItem('CENTER');
 
   const fetchBookingDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/centerAdmin/get-all-bookings`);
+      const response = await publicAuthRequest.get(
+        `http://localhost:8080/centerAdmin/get-all-bookings`
+      );
       if (response.data) {
-        const filteredBookings = response.data.filter((booking) => booking.centerName === centerName);
-        setEvents(mapBookingsToEvents(filteredBookings));
+        console.log(response.data);
+        const filteredBookings = response.data.filter(
+          (booking) => booking.centerName === centerName
+        );
+        const groupedBookings = groupBookingsByDate(filteredBookings);
+        setDateBookings(groupedBookings);
+        setEvents(mapBookingsToEvents(groupedBookings));
       }
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      console.error('Error fetching data: ', error);
     }
   };
 
@@ -28,56 +38,67 @@ const CalenderSchedule = () => {
     fetchBookingDetails();
   }, []);
 
-  const mapBookingsToEvents = (bookings) => {
-    return bookings.map((booking) => {
-      const startDateTime = new Date(booking.date);
-      const [startHours, startMinutes] = booking.startTime.split(":");
-      startDateTime.setHours(startHours, startMinutes);
+  const groupBookingsByDate = (bookings) => {
+    return bookings.reduce((acc, booking) => {
+      const date = moment(booking.date).format('YYYY-MM-DD');
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(booking); // Store full booking details
+      return acc;
+    }, {});
+  };
 
-      const endDateTime = new Date(booking.date);
-      const [endHours, endMinutes] = booking.endTime.split(":");
-      endDateTime.setHours(endHours, endMinutes);
-
+  const mapBookingsToEvents = (groupedBookings) => {
+    return Object.entries(groupedBookings).map(([date, bookings]) => {
+      const eventDate = new Date(date);
       return {
-        title: `${booking.service} - ${booking.carName}`,
-        start: startDateTime,
-        end: endDateTime,
+        title: `${bookings.length}`, // Display count
+        start: eventDate,
+        end: eventDate,
+        bookings, // Store full booking details
       };
     });
   };
 
   const handleDayClick = (date) => {
-    const dayEvents = events.filter((event) => moment(event.start).isSame(date, 'day'));
-    setSelectedDayEvents(dayEvents);
+    const dateKey = moment(date).format('YYYY-MM-DD');
+    const bookings = dateBookings[dateKey] || [];
+    setSelectedDayBookings(bookings);
+    setShowPopup(true);
   };
 
-  const handleNavigate = (action) => {
-    const newDate = new Date(currentDate);
-    if (action === 'NEXT') {
-      newDate.setMonth(newDate.getMonth() + 1);
-    } else if (action === 'PREV') {
-      newDate.setMonth(newDate.getMonth() - 1);
-    }
-    setCurrentDate(newDate);
+  const CustomEvent = ({ event }) => {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          backgroundColor: 'transparent',
+          textAlign: 'center',
+        }}
+      >
+        {event.title && (
+          <span
+            style={{
+              background: '#007bff',
+              color: '#fff',
+              borderRadius: '50%',
+              padding: '5px',
+              minWidth: '20px',
+              display: 'inline-block',
+              fontSize: '12px',
+              textAlign: 'center',
+            }}
+          >
+            {event.title}
+          </span>
+        )}
+      </div>
+    );
   };
 
   return (
     <div className="w-full max-w-4xl p-4 bg-white rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mt-4">
-        <button
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
-          onClick={() => handleNavigate('PREV')}
-        >
-          Previous
-        </button>
-        <h3 className="font-semibold">{moment(currentDate).format('MMMM YYYY')}</h3>
-        <button
-          className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
-          onClick={() => handleNavigate('NEXT')}
-        >
-          Next
-        </button>
-      </div>
       <br />
       <Calendar
         localizer={localizer}
@@ -88,22 +109,37 @@ const CalenderSchedule = () => {
         defaultDate={currentDate}
         defaultView="month"
         views={['month']}
-        toolbar={false}
-        onNavigate={(date) => setCurrentDate(date)}
-        onSelectSlot={({ start }) => handleDayClick(start)}
+        components={{
+          event: CustomEvent,
+        }}
+        onSelectEvent={(event) => handleDayClick(event.start)}
         selectable
       />
 
-      {selectedDayEvents.length > 0 && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold mb-2">Events for Selected Day:</h3>
-          <ul className="list-disc list-inside">
-            {selectedDayEvents.map((event, index) => (
-              <li key={index}>
-                {event.title} ({moment(event.start).format('hh:mm A')} - {moment(event.end).format('hh:mm A')})
-              </li>
-            ))}
-          </ul>
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">
+              Bookings for Selected Day: {selectedDayBookings.length}
+            </h3>
+            {selectedDayBookings.length > 0 ? (
+              <ul className="list-disc list-inside">
+                {selectedDayBookings.map((booking, index) => (
+                  <li key={index}>
+                    <strong>{booking.service}</strong> - {booking.carName} 
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No bookings for this day.</p>
+            )}
+            <button
+              className="mt-4 bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+              onClick={() => setShowPopup(false)}
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>
