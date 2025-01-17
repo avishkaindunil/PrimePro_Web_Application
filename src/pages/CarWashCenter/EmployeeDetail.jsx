@@ -51,7 +51,7 @@ const EmployeeDetail = () => {
                     </div>
                     <div class="mt-8 bg-white rounded-lg py-4 text-center shadow-lg w-[80%] mx-auto">
                         <p class="text-gray-600 m-1">Currently Allocated to slot</p>
-                        <p class="text-3xl font-bold text-white bg-blue-500 rounded-full mx-20 my-3 py-3">5</p>
+                        <p class="text-3xl font-bold text-white bg-blue-500 rounded-full mx-20 my-3 py-3">{(employeeDetails.currentAllocSlot !== 0) ? employeeDetails.currentAllocSlot : "-"}</p>
                     </div>
                 </div>
                 {/* employee detail section */}

@@ -18,6 +18,7 @@ const AddEmployee = () => {
     isProbation: true,
   });
 
+  const [formErrors, setFormErrors] = useState({});
   const [showLeaveFields, setShowLeaveFields] = useState(false);
 
   // Handle input change
@@ -39,7 +40,44 @@ const AddEmployee = () => {
         ...formData,
         [name]: value,
       });
+      setFormErrors({
+        ...formErrors,
+        [name]: "",
+      });
     }
+  };
+
+  const validateFields = () => {
+    const errors = {};
+     if (!formData.name.trim()) errors.name = "Name is required.";
+
+     const nicPattern = /^(?:\d{9}[VX]|\d{12})$/;
+     if (!formData.nic.trim()) {
+       errors.nic = "NIC is required.";
+     } else if (!nicPattern.test(formData.nic)) {
+       errors.nic = "Invalid NIC format.";
+     }
+ 
+     const phonePattern = /^0\d{9}$/;
+     if (!formData.phone.trim()) {
+       errors.phone = "Phone number is required.";
+     } else if (!phonePattern.test(formData.phone)) {
+       errors.phone = "Invalid phone number format. Must be 10 digits starting with 0.";
+     }
+
+     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if (!formData.email.trim()) {
+       errors.email = "Email is required.";
+     } else if (!emailPattern.test(formData.email)) {
+       errors.email = "Invalid email format.";
+     }
+ 
+     if (!formData.city.trim()) errors.city = "City is required.";
+     if (!formData.designation.trim()) errors.designation = "Designation is required.";
+     if (!formData.dateOfBirth.trim()) errors.dateOfBirth = "Date of Birth is required.";
+     if (!formData.baseSalary.trim() || formData.baseSalary <= 0) errors.baseSalary = "Base salary must be a positive number.";
+
+    return errors;
   };
 
   // Validate minimum age (18 years)
@@ -55,13 +93,14 @@ const AddEmployee = () => {
   const handleOnClick = async (e) => {
     e.preventDefault();
 
-    if (!isValidAge()) {
-      alert("Employee must be at least 18 years old.");
+    const errors = validateFields();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
       return;
     }
 
-    if (formData.baseSalary <= 0) {
-      alert("Salary must be a positive value.");
+    if (!isValidAge()) {
+      setFormErrors({ dateOfBirth: "Employee must be at least 18 years old." });
       return;
     }
 
@@ -110,7 +149,6 @@ const AddEmployee = () => {
     }
   };
 
-  // Handle cancel
   const handleCancel = (e) => {
     e.preventDefault();
     setFormData({
@@ -128,12 +166,13 @@ const AddEmployee = () => {
       isProbation: true,
     });
     setShowLeaveFields(false);
+    setFormErrors({});
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-lg p-8">
-      <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
+        <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
         <form>
           {/* Name */}
           <div className="mb-4">
@@ -146,6 +185,7 @@ const AddEmployee = () => {
               value={formData.name}
               onChange={handleChange}
             />
+            {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
           </div>
 
           {/* NIC and Phone */}
@@ -160,6 +200,7 @@ const AddEmployee = () => {
                 value={formData.nic}
                 onChange={handleChange}
               />
+              {formErrors.nic && <p className="text-red-500 text-sm mt-1">{formErrors.nic}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Phone No</label>
@@ -171,6 +212,7 @@ const AddEmployee = () => {
                 value={formData.phone}
                 onChange={handleChange}
               />
+              {formErrors.phone && <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>}
             </div>
           </div>
 
@@ -186,6 +228,7 @@ const AddEmployee = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
+              {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Date of Birth</label>
@@ -196,6 +239,7 @@ const AddEmployee = () => {
                 value={formData.dateOfBirth}
                 onChange={handleChange}
               />
+              {formErrors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{formErrors.dateOfBirth}</p>}
             </div>
           </div>
 
@@ -211,6 +255,7 @@ const AddEmployee = () => {
                 value={formData.city}
                 onChange={handleChange}
               />
+              {formErrors.city && <p className="text-red-500 text-sm mt-1">{formErrors.city}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Designation</label>
@@ -222,6 +267,7 @@ const AddEmployee = () => {
                 value={formData.designation}
                 onChange={handleChange}
               />
+              {formErrors.designation && <p className="text-red-500 text-sm mt-1">{formErrors.designation}</p>}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-6 mb-4">
@@ -246,10 +292,12 @@ const AddEmployee = () => {
                 className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="baseSalary"
                 type="number"
+                min={0}
                 placeholder="Enter base salary"
                 value={formData.baseSalary}
                 onChange={handleChange}
               />
+              {formErrors.baseSalary && <p className="text-red-500 text-sm mt-1">{formErrors.baseSalary}</p>}
             </div>
           </div>
 
