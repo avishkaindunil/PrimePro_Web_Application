@@ -42,24 +42,24 @@ function MainDashboard() {
     fetchBookingDetails();
   }, []);
   return (
-    <div className="min-h-screen p-6 bg-gray-100">
+    <div className="p-6 bg-gray-100 ">
       {/* <h1 className="mb-1 text-2xl font-bold">Car Wash Center Manager Dashboard</h1> */}
-      <div className='min-h-screen p-6 bg-gray-100'>
+      <div className='px-6 bg-gray-100 '>
         <h3 className='mb-6 text-2xl font-bold'>Day Summary</h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
           <Card
-            title="📅 Today's Bookings"
+            title="Today's Bookings"
             value={items.length}
-            icon={<i className="fas fa-calendar-alt text-black text-2xl mr-3"></i>} // Black icon
+            icon={<i className="mr-3 text-2xl text-black fas fa-calendar-alt"></i>} // Black icon
           />
-          <Card title="✅ Services Completed Today" value={completedBookings.length} icon={<i className="fas fa-check"></i>} />
-          <Card title="🛒 Services On-going Today" value={OngoingBookings.length} icon={<i className="fas fa-box"></i>} />
-          <Card title="👥 Employees on Duty" value="10" icon={<i className="fas fa-users"></i>} />
+          <Card title="Completed Services " value={completedBookings.length} icon={<i className="fas fa-check"></i>} />
+          <Card title="On-going Bookings" value={OngoingBookings.length} icon={<i className="fas fa-box"></i>} />
+          <Card title="Employees on Duty" value="10" icon={<i className="fas fa-users"></i>} />
         </div>
 
         <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
-          <Link to={'/carwashcenteradmin/scheduleservice'} className='text-center'><Button>Schedule Service</Button></Link>
+          {/* <Link to={'/carwashcenteradmin/scheduleservice'} className='text-center'><Button>Schedule Service</Button></Link> */}
           <Link to={`/carwashcenteradmin/taskassign`} className='text-center'><Button>Task Assign </Button></Link>
           <Link to={'/carwashcenteradmin/leaverequest'} className='text-center'><Button>Leave Request</Button></Link>
         </div>

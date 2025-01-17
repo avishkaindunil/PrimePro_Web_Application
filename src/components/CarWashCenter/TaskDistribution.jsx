@@ -34,7 +34,7 @@ function TaskDistribution() {
               backgroundColor: "#2196F3",
               borderColor: 'rgba(20, 110, 227, 1)',
               borderWidth: 1,
-              fill: true, // This enables the area under the line to be filled
+              fill: false, // This enables the area under the line to be filled
             },
           ],
         });
@@ -58,8 +58,8 @@ function TaskDistribution() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-medium mb-4">Task Distribution</h3>
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h3 className="mb-4 text-lg font-medium">Task Distribution</h3>
       <div className="h-50">
         {chartData ? (
           <Line data={chartData} options={options} />

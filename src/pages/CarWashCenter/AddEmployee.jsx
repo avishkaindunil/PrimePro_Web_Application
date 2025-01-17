@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { publicAuthRequest } from "../../constants/requestMethods";
 import Profilepic from '../../assets/profilepic.png';
+import Swal from "sweetalert2";
 
 const AddEmployee = () => {
   const [formData, setFormData] = useState({
@@ -128,7 +129,17 @@ const AddEmployee = () => {
     try {
       const res = await publicAuthRequest.post(`/employee/add`, dataToSend);
       console.log(res.data);
-      alert("Employee added successfully!");
+      // alert("Employee added successfully!");
+      Swal.fire({
+        title:"Employee added successfully!",
+        icon:"success",
+        width:'350px',
+        confirmButtonText:'Ok',
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
+      });
       setFormData({
         name: "",
         nic: "",
@@ -145,7 +156,17 @@ const AddEmployee = () => {
       });
     } catch (err) {
       console.error(err);
-      alert("Failed to add employee.");
+      // alert("Failed to add employee.");
+      Swal.fire({
+        title:"Failed to add employee!",
+        icon:"error",
+        width:'350px',
+        confirmButtonText:"Ok",
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
+      });
     }
   };
 
@@ -170,22 +191,22 @@ const AddEmployee = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-center text-gray-700 mb-8">Add New Employee</h1>
+    <div className="max-w-4xl p-6 mx-auto">
+      <div className="p-8 bg-white rounded-lg shadow-lg">
+        <h1 className="mb-8 text-3xl font-semibold text-center text-gray-700">Add New Employee</h1>
         <form>
           {/* Name */}
           <div className="mb-4">
             <label className="block text-lg font-medium text-gray-600">Full Name</label>
             <input
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               name="name"
               type="text"
               placeholder="Enter full name"
               value={formData.name}
               onChange={handleChange}
             />
-            {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
+            {formErrors.name && <p className="mt-1 text-sm text-red-500">{formErrors.name}</p>}
           </div>
 
           {/* NIC and Phone */}
@@ -193,26 +214,26 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">NIC</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="nic"
                 type="text"
                 placeholder="Enter NIC"
                 value={formData.nic}
                 onChange={handleChange}
               />
-              {formErrors.nic && <p className="text-red-500 text-sm mt-1">{formErrors.nic}</p>}
+              {formErrors.nic && <p className="mt-1 text-sm text-red-500">{formErrors.nic}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Phone No</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="phone"
                 type="text"
                 placeholder="Enter phone number"
                 value={formData.phone}
                 onChange={handleChange}
               />
-              {formErrors.phone && <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>}
+              {formErrors.phone && <p className="mt-1 text-sm text-red-500">{formErrors.phone}</p>}
             </div>
           </div>
 
@@ -221,25 +242,25 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">Email</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="email"
                 type="email"
                 placeholder="Enter email"
                 value={formData.email}
                 onChange={handleChange}
               />
-              {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
+              {formErrors.email && <p className="mt-1 text-sm text-red-500">{formErrors.email}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Date of Birth</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="dateOfBirth"
                 type="date"
                 value={formData.dateOfBirth}
                 onChange={handleChange}
               />
-              {formErrors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{formErrors.dateOfBirth}</p>}
+              {formErrors.dateOfBirth && <p className="mt-1 text-sm text-red-500">{formErrors.dateOfBirth}</p>}
             </div>
           </div>
 
@@ -248,26 +269,26 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">City</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="city"
                 type="text"
                 placeholder="Enter city"
                 value={formData.city}
                 onChange={handleChange}
               />
-              {formErrors.city && <p className="text-red-500 text-sm mt-1">{formErrors.city}</p>}
+              {formErrors.city && <p className="mt-1 text-sm text-red-500">{formErrors.city}</p>}
             </div>
             <div>
               <label className="block text-lg font-medium text-gray-600">Designation</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="designation"
                 type="text"
                 placeholder="Enter designation"
                 value={formData.designation}
                 onChange={handleChange}
               />
-              {formErrors.designation && <p className="text-red-500 text-sm mt-1">{formErrors.designation}</p>}
+              {formErrors.designation && <p className="mt-1 text-sm text-red-500">{formErrors.designation}</p>}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-6 mb-4">
@@ -275,7 +296,7 @@ const AddEmployee = () => {
             <div className="mb-4">
               <label className="block text-lg font-medium text-gray-600">Is Probation</label>
               <select
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="isProbation"
                 value={formData.isProbation}
                 onChange={handleChange}
@@ -289,7 +310,7 @@ const AddEmployee = () => {
             <div className="mb-4">
               <label className="block text-lg font-medium text-gray-600">Base Salary</label>
               <input
-                className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="baseSalary"
                 type="number"
                 min={0}
@@ -297,7 +318,7 @@ const AddEmployee = () => {
                 value={formData.baseSalary}
                 onChange={handleChange}
               />
-              {formErrors.baseSalary && <p className="text-red-500 text-sm mt-1">{formErrors.baseSalary}</p>}
+              {formErrors.baseSalary && <p className="mt-1 text-sm text-red-500">{formErrors.baseSalary}</p>}
             </div>
           </div>
 
@@ -308,7 +329,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Annual Leaves</label>
                   <input
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfAnnualLeaves"
                     type="number"
                     value={formData.noOfAnnualLeaves}
@@ -318,7 +339,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Casual Leaves</label>
                   <input
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfCasualLeaves"
                     type="number"
                     value={formData.noOfCasualLeaves}
@@ -328,7 +349,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Medical Leaves</label>
                   <input
-                    className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfMedicalLeaves"
                     type="number"
                     value={formData.noOfMedicalLeaves}
@@ -343,13 +364,13 @@ const AddEmployee = () => {
           {/* Action Buttons */}
           <div className="flex justify-between">
             <button
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg w-1/3 hover:bg-blue-700 transition"
+              className="w-1/3 px-6 py-3 text-white transition bg-blue-600 rounded-lg hover:bg-blue-700"
               onClick={handleOnClick}
             >
               Save
             </button>
             <button
-              className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg w-1/3 hover:bg-gray-300 transition"
+              className="w-1/3 px-6 py-3 text-gray-700 transition bg-gray-200 rounded-lg hover:bg-gray-300"
               onClick={handleCancel}
             >
               Cancel
