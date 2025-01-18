@@ -39,11 +39,10 @@ const EmployeesReport = () => {
         </div>
         <div>
           <h2 className="text-xl font-bold">Employee Details</h2>
-          <table className="table-auto w-full border">
+          <table className="table-auto w-full border text-left">
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Branch</th>
                 <th>Designation</th>
                 <th>Phone</th>
                 <th>Base Salary</th>
@@ -57,7 +56,6 @@ const EmployeesReport = () => {
                   return (
                     <tr key={employee.employeeId}>
                       <td>{employee.employeeId}</td>
-                      <td>{employee.branchName}</td>
                       <td>{employee.designation}</td>
                       <td>{employee.phoneNumber}</td>
                       <td>{employee.baseSalary}</td>
