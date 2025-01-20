@@ -46,7 +46,7 @@ function MainDashboard() {
       {/* <h1 className="mb-1 text-2xl font-bold">Car Wash Center Manager Dashboard</h1> */}
       <div className='px-6 bg-gray-100 '>
         <h3 className='mb-6 text-2xl font-bold'>Day Summary</h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 ">
+        <div className="grid items-center grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card
             title="Today's Bookings"
             value={items.length}
@@ -54,10 +54,10 @@ function MainDashboard() {
           />
           <Card title="Completed Services " value={completedBookings.length} icon={<i className="fas fa-check"></i>} />
           <Card title="On-going Bookings" value={OngoingBookings.length} icon={<i className="fas fa-box"></i>} />
-          <Card title="Employees on Duty" value="10" icon={<i className="fas fa-users"></i>} />
+          {/* <Card title="Employees on Duty" value="10" icon={<i className="fas fa-users"></i>} /> */}
         </div>
 
-        <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid h-20 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Link to={`/carwashcenteradmin/addemployee`} className='text-center'><Button >Add Employee</Button></Link>
           {/* <Link to={'/carwashcenteradmin/scheduleservice'} className='text-center'><Button>Schedule Service</Button></Link> */}
           <Link to={`/carwashcenteradmin/taskassign`} className='text-center'><Button>Task Assign </Button></Link>

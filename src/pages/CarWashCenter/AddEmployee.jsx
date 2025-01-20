@@ -192,14 +192,14 @@ const AddEmployee = () => {
 
   return (
     <div className="max-w-4xl p-6 mx-auto">
-      <div className="p-8 bg-white rounded-lg shadow-lg">
-        <h1 className="mb-8 text-3xl font-semibold text-center text-gray-700">Add New Employee</h1>
+      <div className="bg-white rounded-lg shadow-lg p-7">
+        <h1 className="mb-4 text-2xl font-semibold text-center text-gray-700">Add New Employee</h1>
         <form>
           {/* Name */}
           <div className="mb-4">
             <label className="block text-lg font-medium text-gray-600">Full Name</label>
             <input
-              className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               name="name"
               type="text"
               placeholder="Enter full name"
@@ -214,7 +214,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">NIC</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="nic"
                 type="text"
                 placeholder="Enter NIC"
@@ -226,7 +226,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">Phone No</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="phone"
                 type="text"
                 placeholder="Enter phone number"
@@ -242,7 +242,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">Email</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="email"
                 type="email"
                 placeholder="Enter email"
@@ -254,7 +254,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">Date of Birth</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="dateOfBirth"
                 type="date"
                 value={formData.dateOfBirth}
@@ -269,7 +269,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">City</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="city"
                 type="text"
                 placeholder="Enter city"
@@ -281,7 +281,7 @@ const AddEmployee = () => {
             <div>
               <label className="block text-lg font-medium text-gray-600">Designation</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="designation"
                 type="text"
                 placeholder="Enter designation"
@@ -296,7 +296,7 @@ const AddEmployee = () => {
             <div className="mb-4">
               <label className="block text-lg font-medium text-gray-600">Is Probation</label>
               <select
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="isProbation"
                 value={formData.isProbation}
                 onChange={handleChange}
@@ -310,7 +310,7 @@ const AddEmployee = () => {
             <div className="mb-4">
               <label className="block text-lg font-medium text-gray-600">Base Salary</label>
               <input
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 name="baseSalary"
                 type="number"
                 min={0}
@@ -329,7 +329,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Annual Leaves</label>
                   <input
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfAnnualLeaves"
                     type="number"
                     value={formData.noOfAnnualLeaves}
@@ -339,7 +339,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Casual Leaves</label>
                   <input
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfCasualLeaves"
                     type="number"
                     value={formData.noOfCasualLeaves}
@@ -349,7 +349,7 @@ const AddEmployee = () => {
                 <div>
                   <label className="block text-lg font-medium text-gray-600">Medical Leaves</label>
                   <input
-                    className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="noOfMedicalLeaves"
                     type="number"
                     value={formData.noOfMedicalLeaves}

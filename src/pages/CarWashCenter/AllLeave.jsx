@@ -84,7 +84,7 @@ const AllLeave = () => {
       labels,
       datasets: [
         {
-          label: 'Number of Leave Requests',
+          label: 'Number of Leaves',
           data,
           backgroundColor: 'rgb(135,206,250)',
           borderColor: 'rgba(75, 192, 192, 1)',
