@@ -4,6 +4,7 @@ import SheduleDetails from '../../components/CarWashCenter/SheduleDetails'
 import OneTask from '../../components/CarWashCenter/OneTask';
 import axios from 'axios';
 import { publicAuthRequest } from '../../constants/requestMethods';
+import Swal from "sweetalert2";
 
 const TasksAssign = () => {
   const navigate = useNavigate();
@@ -26,11 +27,10 @@ const TasksAssign = () => {
 
   const fetchBookingDetails = async () => {
     try {
-      const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/not-task-assigned`);
       console.log(response.data);
       if (response.data) {
-        const filteredBookings = response.data.filter(booking => booking.taskAssigned === false);
-        setBookings(filteredBookings);
+        setBookings(response.data);
       }
     } catch (error) {
       console.log("Error fetching data: ", error)
@@ -52,7 +52,7 @@ const TasksAssign = () => {
     fetchBookingDetails();
     fetchEmployeeList();
   }, []);
-  // Handle form input changes
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
@@ -61,14 +61,11 @@ const TasksAssign = () => {
     }));
   };
 
-  // Handle form submission
   const handleSave = async () => {
-    const { employeeId, startTime, endTime } = formData;
+    const { employeeId } = formData;
     const selectedBooking = bookings[isActiveTask];
     const payload = {
       employeeId,
-      startTime: `${startTime}:00`,
-      endTime: `${endTime}:00`,
       taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
       taskDate: new Date().toISOString().split('T')[0],
@@ -79,45 +76,46 @@ const TasksAssign = () => {
       const response = await publicAuthRequest.post(`/centerAdmin/assign-tasks`, payload);
       console.log("Task assigned successfully:", response.data);
       setIsTaskAssignVisible(false);
-      navigate("/carwashcenteradmin/taskassign");
+      // alert("Successfully assigned tasks!")
+      Swal.fire({
+        title:"Successfully assigned tasks!",
+        icon:"success",
+        width:'350px',
+        confirmButtonText:"Ok",
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
+      });
+      navigate("/CarWashCenterAdmin/taskAssign");
     } catch (error) {
       console.log("Error saving task:", error);
+      // alert("Task assign failed!")
+      Swal.fire({
+        title:"Failed to assign employee!",
+        text:"Select an employee",
+        icon:"error",
+        width:'350px',
+        confirmButtonText:"Ok",
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
+      });
     }
     console.log(payload);
   };
 
-
-
   const handleOnclick = (index) => {
-
-    // setIsActiveTask(index);
-
     if (isActiveTask == index) {
       setIsTaskAssignVisible(!isTaskAssignVisible);
     } else {
       setIsActiveTask(isActiveTask);
       setIsTaskAssignVisible(true);
-      // setIsTaskAssignVisible(isTaskAssignVisible);      
     }
-
     setIsActiveTask(index);
-    // return isActiveTask;
-    // setIsActiveTask(index);
-
   };
 
-
-
-  const addInputFeild = () => {
-
-
-    // setAssineeCount(assigneeCount+1);
-    // setIsTaskAssignVisible(true);
-    // ()=>handleOnclick(index);
-    // setIsActiveTask(index);
-
-
-  }
 
   // const bookings =[
   //   {
@@ -157,23 +155,23 @@ const TasksAssign = () => {
   }
   return (
     <>
-      <h1 className="text-2xl font-bold">Task Assign</h1>
       <div className="flex flex-cols">
-        <div className="w-3/5 h-full m-5 space-y-4">
-          {bookings.map((booking, index) => (
-            <div key={index} className="cursor-pointer" onClick={() => handleOnclick(index)}>
+        <div className="w-3/5 h-full p-4 m-5 mb-2 space-y-4 bg-gray-100 rounded-lg">
+          <h1 className="text-2xl font-bold">Task Assign</h1>
+          {bookings.length > 0 ? (bookings.map((booking, index) => (
+            <div className="cursor-pointer" onClick={() => handleOnclick(index)}>
               <OneTask booking={booking} />
             </div>
-          ))}
+          ))) : (
+            <div className="italic text-center text-gray-600">There is no more bookings today to assign tasks.</div>
+          )}
         </div>
         {isTaskAssignVisible && (
           <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
-            <div className="text-lg">Details</div>
+            <div className="text-lg font-semibold">Details</div>
             <div className="pl-3">{bookings[isActiveTask].carName} - {bookings[isActiveTask].service}</div>
             <p className="text-[#5F6165]">Customer ID - {bookings[isActiveTask].userID}</p>
-            {/* <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div> */}
             <form id="form" onSubmit={(e) => e.preventDefault()}>
-              {/* Employee Dropdown */}
               <div className="mb-4">
                 <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700">
                   Select Employee
@@ -192,36 +190,6 @@ const TasksAssign = () => {
                   ))}
                 </select>
               </div>
-
-              {/* Start Time */}
-              <div className="mb-4">
-                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
-                  Start Time
-                </label>
-                <input
-                  type="time"
-                  id="startTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.startTime}
-                />
-              </div>
-
-              {/* End Time */}
-              <div className="mb-4">
-                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">
-                  End Time
-                </label>
-                <input
-                  type="time"
-                  id="endTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.endTime}
-                />
-              </div>
-
-              {/* Save Button */}
               <button
                 type="button"
                 className="items-center justify-center w-full p-1 my-5 text-white bg-blue-700 rounded-full"
