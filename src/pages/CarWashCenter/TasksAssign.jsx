@@ -3,45 +3,42 @@ import { useNavigate } from 'react-router-dom';
 import OneTask from '../../components/CarWashCenter/OneTask';
 import { publicAuthRequest } from '../../constants/requestMethods';
 import Swal from 'sweetalert2';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const TasksAssign = () => {
   const navigate = useNavigate();
 
   const [isTaskAssignVisible, setIsTaskAssignVisible] = useState(false);
-  const [isActiveTask, setIsActiveTask] = useState();
+  const [isActiveTask, setIsActiveTask] = useState(null);
   const [employeeList, setEmployeeList] = useState([]);
   const [bookings, setBookings] = useState([]);
-
-  const [formData, setFormData] = useState({
-    employeeId: '',
-    startTime: '',
-    endTime: '',
-    description: '',
-  });
+  const [filteredBookings, setFilteredBookings] = useState([]);
+  const [formData, setFormData] = useState({ employeeId: '' });
+  const [selectedDate, setSelectedDate] = useState(new Date()); // Default to today
 
   const [currentPage, setCurrentPage] = useState(1);
   const bookingsPerPage = 5;
 
-  const totalPages = Math.ceil(bookings.length / bookingsPerPage);
-
-  // Get the current page's bookings
-  const currentBookings = bookings.slice(
+  const totalPages = Math.ceil(filteredBookings.length / bookingsPerPage);
+  const currentBookings = filteredBookings.slice(
     (currentPage - 1) * bookingsPerPage,
     currentPage * bookingsPerPage
   );
 
+  // Fetch bookings from API
   const fetchBookingDetails = async () => {
     try {
-      const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
+      const response = await publicAuthRequest.get(`/centerAdmin/get-today-and-future-bookings`);
       if (response.data) {
-        const filteredBookings = response.data.filter((booking) => !booking.taskAssigned);
-        setBookings(filteredBookings);
+        setBookings(response.data);
       }
     } catch (error) {
-      console.log('Error fetching data: ', error);
+      console.error('Error fetching bookings:', error);
     }
   };
 
+  // Fetch employees from API
   const fetchEmployeeList = async () => {
     try {
       const response = await publicAuthRequest.get(`/centerAdmin/get-All-employees`);
@@ -49,15 +46,40 @@ const TasksAssign = () => {
         setEmployeeList(response.data);
       }
     } catch (error) {
-      console.log('Error fetching employees: ', error);
+      console.error('Error fetching employees:', error);
     }
   };
 
+  // Filter bookings by selected date
+  const filterBookingsByDate = (date) => {
+    setSelectedDate(date);
+
+    // Manually format the selectedDate to 'YYYY-MM-DD'
+    const selectedDateString = date.toLocaleDateString('en-CA'); // 'en-CA' gives the 'YYYY-MM-DD' format
+
+    // Filter bookings by matching the date part (YYYY-MM-DD)
+    const filtered = bookings.filter((booking) => {
+      return booking.date === selectedDateString;
+    });
+
+    setFilteredBookings(filtered);
+    setCurrentPage(1); // Reset pagination to first page
+  };
+
+  // Initialize bookings and employees
   useEffect(() => {
     fetchBookingDetails();
     fetchEmployeeList();
-  }, []);
+  }, []); // This only runs once on mount
 
+  // Filter bookings by today's date after fetching the bookings
+  useEffect(() => {
+    if (bookings.length > 0) {
+      filterBookingsByDate(new Date()); // Automatically filter for today
+    }
+  }, [bookings]); // Only run this when bookings are fetched
+
+  // Handle employee selection
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
@@ -66,47 +88,52 @@ const TasksAssign = () => {
     }));
   };
 
+  // Assign a task to an employee
   const handleSave = async () => {
-    const { employeeId } = formData;
-    const selectedBooking = bookings[isActiveTask];
-
+    const selectedBooking = filteredBookings[isActiveTask];
+    if (!formData.employeeId) {
+      Swal.fire('Error', 'Please select an employee.', 'error');
+      return;
+    }
+  
     const payload = {
-      employeeId,
+      employeeId: formData.employeeId,
       startTime: selectedBooking.startTime,
       endTime: selectedBooking.endTime,
       taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
-      taskDate: new Date().toISOString().split('T')[0],
+      taskDate: selectedBooking.date, // Use booking date
       bookingId: selectedBooking.bookingId,
     };
-
+  
     try {
+      // Call the API to assign the task
       await publicAuthRequest.post(`/centerAdmin/assign-tasks`, payload);
-
+  
       Swal.fire({
-        title: 'Task Assigned Successfully!',
-        text: 'The task has been assigned to the selected employee.',
+        title: 'Success',
+        text: 'Task assigned successfully!',
         icon: 'success',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK',
       }).then(() => {
-        const updatedBookings = bookings.filter((_, index) => index !== isActiveTask);
+        // Remove the assigned booking from both bookings and filteredBookings
+        const updatedBookings = bookings.filter((booking) => booking.bookingId !== selectedBooking.bookingId);
+        const updatedFilteredBookings = filteredBookings.filter((booking) => booking.bookingId !== selectedBooking.bookingId);
+  
         setBookings(updatedBookings);
+        setFilteredBookings(updatedFilteredBookings);
+  
+        // Reset the task assignment form and UI
         setIsTaskAssignVisible(false);
         setIsActiveTask(null);
+        setFormData({ employeeId: '' });
       });
     } catch (error) {
-      console.log('Error saving task:', error);
-      Swal.fire({
-        title: 'Error',
-        text: 'There was an error assigning the task. Please try again.',
-        icon: 'error',
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'OK',
-      });
+      console.error('Error assigning task:', error);
+      Swal.fire('Error', 'Failed to assign task. Try again later.', 'error');
     }
-  };
+  };  
 
+  // Toggle task assignment panel
   const handleOnclick = (index) => {
     if (isActiveTask === index) {
       setIsTaskAssignVisible(!isTaskAssignVisible);
@@ -116,23 +143,38 @@ const TasksAssign = () => {
     }
   };
 
+  // Change current page in pagination
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    setIsTaskAssignVisible(false); // Reset task assign visibility on page change
-    setIsActiveTask(null); // Reset active task on page change
+    setIsTaskAssignVisible(false);
+    setIsActiveTask(null);
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Task Assignment</h1>
+      <div className="mb-6">
+        <label htmlFor="dateFilter" className="block text-sm font-medium text-gray-700 mb-2">
+          Select a date to filter bookings:
+        </label>
+        <DatePicker
+          id="dateFilter"
+          selected={selectedDate}
+          onChange={filterBookingsByDate}
+          className="p-2 border rounded-md"
+          minDate={new Date()} // Disable past dates
+          dateFormat="yyyy-MM-dd"
+        />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-2 space-y-4">
           {currentBookings.length > 0 ? (
             currentBookings.map((booking, index) => (
               <div
                 key={index}
-                className={` ${
-                  isActiveTask === index ? 'ring-2 ring-blue-500 rounded-lg' : ''
+                className={`cursor-pointer ${
+                  isActiveTask === index ? 'ring-2 ring-blue-500 rounded-lg' : 'bg-white'
                 }`}
                 onClick={() => handleOnclick((currentPage - 1) * bookingsPerPage + index)}
               >
@@ -141,7 +183,7 @@ const TasksAssign = () => {
             ))
           ) : (
             <div className="text-center text-gray-500">
-              <p className="text-lg">No bookings available for this page.</p>
+              <p>No bookings available for this date.</p>
             </div>
           )}
         </div>
@@ -151,10 +193,10 @@ const TasksAssign = () => {
             <h2 className="text-xl font-semibold mb-4">Assign Task</h2>
             <div className="mb-2 text-gray-700">
               <span className="font-bold">Details: </span>
-              {bookings[isActiveTask].carName} - {bookings[isActiveTask].service}
+              {filteredBookings[isActiveTask].carName} - {filteredBookings[isActiveTask].service}
             </div>
             <p className="mb-4 text-sm text-gray-600">
-              Customer ID: {bookings[isActiveTask].userID}
+              Customer ID: {filteredBookings[isActiveTask].userID}
             </p>
 
             <form onSubmit={(e) => e.preventDefault()}>
@@ -165,7 +207,7 @@ const TasksAssign = () => {
                 id="employeeId"
                 value={formData.employeeId}
                 onChange={handleInputChange}
-                className="w-full p-2 mt-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 mt-2 border rounded-md"
               >
                 <option value="">Select Employee</option>
                 {employeeList.map((employee) => (
@@ -177,7 +219,7 @@ const TasksAssign = () => {
 
               <button
                 type="button"
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-all"
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
                 onClick={handleSave}
               >
                 Save Task
@@ -187,16 +229,14 @@ const TasksAssign = () => {
         )}
       </div>
 
-      {/* Pagination Controls */}
+      {/* Pagination */}
       <div className="mt-6 flex justify-center space-x-2">
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 rounded-md transition-all ${
-              currentPage === index + 1
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
+            className={`px-4 py-2 rounded-md ${
+              currentPage === index + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200'
             }`}
           >
             {index + 1}

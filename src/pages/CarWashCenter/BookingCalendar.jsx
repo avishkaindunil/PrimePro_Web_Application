@@ -1,7 +1,6 @@
 import React from 'react'
 import DateAndTimeTracker from '../../components/Employee/DateAndTimeTracker'
 import CalenderShedule from '../../components/CarWashCenter/CalenderShedule'
-import CalenderwithCurrDate from '../../components/CarWashCenter/CalenderwithCurrDate'
 import SheduleDetails from '../../components/CarWashCenter/SheduleDetails'
 
 const BookingCalendar = () => {
