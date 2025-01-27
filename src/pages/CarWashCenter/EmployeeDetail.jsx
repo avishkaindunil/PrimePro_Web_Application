@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import UserView from '../../components/UserView';
 import ProfilePic from '../../assets/profilepic.png'
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 const EmployeeDetail = () => {
     const { id } = useParams();

@@ -15,10 +15,11 @@ const SheduleDetails = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await publicAuthRequest.get(`/centerAdmin/not-time-allocated`);
+        // const response = await publicAuthRequest.get(`/centerAdmin/not-time-allocated`);
+        const response = await publicAuthRequest.get(`/centerAdmin/get-all-bookings`);
         console.log(response);
-        const filteredBookings = response.data.filter(booking => booking.centerName === centerName);
-        const parsedBookings = filteredBookings.map((booking) => {
+        // const filteredBookings = response.data.filter(booking => booking.centerName === centerName);
+        const parsedBookings = response.data.map((booking) => {
           return {
             id: booking.bookingId,
             title: `${booking.carName} - ${booking.service}`,
@@ -136,7 +137,7 @@ const SheduleDetails = () => {
 
   return (
     <div className="p-4 bg-gray-100">
-      <h1 className="pb-3 text-2xl font-semibold">Bookings for Time Allocate</h1>
+      <h1 className="pb-3 text-2xl font-semibold">Booking History</h1>
       {bookings.map((booking, index) => (
         <div key={index} className="p-2 px-5 mb-2 bg-white rounded-lg shadow-md">
           <div className="flex items-center justify-between">
@@ -145,7 +146,7 @@ const SheduleDetails = () => {
               <p className="text-gray-600">{booking.bookingDate}</p>
             </div>
             <div>
-              <button
+              {/* <button
                 onClick={() => handleCantAllocateClick(booking)}
                 className="px-4 py-2 mr-4 text-white bg-red-500 rounded hover:bg-red-600"
               >
@@ -156,7 +157,7 @@ const SheduleDetails = () => {
                 className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
               >
                 Allocate Time
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

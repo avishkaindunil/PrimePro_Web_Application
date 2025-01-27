@@ -22,10 +22,12 @@ const CalenderSchedule = () => {
       );
       if (response.data) {
         console.log(response.data);
-        const filteredBookings = response.data.filter(
-          (booking) => booking.centerName === centerName
-        );
-        const groupedBookings = groupBookingsByDate(filteredBookings);
+        console.log(centerName);
+        // const filteredBookings = response.data.filter(
+        //   (booking) => booking.centerName === centerName
+        // );
+        // console.log(filteredBookings);
+        const groupedBookings = groupBookingsByDate(response.data);
         setDateBookings(groupedBookings);
         setEvents(mapBookingsToEvents(groupedBookings));
       }

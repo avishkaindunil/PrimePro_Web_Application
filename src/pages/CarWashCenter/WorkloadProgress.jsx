@@ -53,9 +53,9 @@ const WorkloadProgress = () => {
     setCurrentPage(pageNumber);
   };
 
-  let completedBookings = items.filter((item) => item[9] == 'COMPLETED');
-  let acceptedBookings = items.filter((item) => item[9] == 'ACCEPTED');
-  let OngoingBookings = items.filter((item) => item[9] == 'PENDING');
+  let completedBookings = items.filter((item) => item[10] == 'COMPLETED');
+  let acceptedBookings = items.filter((item) => item[10] == 'ACCEPTED');
+  let OngoingBookings = items.filter((item) => item[10] == 'PENDING');
 
   return (
     <div>
