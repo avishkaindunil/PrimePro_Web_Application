@@ -1,97 +1,151 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
-import { AlignJustify } from 'lucide-react';
+import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// Function to generate a random pastel color
-const generatePastelColor = () => {
-  const r = Math.floor(Math.random() * 256); // Red (0-255)
-  const g = Math.floor(Math.random() * 256); // Green (0-255)
-  const b = Math.floor(Math.random() * 256); // Blue (0-255)
-
-  // To make it a pastel color, we add a constant to each RGB value to keep them light
-  return `rgb(${r}, ${g}, ${b})`; // Ensures values are between 150 and 255
-};
-
-const ReportCharts = (props) => {
-  const report = props.reportType;
-
-  // const [serviceData, setServiceData] = useState([]);
-  
-  // useEffect(() => {
-  //   const fetchServiceData = async () => {
-  //     // Assuming you have an API that returns the service data for the date range
-  //     const response = await fetch(`/api/getServiceData?from=${report.from}&to=${report.to}`);
-  //     const data = await response.json();
-  //     setServiceData(data); // Assuming data is in the format { "Car Wash": 10, "Engine Cleaning": 5, ... }
-  //   };
-
-  //   fetchServiceData();
-  // }, [report.from, report.to]);
-
-  // // Make sure serviceData is populated before rendering the chart
-  // if (!serviceData.length) return <div>Loading...</div>;
-
-
-  // Example function to generate the date range from `reportType.from` to `reportType.to`
-  const generateDateRange = (startDate, endDate) => {
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
-    const dates = [];
-
-    let currentDate = start;
-    while (currentDate.isBefore(end) || currentDate.isSame(end)) {
-      dates.push(currentDate.format('YYYY-MM-DD'));
-      currentDate = currentDate.add(1, 'day');
-    }
-
-    return dates;
-  };
-
-  // Get the list of dates for the x-axis (labels)
-  const labels = generateDateRange(report.from, report.to);
-
-  // Example of data to show service types (you can replace this with actual data)
-  const serviceTypes = ['Car Wash', 'Engine Cleaning', 'Tire Service', 'Polishing', 'Interior Cleaning'];
-  const serviceData = serviceTypes.map(service => {
-    // Randomly generate the number of bookings for each service type between the given date range
-    const bookings = Math.floor(Math.random() * 10) + 1; // Random bookings count
-    return bookings;
-  });
-
-  // Generate random pastel colors for each service type
-  const backgroundColors = serviceTypes.map(() => generatePastelColor());
-
-  const data = {
-    labels: serviceTypes, // Service types as pie chart labels
+const ReportCharts = ({ reportType }) => {
+  const [serviceData, setServiceData] = useState({
+    labels: ['Loading...'], // Placeholder label
     datasets: [
       {
-        data: serviceData, // Service bookings data
-        backgroundColor: backgroundColors, // Random pastel colors for each service type
-        hoverBackgroundColor: backgroundColors.map(color => color.replace('rgb', 'rgba').replace(')', ', 0.8)')), // Slightly darker for hover effect
+        data: [100], // Placeholder data
+        backgroundColor: ['rgba(220, 220, 220, 0.5)'], // Placeholder color
       },
     ],
+  });
+
+  const [error, setError] = useState(''); // State for validation errors
+  const centerName = localStorage.getItem('CENTER');
+
+  const validateDates = () => {
+    if (!reportType.from || !reportType.to) {
+      return 'Both "from" and "to" dates are required.';
+    }
+
+    if (!dayjs(reportType.from).isValid() || !dayjs(reportType.to).isValid()) {
+      return 'Please enter valid dates.';
+    }
+
+    if (dayjs(reportType.from).isAfter(dayjs(reportType.to))) {
+      return '"From" date cannot be after "to" date.';
+    }
+
+    return ''; // No errors
   };
+
+  const fetchBookingDetails = async () => {
+    const validationError = validateDates();
+    if (validationError) {
+      // Set error and clear chart data
+      setError(validationError);
+      setServiceData({
+        labels: [], // Clear labels
+        datasets: [
+          {
+            data: [], // Clear data
+            backgroundColor: [], // Clear colors
+          },
+        ],
+      });
+      return;
+    }
+  
+    // Clear chart data before fetching new data
+    setServiceData({
+      labels: [], // Clear labels
+      datasets: [
+        {
+          data: [], // Clear data
+          backgroundColor: [], // Clear colors
+        },
+      ],
+    });
+  
+    setError(''); // Clear error if validation passes
+  
+    try {
+      const response = await publicAuthRequest.get('/centerAdmin/get-all-bookings');
+      const bookings = response.data;
+  
+      const generateDateRange = (startDate, endDate) => {
+        const start = dayjs(startDate);
+        const end = dayjs(endDate);
+        const dates = [];
+        let currentDate = start;
+  
+        while (currentDate.isBefore(end) || currentDate.isSame(end)) {
+          dates.push(currentDate.format('YYYY-MM-DD'));
+          currentDate = currentDate.add(1, 'day');
+        }
+  
+        return dates;
+      };
+  
+      const dateRange = generateDateRange(reportType.from, reportType.to);
+  
+      const filteredBookings = bookings.filter((booking) => {
+        const bookingDate = new Date(booking.date);
+        const isInRange = bookingDate >= new Date(reportType.from) && bookingDate <= new Date(reportType.to);
+        return booking.centerName === centerName && isInRange;
+      });
+  
+      const serviceTypeCounts = filteredBookings.reduce((acc, booking) => {
+        const serviceType = booking.service;
+        acc[serviceType] = (acc[serviceType] || 0) + 1;
+        return acc;
+      }, {});
+  
+      const labels = Object.keys(serviceTypeCounts);
+      const dataValues = Object.values(serviceTypeCounts);
+      const backgroundColors = labels.map(() => `hsl(${Math.random() * 360}, 70%, 80%)`);
+  
+      // Set new data for the chart
+      setServiceData({
+        labels,
+        datasets: [
+          {
+            data: dataValues,
+            backgroundColor: backgroundColors,
+            hoverBackgroundColor: backgroundColors.map((color) =>
+              color.replace('rgb', 'rgba').replace(')', ', 0.8)')
+            ),
+          },
+        ],
+      });
+    } catch (error) {
+      // Handle error and clear chart data if fetching fails
+      console.error('Error fetching data:', error);
+      setServiceData({
+        labels: [], // Clear labels
+        datasets: [
+          {
+            data: [], // Clear data
+            backgroundColor: [], // Clear colors
+          },
+        ],
+      });
+      setError('Failed to fetch data. Please try again later.');
+    }
+  };
+  
+  useEffect(() => {
+    fetchBookingDetails();
+  }, [reportType, centerName]);
 
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'left', // Display the legend on the right side
-        align: 'right', // Align the legend items at the start
+        position: 'left',
         labels: {
-          usePointStyle: true, // Use circle points instead of boxes
-          padding: 20, // Add spacing between legend items
+          usePointStyle: true,
+          padding: 20,
         },
       },
       tooltip: {
-        font: {
-    size: 14,
-    weight: 'bold',
-  },
         callbacks: {
           label: function (context) {
             return `${context.label}: ${context.raw} bookings`;
@@ -105,11 +159,12 @@ const ReportCharts = (props) => {
     <div>
       <div className="h-[600px] p-6 bg-white rounded-lg shadow-md">
         <h3 className="mb-4 text-lg font-medium">Service Types Distribution</h3>
+        {error && <p className="mb-4 text-red-500">{error}</p>} {/* Display error */}
         <div className="h-[100%] ml-[250px]">
-          <Pie data={data} options={options} />
+          <Pie data={serviceData} options={options} />
         </div>
       </div>
-      <p className="mt-4 text-center">Report Type: {report.type}</p>
+      <p className="mt-4 text-center">Report Type: {reportType.type}</p>
     </div>
   );
 };

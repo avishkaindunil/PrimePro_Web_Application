@@ -32,6 +32,7 @@ const TasksAssign = () => {
       const response = await publicAuthRequest.get(`/centerAdmin/get-today-and-future-bookings`);
       if (response.data) {
         setBookings(response.data);
+        setBookings(response.data);
       }
     } catch (error) {
       console.error('Error fetching bookings:', error);
