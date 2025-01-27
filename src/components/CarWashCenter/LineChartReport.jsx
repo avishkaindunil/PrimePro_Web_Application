@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -40,7 +41,8 @@ const LineChartReport = ({ reportType }) => {
       const bookings = response.data;
 
       // Filter bookings by center name
-      const filteredBookings = bookings.filter((booking) => booking.centerName === centerName);
+      // const filteredBookings = bookings.filter((booking) => booking.centerName === centerName);
+      const filteredBookings = bookings;
 
       // Generate the date range from `reportType.from` to `reportType.to`
       const generateDateRange = (startDate, endDate) => {

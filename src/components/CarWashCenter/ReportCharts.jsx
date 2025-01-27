@@ -3,6 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -89,7 +90,7 @@ const ReportCharts = ({ reportType }) => {
       const filteredBookings = bookings.filter((booking) => {
         const bookingDate = new Date(booking.date);
         const isInRange = bookingDate >= new Date(reportType.from) && bookingDate <= new Date(reportType.to);
-        return booking.centerName === centerName && isInRange;
+        return isInRange;
       });
   
       const serviceTypeCounts = filteredBookings.reduce((acc, booking) => {

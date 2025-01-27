@@ -15,24 +15,6 @@ const EmployeeManagement = () => {
     {name:"Stock Area"}
   ];
 
-  //example employees
-  // const allEmployees = [
-  //   { id: 1, name: "John Doe", division: "Service Area" },
-  //   { id: 2, name: "Jane Smith", division: "Casher Area" },
-  //   { id: 3, name: "Jim Brown", division: "Stock Area" },
-  //   { id: 4, name: "Jake White", division: "Service Area" },
-  //   { id: 5, name: "Jill Black", division: "Stock Area" },
-  //   { id: 6, name: "John Doe", division: "Service Area" },
-  //   { id: 7, name: "Jane Smith", division: "Casher Area" },
-  //   { id: 8, name: "Jim Brown", division: "Stock Area" },
-  //   { id: 9, name: "Jake White", division: "Service Area" },
-  //   { id: 10, name: "Jill Black", division: "Stock Area" },
-  //   { id: 11, name: "John Doe", division: "Service Area" },
-  //   { id: 12, name: "Jane Smith", division: "Casher Area" },
-  //   { id: 13, name: "Jim Brown", division: "Stock Area" },
-  //   { id: 14, name: "Jake White", division: "Service Area" },
-  //   { id: 15, name: "Jill Black", division: "Stock Area" }
-  // ];
   const [allEmployees, setAllEmplyees] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [activeDivision, setActiveDivision] = useState(null);
