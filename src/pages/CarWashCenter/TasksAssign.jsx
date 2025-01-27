@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SheduleDetails from '../../components/CarWashCenter/SheduleDetails'
 import OneTask from '../../components/CarWashCenter/OneTask';
-import axios from 'axios';
 import { publicAuthRequest } from '../../constants/requestMethods';
+import Swal from 'sweetalert2';
 
 const TasksAssign = () => {
   const navigate = useNavigate();
 
   const [isTaskAssignVisible, setIsTaskAssignVisible] = useState(false);
   const [isActiveTask, setIsActiveTask] = useState();
-  const [assigneeCount, setAssineeCount] = useState(1);
   const [employeeList, setEmployeeList] = useState([]);
   const [bookings, setBookings] = useState([]);
 
@@ -21,21 +19,28 @@ const TasksAssign = () => {
     description: '',
   });
 
-  const centerName = localStorage.getItem("CENTER");
-  console.log(centerName);
+  const [currentPage, setCurrentPage] = useState(1);
+  const bookingsPerPage = 5;
+
+  const totalPages = Math.ceil(bookings.length / bookingsPerPage);
+
+  // Get the current page's bookings
+  const currentBookings = bookings.slice(
+    (currentPage - 1) * bookingsPerPage,
+    currentPage * bookingsPerPage
+  );
 
   const fetchBookingDetails = async () => {
     try {
       const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
-      console.log(response.data);
       if (response.data) {
-        const filteredBookings = response.data.filter(booking => booking.taskAssigned === false);
+        const filteredBookings = response.data.filter((booking) => !booking.taskAssigned);
         setBookings(filteredBookings);
       }
     } catch (error) {
-      console.log("Error fetching data: ", error)
+      console.log('Error fetching data: ', error);
     }
-  }
+  };
 
   const fetchEmployeeList = async () => {
     try {
@@ -44,7 +49,7 @@ const TasksAssign = () => {
         setEmployeeList(response.data);
       }
     } catch (error) {
-      console.log("Error fetching employees: ", error);
+      console.log('Error fetching employees: ', error);
     }
   };
 
@@ -52,7 +57,7 @@ const TasksAssign = () => {
     fetchBookingDetails();
     fetchEmployeeList();
   }, []);
-  // Handle form input changes
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevState) => ({
@@ -61,14 +66,14 @@ const TasksAssign = () => {
     }));
   };
 
-  // Handle form submission
   const handleSave = async () => {
-    const { employeeId, startTime, endTime } = formData;
+    const { employeeId } = formData;
     const selectedBooking = bookings[isActiveTask];
+
     const payload = {
       employeeId,
-      startTime: `${startTime}:00`,
-      endTime: `${endTime}:00`,
+      startTime: selectedBooking.startTime,
+      endTime: selectedBooking.endTime,
       taskDescription: `${selectedBooking.carName} - ${selectedBooking.service}`,
       customerId: selectedBooking.userID,
       taskDate: new Date().toISOString().split('T')[0],
@@ -76,169 +81,130 @@ const TasksAssign = () => {
     };
 
     try {
-      const response = await publicAuthRequest.post(`/centerAdmin/assign-tasks`, payload);
-      console.log("Task assigned successfully:", response.data);
-      setIsTaskAssignVisible(false);
-      navigate("/carwashcenteradmin/taskassign");
+      await publicAuthRequest.post(`/centerAdmin/assign-tasks`, payload);
+
+      Swal.fire({
+        title: 'Task Assigned Successfully!',
+        text: 'The task has been assigned to the selected employee.',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK',
+      }).then(() => {
+        const updatedBookings = bookings.filter((_, index) => index !== isActiveTask);
+        setBookings(updatedBookings);
+        setIsTaskAssignVisible(false);
+        setIsActiveTask(null);
+      });
     } catch (error) {
-      console.log("Error saving task:", error);
+      console.log('Error saving task:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'There was an error assigning the task. Please try again.',
+        icon: 'error',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK',
+      });
     }
-    console.log(payload);
   };
-
-
 
   const handleOnclick = (index) => {
-
-    // setIsActiveTask(index);
-
-    if (isActiveTask == index) {
+    if (isActiveTask === index) {
       setIsTaskAssignVisible(!isTaskAssignVisible);
     } else {
-      setIsActiveTask(isActiveTask);
+      setIsActiveTask(index);
       setIsTaskAssignVisible(true);
-      // setIsTaskAssignVisible(isTaskAssignVisible);      
     }
-
-    setIsActiveTask(index);
-    // return isActiveTask;
-    // setIsActiveTask(index);
-
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setIsTaskAssignVisible(false); // Reset task assign visibility on page change
+    setIsActiveTask(null); // Reset active task on page change
+  };
 
-
-  const addInputFeild = () => {
-
-
-    // setAssineeCount(assigneeCount+1);
-    // setIsTaskAssignVisible(true);
-    // ()=>handleOnclick(index);
-    // setIsActiveTask(index);
-
-
-  }
-
-  // const bookings =[
-  //   {
-  //       title: 'Car Wash - Toyota Prius',
-  //       start: new Date(2024, 6, 30, 8, 0), // July is month 6 (0-based index)
-  //       end: new Date(2024, 6, 30, 12, 0),
-  //       resource: 'Event 1'
-  //     },
-  //     {
-  //       title: 'Vehicle Waxing - Land Cruiser',
-  //       start: new Date(2024, 6, 31, 8, 0),
-  //       end: new Date(2024, 6, 31, 9, 0),
-  //       resource: 'Event 2'
-  //     },
-  //     {
-  //       title: 'Full Service -  Honda',
-  //       start: new Date(2024, 7, 1, 10, 0),
-  //       end: new Date(2024, 7, 1, 11, 0),
-  //       resource: 'Event 3'
-  //     },
-  //     {
-  //       title: 'Car Wash - Toyota Prius',
-  //       start: new Date(2024, 7, 1, 15, 0),
-  //       end: new Date(2024, 7, 1, 16, 0),
-  //       resource: 'Event 4'
-  //     }
-  // ];
-
-  const Scheduletime = (start, end) => {
-    const starthour = start.getHours().toString().padStart(2, '0');
-    const startminute = start.getMinutes().toString().padStart(2, '0');
-    const endhour = end.getHours().toString().padStart(2, '0');
-    const endminute = end.getMinutes().toString().padStart(2, '0');
-
-    return `${starthour}:${startminute} - ${endhour}:${endminute}`;
-
-  }
   return (
-    <>
-      <h1 className="text-2xl font-bold">Task Assign</h1>
-      <div className="flex flex-cols">
-        <div className="w-3/5 h-full m-5 space-y-4">
-          {bookings.map((booking, index) => (
-            <div key={index} className="cursor-pointer" onClick={() => handleOnclick(index)}>
-              <OneTask booking={booking} />
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Task Assignment</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="col-span-2 space-y-4">
+          {currentBookings.length > 0 ? (
+            currentBookings.map((booking, index) => (
+              <div
+                key={index}
+                className={` ${
+                  isActiveTask === index ? 'ring-2 ring-blue-500 rounded-lg' : ''
+                }`}
+                onClick={() => handleOnclick((currentPage - 1) * bookingsPerPage + index)}
+              >
+                <OneTask booking={booking} />
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-gray-500">
+              <p className="text-lg">No bookings available for this page.</p>
             </div>
-          ))}
+          )}
         </div>
-        {isTaskAssignVisible && (
-          <div className="w-2/5 p-4 m-3 space-y-4 bg-white rounded-lg shadow-lg" id='assigndiv' >
-            <div className="text-lg">Details</div>
-            <div className="pl-3">{bookings[isActiveTask].carName} - {bookings[isActiveTask].service}</div>
-            <p className="text-[#5F6165]">Customer ID - {bookings[isActiveTask].userID}</p>
-            {/* <div className="pl-3">{Scheduletime(bookings[isActiveTask].start, bookings[isActiveTask].end)}</div> */}
-            <form id="form" onSubmit={(e) => e.preventDefault()}>
-              {/* Employee Dropdown */}
-              <div className="mb-4">
-                <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700">
-                  Select Employee
-                </label>
-                <select
-                  id="employeeId"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.employeeId}
-                >
-                  <option value="">Select Employee</option>
-                  {employeeList.map((employee) => (
-                    <option key={employee.id} value={employee.id}>
-                      {employee.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
 
-              {/* Start Time */}
-              <div className="mb-4">
-                <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">
-                  Start Time
-                </label>
-                <input
-                  type="time"
-                  id="startTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.startTime}
-                />
-              </div>
+        {isTaskAssignVisible && isActiveTask !== null && (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Assign Task</h2>
+            <div className="mb-2 text-gray-700">
+              <span className="font-bold">Details: </span>
+              {bookings[isActiveTask].carName} - {bookings[isActiveTask].service}
+            </div>
+            <p className="mb-4 text-sm text-gray-600">
+              Customer ID: {bookings[isActiveTask].userID}
+            </p>
 
-              {/* End Time */}
-              <div className="mb-4">
-                <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">
-                  End Time
-                </label>
-                <input
-                  type="time"
-                  id="endTime"
-                  className="w-full p-2 mt-1 border border-gray-300 rounded"
-                  onChange={handleInputChange}
-                  value={formData.endTime}
-                />
-              </div>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700">
+                Assign to Employee
+              </label>
+              <select
+                id="employeeId"
+                value={formData.employeeId}
+                onChange={handleInputChange}
+                className="w-full p-2 mt-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Employee</option>
+                {employeeList.map((employee) => (
+                  <option key={employee.id} value={employee.id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </select>
 
-              {/* Save Button */}
               <button
                 type="button"
-                className="items-center justify-center w-full p-1 my-5 text-white bg-blue-700 rounded-full"
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-all"
                 onClick={handleSave}
               >
-                Save
+                Save Task
               </button>
             </form>
-
-
-
           </div>
         )}
-
       </div>
-    </>
-  )
-}
 
-export default TasksAssign
+      {/* Pagination Controls */}
+      <div className="mt-6 flex justify-center space-x-2">
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 rounded-md transition-all ${
+              currentPage === index + 1
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-blue-100'
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default TasksAssign;

@@ -51,7 +51,7 @@ export default function MainDashboard() {
     // Update the box content when taskCount, totalSalary, or totalDaysWork changes
     setBoxContent([
       {
-        title: "Total Tasks Completed",
+        title: "Total Tasks for today",
         value: taskCount,
         icon: "faTasks",
         color: "rgba(5, 0, 255, 0.17)",
