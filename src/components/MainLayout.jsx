@@ -15,7 +15,7 @@ const MainLayout = ({ userType }) => {
         <div className="header">
           <AppHeader />
         </div>
-        <div className='content flex-1 overflow-auto bg-[#D3E1E8] p-6'>
+        <div className='content flex-1 overflow-auto bg-[#D3E1E8] p-4'>
           <Outlet />
         </div>
       </div>

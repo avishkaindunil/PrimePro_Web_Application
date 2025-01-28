@@ -6,6 +6,7 @@ import Calendar from '../pages/Employee/Calendar'
 import Payroll from '../pages/Employee/Payroll'
 import Attendance from '../pages/Employee/Attendance'
 import LeaveForm from './../pages/Employee/ApplyLeave';
+import EmployeeAllLeave from '../pages/Employee/EmployeeAllLeave'
 
 const EmployeeRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const EmployeeRoutes = () => {
         <Route path='/customSupport' element={<CustomSupport />}/>
         <Route path='/attendance' element={<Attendance />}/>
         <Route path='/leave' element={<LeaveForm />}/>
+        <Route path='/leaveHistory' element={<EmployeeAllLeave />}/>
     </Routes>
   )
 }
