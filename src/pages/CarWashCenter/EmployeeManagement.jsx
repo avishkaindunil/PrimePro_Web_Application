@@ -84,7 +84,7 @@ const EmployeeManagement = () => {
           <div className=" w-[70%] px-8 space-y-5  bg-white rounded-lg shadow-inner py-7 mt-7 pt-10">
           <input className="p-2 ml-10 rounded-md mb-5 bg-slate-200 w-[80%]" type='text' placeholder='search for a booking...' onChange={onSearch}/>
             {paginatedEmployees.length ? (paginatedEmployees.map(emp =>(
-              <EmployeeRow key ={emp.id} employee={emp}/>
+              <EmployeeRow key ={emp.employeeId} employee={emp}/>
             ))):null}
 
             {allEmployees.length > 0 ? (
