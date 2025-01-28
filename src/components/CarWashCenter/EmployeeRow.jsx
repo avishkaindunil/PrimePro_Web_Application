@@ -3,6 +3,7 @@ import ProfilePic from '../../assets/profilepic.png'
 import { useNavigate } from 'react-router-dom'
 
 const EmployeeRow = ({employee}) => {
+console.log(employee);
 
   const navigate = useNavigate();
 
