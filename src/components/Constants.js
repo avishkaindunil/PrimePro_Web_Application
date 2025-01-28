@@ -5,6 +5,7 @@ export const employeeSidebarTabNames = [
     { name: "Attendance", icon: "faCheckSquare", url: "employee/attendance" },
     { name: "Payroll", icon: "faMoneyCheckAlt", url: "employee/payroll" },
     { name: "Apply Leave", icon: "faCalendarCheck", url: "employee/leave" },
+    { name: "Leave History", icon: "faCalendarCheck", url: "employee/leaveHistory" },
     { name: "Custom Support", icon: "faHeadset", url: "employee/customSupport" }
 ];
 
