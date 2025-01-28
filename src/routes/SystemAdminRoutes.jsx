@@ -6,9 +6,12 @@ import DataAnalytics from "../pages/systemAdmin/DataAnalytics";
 import ViewComplaints from "../pages/systemAdmin/Complaints";
 import PolicyDevelopmentPage from "../pages/systemAdmin/PolicyDevelopment";
 import MonitorSystemSecurity from "../pages/systemAdmin/MonitorSystemSecurity";
-import MainDashboard from "../pages/systemAdmin/Maindashboard";
+import MainDashboard from "../pages/systemAdmin/MainDashboard";	
 import CarCenters from "../pages/systemAdmin/CarCenters";
 import Reports from "../pages/systemAdmin/Reports";
+import Users from "../pages/systemAdmin/Users";
+import EmployeesReport from "../pages/systemAdmin/EmployeesReport";
+import AttendanceReport from "../pages/systemAdmin/AttendanceReport";
 
 const SystemAdminRoutes = () => {
     return (
@@ -21,6 +24,9 @@ const SystemAdminRoutes = () => {
           <Route path='/policyDevelopment' element={<PolicyDevelopmentPage/>}/>
           <Route path='/monitorSystemSecurity' element={<MonitorSystemSecurity/>}/>
           <Route path='/reports' element={<Reports/>}/>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/employeesReport' element={<EmployeesReport/>} />
+          <Route path='attendanceReport' element={<AttendanceReport/>} />
       </Routes>
     )
   }
