@@ -13,6 +13,7 @@ import LeaveRequest from '../pages/CarWashCenter/LeaveRequest';
 import ScheduleService from '../pages/CarWashCenter/ScheduleService';
 import AllLeave from '../pages/CarWashCenter/AllLeave';
 import ReportCharts from '../components/CarWashCenter/ReportCharts';
+import AttendanceApproval from '../pages/CarWashCenter/AttendanceApproval';
 
 const CarWashCenterRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const CarWashCenterRoutes = () => {
         <Route path='/leaverequest' element={<LeaveRequest/>}/>
         <Route path='/scheduleservice' element={<ScheduleService/>}/>
         <Route path='/allleaverequests' element={<AllLeave/>}/>
+        <Route path='/attendanceApproval' element={<AttendanceApproval/>}/>
 
         {/* <Route path='/report' element={<ReportCharts/>}/> */}
     </Routes>

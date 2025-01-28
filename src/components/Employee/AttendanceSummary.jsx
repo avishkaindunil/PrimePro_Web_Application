@@ -49,7 +49,7 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
                 attendanceDate: newAttendance.attendanceDate,
                 checkInTime: formatTime(newAttendance.checkInTime),
                 checkOutTime: formatTime(newAttendance.checkOutTime),
-                isApproved: false
+                isApproved: 0
             }
 
             console.log(attendanceDetailData);
