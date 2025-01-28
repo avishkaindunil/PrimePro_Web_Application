@@ -45,7 +45,7 @@ const SheduleDetails = () => {
   }, []);
 
   return (
-    <div className="p-4 bg-gray-100">
+    <div className="h-full p-4 overflow-y-scroll bg-gray-100">
       {bookings.map((booking, index) => (
         <div key={index} className="p-2 mb-2 bg-white rounded-lg shadow-md">
           <h1 className="text-base font-semibold">{booking.title}</h1>

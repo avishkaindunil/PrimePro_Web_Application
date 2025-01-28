@@ -34,6 +34,8 @@ const TasksAssign = () => {
     try {
       const response = await publicAuthRequest.get(`/centerAdmin/get-today-bookings`);
       if (response.data) {
+        console.log(response.data);
+        
         const filteredBookings = response.data.filter((booking) => !booking.taskAssigned);
         setBookings(filteredBookings);
       }
@@ -86,9 +88,13 @@ const TasksAssign = () => {
       Swal.fire({
         title: 'Task Assigned Successfully!',
         text: 'The task has been assigned to the selected employee.',
-        icon: 'success',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK',
+        icon:"success",
+        width:'350px',
+        confirmButtonText:"Ok",
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
       }).then(() => {
         const updatedBookings = bookings.filter((_, index) => index !== isActiveTask);
         setBookings(updatedBookings);
@@ -100,9 +106,13 @@ const TasksAssign = () => {
       Swal.fire({
         title: 'Error',
         text: 'There was an error assigning the task. Please try again.',
-        icon: 'error',
-        confirmButtonColor: '#d33',
-        confirmButtonText: 'OK',
+        icon:"error",
+        width:'350px',
+        confirmButtonText:"Ok",
+        customClass:{
+          title: 'text-lg font-semibold text-black',
+          confirmButton: 'px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all duration-300 ease-out transform hover:scale-105',
+        }
       });
     }
   };
@@ -123,9 +133,9 @@ const TasksAssign = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Task Assignment</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="min-h-screen p-6 bg-gray-100">
+      <h1 className="mb-6 text-3xl font-bold text-gray-800">Task Assignment</h1>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="col-span-2 space-y-4">
           {currentBookings.length > 0 ? (
             currentBookings.map((booking, index) => (
@@ -148,7 +158,7 @@ const TasksAssign = () => {
 
         {isTaskAssignVisible && isActiveTask !== null && (
           <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Assign Task</h2>
+            <h2 className="mb-4 text-xl font-semibold">Assign Task</h2>
             <div className="mb-2 text-gray-700">
               <span className="font-bold">Details: </span>
               {bookings[isActiveTask].carName} - {bookings[isActiveTask].service}
@@ -177,7 +187,7 @@ const TasksAssign = () => {
 
               <button
                 type="button"
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-all"
+                className="w-full py-2 mt-4 text-white transition-all bg-blue-600 rounded-md hover:bg-blue-700"
                 onClick={handleSave}
               >
                 Save Task
@@ -188,7 +198,7 @@ const TasksAssign = () => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="mt-6 flex justify-center space-x-2">
+      <div className="flex justify-center mt-6 space-x-2">
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index}
