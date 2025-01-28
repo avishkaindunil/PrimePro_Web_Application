@@ -34,11 +34,11 @@ const EmployeeManagement = () => {
   //   { id: 15, name: "Jill Black", division: "Stock Area" }
   // ];
   const [allEmployees, setAllEmplyees] = useState([]);
-  const [employees, setEmployees] = useState(allEmployees);
+  const [employees, setEmployees] = useState([]);
   const [activeDivision, setActiveDivision] = useState(null);
   const [divisionAmount,SetDivisionAmount] = useState(0);
   const [currentPage,setCurrentPage] =useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 4;
 
 
   const fetchEmployeeDetails = async () => {
@@ -47,6 +47,7 @@ const EmployeeManagement = () => {
       console.log(response);
       if (response.data) {
         setAllEmplyees(response.data);
+        setEmployees(response.data);
       }
     } catch (error) {
       console.log("Error fetching data: ", error)
@@ -58,7 +59,8 @@ const EmployeeManagement = () => {
   }, []);
 
 
-  const paginatedEmployees = allEmployees.slice(
+
+  const paginatedEmployees = employees.slice(
     (currentPage -1)*itemsPerPage,
     currentPage*itemsPerPage
   );
@@ -71,7 +73,7 @@ const EmployeeManagement = () => {
   const onClickEmployeeDivision =(index)=>{
     setActiveDivision(index);
     const selectedDivision = EmployeeDivitions[index].name;
-    const filteredEmployees = allEmployees.filter(emp => emp.division ===selectedDivision);
+    const filteredEmployees = employees.filter(emp => emp.division ===selectedDivision);
     setEmployees(filteredEmployees);
     SetDivisionAmount(filteredEmployees.length)
   };
@@ -80,13 +82,13 @@ const EmployeeManagement = () => {
     setEmployees(allEmployees.filter(employee=>employee.name.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())));
   }
 
-  const totalPages = Math.ceil(allEmployees.length/itemsPerPage);
+  const totalPages = Math.ceil(employees.length/itemsPerPage);
   
   return (
     <>
-      <div>
-        <h1 className="text-2xl font-bold">Employees</h1>
-        <div className="flex">
+      <div className='px-5'>
+        <h1 className="pb-1 text-2xl font-semibold">Employees</h1>
+        {/* <div className="flex">
           {EmployeeDivitions.map((item, index)=>(
             <EmpCategory 
             key={index}
@@ -95,7 +97,7 @@ const EmployeeManagement = () => {
             onClick ={()=>onClickEmployeeDivision(index)}
             />
           ))}
-        </div>
+        </div> */}
         <div className="flex justify-between space-x-10">
           <div className=" w-[70%] px-8 space-y-5  bg-white rounded-lg shadow-inner py-7 mt-7 pt-10">
           <input className="p-2 ml-10 rounded-md mb-5 bg-slate-200 w-[80%]" type='text' placeholder='search for a booking...' onChange={onSearch}/>

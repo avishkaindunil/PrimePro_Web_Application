@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -8,27 +8,47 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { publicAuthRequest } from '../../constants/requestMethods';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 function EmployeePerformanceChart() {
-  // Sample Data (replace with real data from your backend or state)
-  const data = {
-    labels: ["Alice", "Bob", "Charlie", "Diana", "Eve"], // Employee Names
-    datasets: [
-      {
-        label: "Tasks Completed",
-        data: [15, 20, 12, 25, 18], // Number of tasks per employee
-        backgroundColor: [
-          "#4CAF50",
-          "#FF9800",
-          "#2196F3",
-          "#F44336",
-          "#9C27B0",
-        ], // Different colors for each bar
-      },
-    ],
-  };
+  const [chartData, setChartData] = useState(null);
+
+  useEffect(() => {
+    const fetchEmployeePerformance = async () => {
+      try {
+        const response = await publicAuthRequest.get(`/centerAdmin/get-employee-perform`);
+        console.log(response.data);
+
+        // Transform the response data to match the chart format
+        const labels = response.data.map((item) => item.employeeName); // Extract employee names
+        const data = response.data.map((item) => item.count); // Extract task counts
+
+        // Update chart data
+        setChartData({
+          labels: labels,
+          datasets: [
+            {
+              label: "Tasks Completed",
+              data: data,
+              backgroundColor: [
+                "#4CAF50",
+                "#FF9800",
+                "#2196F3",
+                "#F44336",
+                "#9C27B0",
+              ],
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching employee performance data", error);
+      }
+    };
+
+    fetchEmployeePerformance();
+  }, []);
 
   const options = {
     responsive: true,
@@ -40,18 +60,26 @@ function EmployeePerformanceChart() {
         grid: { display: false },
       },
       y: {
+        ticks: {
+          stepSize: 1,
+        },
         grid: { color: "#e0e0e0" },
-        beginAtZero: true, // Start Y-axis at 0
+        beginAtZero: true,
       },
     },
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-medium mb-4">Employee Performance Per Month</h3>
-      <Bar data={data} options={options} />
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h3 className="mb-4 text-lg font-medium">Employee Performance</h3>
+      {chartData ? (
+        <Bar data={chartData} options={options} />
+      ) : (
+        <p className="text-center">Loading...</p>
+      )}
     </div>
   );
 }
 
 export default EmployeePerformanceChart;
+

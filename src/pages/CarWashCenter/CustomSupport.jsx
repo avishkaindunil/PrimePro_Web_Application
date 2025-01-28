@@ -61,7 +61,7 @@ const CustomSupport = () => {
         <select className="p-2 ml-5 rounded-md w-[20%] mb-5  bg-slate-200" type='select' name='type' onChange={onChange} value={reportType.type}>
           <option value='All bookings'>All bookings</option>
           <option value='service types'>service types</option>
-          <option value='Attendence of employees'>Attendence of employees</option>
+          {/* <option value='Attendence of employees'>Attendence of employees</option> */}
         </select>
         <button className="p-2 ml-5 rounded-md w-[20%] mb-5 bg-[#203aac] text-white" onClick={handleOnclick}>Generate</button>
         <p className="italic text-center text-red-700">{error}</p>
