@@ -152,10 +152,10 @@ const TasksAssign = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Task Assignment</h1>
-      <div className="mb-6">
-        <label htmlFor="dateFilter" className="block text-sm font-medium text-gray-700 mb-2">
+    <div className="min-h-screen p-6 bg-gray-100">
+      <h1 className="mb-6 text-3xl font-bold text-gray-800">Task Assignment</h1>
+      <div className="flex items-center mb-6 space-x-7">
+        <label htmlFor="dateFilter" className="block mb-2 text-lg font-medium text-gray-700">
           Select a date to filter bookings:
         </label>
         <DatePicker
@@ -168,7 +168,7 @@ const TasksAssign = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="col-span-2 space-y-4">
           {currentBookings.length > 0 ? (
             currentBookings.map((booking, index) => (
@@ -183,15 +183,15 @@ const TasksAssign = () => {
               </div>
             ))
           ) : (
-            <div className="text-center text-gray-500">
-              <p>No bookings available for this date.</p>
+            <div className="text-center text-gray-400">
+              <p className="text-lg italic">No bookings available for this date.</p>
             </div>
           )}
         </div>
 
         {isTaskAssignVisible && isActiveTask !== null && (
           <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Assign Task</h2>
+            <h2 className="mb-4 text-xl font-semibold">Assign Task</h2>
             <div className="mb-2 text-gray-700">
               <span className="font-bold">Details: </span>
               {filteredBookings[isActiveTask].carName} - {filteredBookings[isActiveTask].service}
@@ -220,7 +220,7 @@ const TasksAssign = () => {
 
               <button
                 type="button"
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+                className="w-full py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700"
                 onClick={handleSave}
               >
                 Save Task
@@ -231,7 +231,7 @@ const TasksAssign = () => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-6 flex justify-center space-x-2">
+      <div className="flex justify-center mt-6 space-x-2">
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index}

@@ -27,7 +27,7 @@ const WorkloadProgress = () => {
   const onSearch = (e) => {
     const searchValue = e.target.value.toLowerCase();
     setFilteredItems(
-      items.filter((item) => item[5].toLowerCase().includes(searchValue))
+      items.filter((item) => item[9].toLowerCase().includes(searchValue))
     );
     setCurrentPage(1);
   };
