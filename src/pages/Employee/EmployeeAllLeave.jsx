@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip } from 'chart.js';
 import { publicAuthRequest } from '../../constants/requestMethods';
 import DateAndTimeTracker from '../../components/Employee/DateAndTimeTracker';
 
-// Register necessary Chart.js components
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip);
-
 const EmployeeAllLeave = () => {
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
+
   const [leaveRequests, setLeaveRequests] = useState([]);
 
   useEffect(() => {
     const fetchAllLeaveRequests = async () => {
       try {
-        const response = await publicAuthRequest.get('leave-requests/all-leave-requests');
+        const response = await publicAuthRequest.get(`/leave-requests/employee/${storedUserData.userId}`);
         if (response.data) {
           setLeaveRequests(response.data);
         }
@@ -37,7 +34,7 @@ const EmployeeAllLeave = () => {
       <span
         className={`px-4 py-1 rounded-full text-sm font-semibold ${badgeStyles[leaveType.toLowerCase()] || 'bg-gray-400 text-white'}`}
       >
-        {leaveType}
+        {leaveType.toUpperCase()}
       </span>
     );
   };
@@ -69,7 +66,7 @@ const EmployeeAllLeave = () => {
                   <td className="p-4 border-b">{request.reason}</td>
                   <td className="p-4 border-b">
                     <span
-                      className={`px-4 py-2 rounded-full text-white ${
+                      className={`px-4 py-1  rounded-full text-white ${
                         request.isApproved === 'approved'
                           ? 'bg-green-500'
                           : request.isApproved === 'rejected'
