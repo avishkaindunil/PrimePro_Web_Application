@@ -35,7 +35,10 @@ const OneTask = ({ booking }) => {
         {booking.carName} - {booking.service}
       </h1>
       <p className="text-sm text-gray-600">
-        Customer ID: <span className="font-medium">{booking.userID}</span>
+        Customer Name : <span className="font-medium">{booking.customer_name}</span>
+      </p>
+      <p className="text-sm text-gray-600">
+        Booking Date : <span className="font-medium">{booking.date}</span>
       </p>
       <p className="text-sm text-gray-500">
         {Scheduletime(startTime, endTime)}
