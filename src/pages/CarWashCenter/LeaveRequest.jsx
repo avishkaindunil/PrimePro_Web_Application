@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { publicAuthRequest } from '../../constants/requestMethods';
+import Swal from "sweetalert2";
 
 const LeaveRequest = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [popupMessage, setPopupMessage] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
-
-  // Sample leave requests
-  // const leaveRequests = [
-  //   { id: 1, name: "John Doe", leaveType: "Sick Leave", reason: "Medical emergency", date: "2024-12-01" },
-  //   { id: 2, name: "Jane Smith", leaveType: "Annual Leave", reason: "Vacation", date: "2024-12-05" },
-  //   { id: 3, name: "Alex Brown", leaveType: "Emergency Leave", reason: "Family commitment", date: "2024-12-10" },
-  //   { id: 1, name: "John ", leaveType: "Sick Leave", reason: "Medical emergency", date: "2024-12-01" },
-  //   { id: 2, name: "Smith", leaveType: "Casual Leave", reason: "Vacation", date: "2024-12-05" },
-  //   { id: 3, name: "Brown", leaveType: "Study Leave", reason: "Family commitment", date: "2024-12-10" },
-  // ];
 
   useEffect(() => {
     const fetchLeaveRequests = async () => {
@@ -27,6 +18,7 @@ const LeaveRequest = () => {
         }
       } catch (error) {
         console.error("Error fetching leave details", error);
+        
       }
     };
 
@@ -59,6 +51,11 @@ const LeaveRequest = () => {
 
     } catch (error) {
       console.log("Error in leave action: ", error);
+      if (error.response && error.response.status === 500) {
+        Swal.fire("Error", "Insufficient leave balance", "error");
+      } else {
+        Swal.fire("Error", "Something went wrong!", "error");
+      }
     }
   };
 

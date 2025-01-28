@@ -24,7 +24,7 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
             checkOutTime: "",
             overtime: "",
             workHours: "",
-            approved: false, // Default values
+            isApproved: 0 // Default to "Pending"
         });
     };
 
@@ -49,15 +49,12 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
                 attendanceDate: newAttendance.attendanceDate,
                 checkInTime: formatTime(newAttendance.checkInTime),
                 checkOutTime: formatTime(newAttendance.checkOutTime),
-                isApproved: 0
-            }
+                isApproved: 0 // Default status "Pending"
+            };
 
-            console.log(attendanceDetailData);
             setLoading(true);
 
-            const { data: updatedAttendance, loading, error } = await saveAttendanceByEmployeeId(attendanceDetailData);
-
-            console.log(updatedAttendance);
+            const { data: updatedAttendance, error } = await saveAttendanceByEmployeeId(attendanceDetailData);
 
             if (error) {
                 Swal.fire({
@@ -68,13 +65,9 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
                 Swal.fire({
                     icon: "success",
                     title: "Success",
-                    text: "Save attendance successfully!",
-                }).then((result) => {
-                    setAttendanceData((prev) => {
-                        const newAttendanceData = [updatedAttendance, ...prev];
-                        console.log("Updated attendance data:", newAttendanceData);
-                        return newAttendanceData;
-                    });
+                    text: "Attendance saved successfully!",
+                }).then(() => {
+                    setAttendanceData((prev) => [updatedAttendance, ...prev]);
                     setNewAttendance(null);
                 });
             }
@@ -91,7 +84,19 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
         await onUpdate();
     };
 
-    return !loading ? (<div className="container mx-auto">
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return <span className="px-4 py-1 rounded-full text-white bg-green-500">Approved</span>;
+            case 2:
+                return <span className="px-4 py-1 rounded-full text-white bg-red-500">Rejected</span>;
+            default:
+                return <span className="px-4 py-1 rounded-full text-white bg-yellow-500">Pending</span>;
+        }
+    };
+
+    return !loading ? (
+        <div className="container mx-auto">
             <button
                 className="mb-4 bg-blue-500 text-white py-2 px-4 rounded"
                 onClick={addNewRow}
@@ -134,7 +139,9 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
                             </td>
                             <td className="py-2 px-4 border-b">-</td>
                             <td className="py-2 px-4 border-b">-</td>
-                            <td className="py-2 px-4 border-b">Pending</td>
+                            <td className="py-2 px-4 border-b">
+                                {getStatusLabel(newAttendance.isApproved)}
+                            </td>
                             <td className="py-2 px-4 border-b">
                                 <button
                                     className="bg-green-500 text-white py-1 px-2 rounded"
@@ -152,7 +159,9 @@ const AttendanceSummary = ({ attendance, fetchAttendanceData, employeeId, onUpda
                             <td className="py-2 px-4 border-b">{data.checkOutTime}</td>
                             <td className="py-2 px-4 border-b">{data.overtime}</td>
                             <td className="py-2 px-4 border-b">{data.workHours}</td>
-                            <td className="py-2 px-4 border-b">{data.approved ? "Approved" : "Pending"}</td>
+                            <td className="py-2 px-4 border-b">
+                                {getStatusLabel(data.isApproved)}
+                            </td>
                             <td className="py-2 px-4 border-b">-</td>
                         </tr>
                     ))}

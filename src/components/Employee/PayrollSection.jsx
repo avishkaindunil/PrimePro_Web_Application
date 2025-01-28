@@ -27,7 +27,7 @@ const PayrollSection = ({ attendance }) => {
     },
     {
       icon: "faUsers",
-      title: "24th "+currentMonth+" 2024",
+      title: "30th "+currentMonth+" 2024",
       description: "Pay Day",
       url: "/employee/payroll",
     },
